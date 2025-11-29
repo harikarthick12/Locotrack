@@ -1,0 +1,32 @@
+# Environment variables
+.env
+
+# Dependencies
+node_modules/
+
+# Logs
+logs/
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Build files
+dist/
+build/
+
+# Backups
+backups/
+
+# Test scripts
+test-*.js
+debug-*.js
+reset-*.js
+create-driver.js
+list-*.js
+verify-*.js

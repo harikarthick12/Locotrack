@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOCOTrack - Admin Dashboard</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="admin-container">
+        <!-- Login Section -->
+        <div id="loginSection" class="login-card">
+            <div class="brand-title" style="justify-content: center; margin-bottom: 20px;">
+                <span>🛡️</span> Admin Login
+            </div>
+            <div class="input-group">
+                <input type="text" id="adminUsername" placeholder="Username">
+                <input type="password" id="adminPassword" placeholder="Password">
+                <button class="btn btn-primary" onclick="adminLogin()">Login</button>
+            </div>
+        </div>
+
+        <!-- Dashboard Section (Hidden by default) -->
+        <div id="dashboardSection" style="display: none;">
+            <header class="admin-header">
+                <div class="brand-title">
+                    <span>🛡️</span> LOCOTrack Admin
+                </div>
+                <button class="btn btn-danger" onclick="logout()">Logout</button>
+            </header>
+
+            <main class="admin-content">
+                <!-- Statistics Dashboard -->
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-icon">🚌</div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="totalBuses">0</div>
+                            <div class="stat-label">Total Buses</div>
+                        </div>
+                    </div>
+                    <div class="stat-card online">
+                        <div class="stat-icon">🟢</div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="onlineBuses">0</div>
+                            <div class="stat-label">Online Now</div>
+                        </div>
+                    </div>
+                    <div class="stat-card offline">
+                        <div class="stat-icon">🔴</div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="offlineBuses">0</div>
+                            <div class="stat-label">Offline</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add Bus Card -->
+                <div class="card add-bus-card">
+                    <h2>Add New Bus</h2>
+                    <div class="form-column">
+                        <input type="text" id="newBusReg" placeholder="Bus Reg No (e.g. TN01)" />
+                        <input type="text" id="newBusRoute" placeholder="Route Name (e.g. Route 5)" />
+                        <input type="text" id="newBusStart" placeholder="Starting Point (e.g. Central Station)" />
+                        <input type="text" id="newBusDestination" placeholder="Destination (e.g. Airport)" />
+                        <textarea id="newBusStops"
+                            placeholder="Stops (one per line, e.g.&#10;Stop 1&#10;Stop 2&#10;Stop 3)"
+                            rows="4"></textarea>
+                        <button class="btn btn-primary" onclick="addBus()">Add Bus</button>
+                    </div>
+                </div>
+
+                <!-- Bus List -->
+                <div class="card bus-list-card">
+                    <h2>Registered Buses</h2>
+                    <div class="table-responsive">
+                        <table class="bus-table">
+                            <thead>
+                                <tr>
+                                    <th>Reg No</th>
+                                    <th>Route</th>
+                                    <th>Start → Destination</th>
+                                    <th>Status</th>
+                                    <th>Last Seen</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="busTableBody">
+                                <!-- Rows injected by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="js/admin.js"></script>
+</body>
+
+</html>

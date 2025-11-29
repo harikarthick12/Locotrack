@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>LOCOTrack - Driver Portal</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="driver-container">
+        <!-- Login Section -->
+        <div id="loginSection" class="driver-card">
+            <div class="brand-title" style="color: white;">
+                <span>🚌</span> Driver Login
+            </div>
+            <div class="input-group">
+                <input type="text" id="driverUsername" placeholder="Bus Reg No (e.g. TN01)"
+                    style="background: rgba(255,255,255,0.9);">
+                <input type="password" id="driverPassword" placeholder="Password"
+                    style="background: rgba(255,255,255,0.9);">
+                <button class="btn btn-primary" onclick="driverLogin()">Login</button>
+            </div>
+        </div>
+
+        <!-- Tracking Section (Hidden) -->
+        <div id="trackingSection" class="driver-card" style="display: none;">
+            <div class="brand-title" style="color: white;">
+                <span>🚌</span> Driver Portal
+            </div>
+            <p style="margin-bottom: 20px; opacity: 0.8;">Bus: <span id="displayRegNo"></span></p>
+
+            <div class="input-group">
+                <button id="toggleBtn" class="btn btn-primary" onclick="toggleTracking()">Start Sharing
+                    Location</button>
+            </div>
+
+            <div id="statusIndicator" class="status-indicator">
+                Status: <span id="statusText">OFFLINE</span>
+            </div>
+
+            <div style="margin-top: 20px; font-size: 0.8rem; opacity: 0.6;">
+                Keep this tab open to maintain tracking.
+            </div>
+            <button class="btn btn-danger btn-sm" onclick="driverLogout()" style="margin-top: 20px;">Logout</button>
+        </div>
+    </div>
+
+    <script src="js/driver.js"></script>
+</body>
+
+</html>
