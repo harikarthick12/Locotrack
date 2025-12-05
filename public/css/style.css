@@ -38,12 +38,11 @@ body {
 /* Floating UI Overlay */
 .overlay-container {
     position: absolute;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 10px;
+    left: 10px;
     z-index: 1000;
     width: 90%;
-    max-width: 400px;
+    max-width: 380px;
     background: var(--glass-bg);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
@@ -52,6 +51,30 @@ body {
     box-shadow: var(--shadow);
     border: 1px solid var(--glass-border);
     transition: all 0.3s ease;
+}
+
+/* Ensure Leaflet controls don't overlap */
+.leaflet-top.leaflet-right {
+    top: 10px;
+    right: 10px;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .overlay-container {
+        width: calc(100% - 20px);
+        max-width: none;
+        left: 10px;
+        right: 10px;
+        top: 10px;
+    }
+
+    /* Stack layer control below search on mobile */
+    .leaflet-top.leaflet-right {
+        top: auto;
+        bottom: 80px;
+        right: 10px;
+    }
 }
 
 .brand-title {
