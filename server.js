@@ -534,7 +534,7 @@ app.get('/api/all-buses', async (req, res) => {
 // ==================== SERVE FRONTEND ====================
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.sendFile(path.join(__dirname, 'public', 'landing.html'));
 });
 
 app.get('/driver', (req, res) => {
