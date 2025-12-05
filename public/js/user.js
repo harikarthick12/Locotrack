@@ -11,6 +11,18 @@ const satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/
     maxZoom: 19
 });
 
+// Hybrid layer - Satellite with labels
+const hybridLayer = L.layerGroup([
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles © Esri',
+        maxZoom: 19
+    }),
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}.png', {
+        attribution: '© CARTO',
+        maxZoom: 19
+    })
+]);
+
 const terrainLayer = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
     attribution: 'Map data: © OpenStreetMap contributors, SRTM | Map style: © OpenTopoMap',
     maxZoom: 17
@@ -22,17 +34,21 @@ streetLayer.addTo(map);
 // Layer control
 const baseLayers = {
     "Street View": streetLayer,
-    "Satellite View": satelliteLayer,
+    "Satellite (Hybrid)": hybridLayer,
+    "Satellite (No Labels)": satelliteLayer,
     "Terrain View": terrainLayer
 };
 
 L.control.layers(baseLayers).addTo(map);
 
 let busMarker = null;
+let userMarker = null;
 let accuracyCircle = null;
+let distanceLine = null;
 let currentBusReg = null;
 let mapCentered = false;
 let socket = null;
+let userLocation = null;
 
 // Custom Bus Icon
 const busIcon = L.icon({
@@ -41,6 +57,126 @@ const busIcon = L.icon({
     iconAnchor: [20, 20],
     popupAnchor: [0, -20]
 });
+
+// Custom User Icon
+const userIcon = L.icon({
+    iconUrl: 'https://cdn-icons-png.flaticon.com/512/149/149071.png',
+    iconSize: [35, 35],
+    iconAnchor: [17, 17],
+    popupAnchor: [0, -17]
+});
+
+// Get user's location
+function getUserLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                userLocation = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+
+                // Add user marker
+                if (userMarker) {
+                    userMarker.setLatLng([userLocation.lat, userLocation.lng]);
+                } else {
+                    userMarker = L.marker([userLocation.lat, userLocation.lng], {
+                        icon: userIcon
+                    }).addTo(map);
+                    userMarker.bindPopup('📍 Your Location').openPopup();
+                }
+
+                console.log('✅ User location obtained:', userLocation);
+
+                // Update distance if bus is being tracked
+                if (busMarker) {
+                    updateDistance();
+                }
+            },
+            (error) => {
+                console.error('❌ Error getting location:', error);
+                alert('Unable to get your location. Please enable location services.');
+            },
+            {
+                enableHighAccuracy: true,
+                timeout: 5000,
+                maximumAge: 0
+            }
+        );
+    } else {
+        alert('Geolocation is not supported by your browser');
+    }
+}
+
+// Calculate distance between two points (Haversine formula)
+function calculateDistance(lat1, lon1, lat2, lon2) {
+    const R = 6371; // Earth's radius in km
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = R * c;
+    return distance;
+}
+
+// Update distance display
+function updateDistance() {
+    if (!userLocation || !busMarker) return;
+
+    const busLatLng = busMarker.getLatLng();
+    const distance = calculateDistance(
+        userLocation.lat,
+        userLocation.lng,
+        busLatLng.lat,
+        busLatLng.lng
+    );
+
+    // Draw line between user and bus
+    if (distanceLine) {
+        map.removeLayer(distanceLine);
+    }
+
+    distanceLine = L.polyline([
+        [userLocation.lat, userLocation.lng],
+        [busLatLng.lat, busLatLng.lng]
+    ], {
+        color: '#4F46E5',
+        weight: 3,
+        opacity: 0.7,
+        dashArray: '10, 10'
+    }).addTo(map);
+
+    // Update distance in UI
+    let distanceDiv = document.getElementById('distanceInfo');
+    if (!distanceDiv) {
+        distanceDiv = document.createElement('div');
+        distanceDiv.id = 'distanceInfo';
+        distanceDiv.style.marginTop = '10px';
+        distanceDiv.style.padding = '10px';
+        distanceDiv.style.background = '#f0f9ff';
+        distanceDiv.style.borderRadius = '8px';
+        distanceDiv.style.border = '2px solid #4F46E5';
+        document.getElementById('busInfo').appendChild(distanceDiv);
+    }
+
+    const distanceText = distance < 1
+        ? `${(distance * 1000).toFixed(0)} meters`
+        : `${distance.toFixed(2)} km`;
+
+    const eta = Math.round((distance / 40) * 60); // Assuming 40 km/h average speed
+
+    distanceDiv.innerHTML = `
+        <p style="margin: 0; font-weight: bold; color: #4F46E5;">
+            📏 Distance: ${distanceText}
+        </p>
+        <p style="margin: 5px 0 0 0; font-size: 0.9rem; color: #666;">
+            ⏱️ Estimated arrival: ~${eta} min
+        </p>
+    `;
+}
 
 // Initialize Socket.IO
 function initializeSocket() {
@@ -77,6 +213,9 @@ async function trackBus() {
     if (!socket) {
         initializeSocket();
     }
+
+    // Get user location
+    getUserLocation();
 
     // Join tracking room
     socket.emit('track-bus', currentBusReg);
@@ -160,6 +299,7 @@ function updateMapLocation(data) {
         busMarker.setLatLng(newLatLng);
     } else {
         busMarker = L.marker(newLatLng, { icon: busIcon }).addTo(map);
+        busMarker.bindPopup(`🚌 Bus: ${currentBusReg}`);
     }
 
     // Update Accuracy Circle
@@ -190,6 +330,11 @@ function updateMapLocation(data) {
 
     const date = new Date(updatedAt);
     document.getElementById('lastUpdated').innerText = date.toLocaleTimeString();
+
+    // Update distance if user location is available
+    if (userLocation) {
+        updateDistance();
+    }
 }
 
 // Initialize socket on page load
