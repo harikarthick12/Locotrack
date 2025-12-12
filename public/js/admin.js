@@ -80,7 +80,7 @@ function renderTable(buses) {
     tbody.innerHTML = '';
 
     if (buses.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">No buses registered yet.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">No buses registered yet.</td></tr>';
         return;
     }
 
@@ -93,6 +93,7 @@ function renderTable(buses) {
         const routeInfo = bus.start && bus.destination ? `${bus.start} → ${bus.destination}` : '-';
 
         tr.innerHTML = `
+            <td><strong>${bus.busNumber || '-'}</strong></td>
             <td>${bus.regNo}</td>
             <td>${bus.route}</td>
             <td>${routeInfo}</td>
@@ -107,6 +108,7 @@ function renderTable(buses) {
 }
 
 async function addBus() {
+    const busNumber = document.getElementById('newBusNumber').value.trim();
     const regNo = document.getElementById('newBusReg').value.trim();
     const route = document.getElementById('newBusRoute').value.trim();
     const start = document.getElementById('newBusStart').value.trim();
@@ -116,8 +118,8 @@ async function addBus() {
     // Parse stops (one per line)
     const stops = stopsText ? stopsText.split('\n').map(s => s.trim()).filter(s => s) : [];
 
-    if (!regNo || !route) {
-        alert('Please fill in Bus Reg No and Route Name');
+    if (!busNumber || !regNo || !route) {
+        alert('Please fill in Bus Number, Reg No, and Route Name');
         return;
     }
 
@@ -125,12 +127,13 @@ async function addBus() {
         const response = await fetch('/api/admin/add-bus', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ regNo, route, start, destination, stops })
+            body: JSON.stringify({ busNumber, regNo, route, start, destination, stops })
         });
 
         const result = await response.json();
         if (response.ok) {
             alert('Bus Added Successfully!');
+            document.getElementById('newBusNumber').value = '';
             document.getElementById('newBusReg').value = '';
             document.getElementById('newBusRoute').value = '';
             document.getElementById('newBusStart').value = '';

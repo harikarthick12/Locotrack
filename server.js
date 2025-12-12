@@ -327,19 +327,27 @@ app.post('/api/update-location', async (req, res) => {
     }
 });
 
-// Get Bus Location
-app.get('/api/bus-location/:regNo', async (req, res) => {
+// Get Bus Location (by busNumber or regNo)
+app.get('/api/bus-location/:identifier', async (req, res) => {
     try {
-        const { regNo } = req.params;
+        const { identifier } = req.params;
+        const searchTerm = identifier.toUpperCase();
 
         if (mongoose.connection.readyState === 1) {
-            const bus = await Bus.findOne({ regNo: regNo.toUpperCase() });
+            // Search by busNumber first, then regNo
+            const bus = await Bus.findOne({
+                $or: [
+                    { busNumber: searchTerm },
+                    { regNo: searchTerm }
+                ]
+            });
+
             if (bus && bus.currentLocation) {
                 return res.json(bus.currentLocation);
             }
         }
 
-        const data = busLocations[regNo];
+        const data = busLocations[identifier];
         if (!data) {
             return res.status(404).json({ error: 'Bus not found or offline' });
         }
@@ -351,16 +359,24 @@ app.get('/api/bus-location/:regNo', async (req, res) => {
     }
 });
 
-// Get Route Details
-app.get('/api/route-details/:regNo', async (req, res) => {
+// Get Route Details (by busNumber or regNo)
+app.get('/api/route-details/:identifier', async (req, res) => {
     try {
-        const { regNo } = req.params;
+        const { identifier } = req.params;
+        const searchTerm = identifier.toUpperCase();
 
         if (mongoose.connection.readyState === 1) {
-            const bus = await Bus.findOne({ regNo: regNo.toUpperCase() });
+            const bus = await Bus.findOne({
+                $or: [
+                    { busNumber: searchTerm },
+                    { regNo: searchTerm }
+                ]
+            });
+
             if (bus) {
                 return res.json({
                     regNo: bus.regNo,
+                    busNumber: bus.busNumber,
                     route: bus.route,
                     start: bus.start || '',
                     destination: bus.destination || '',
@@ -369,13 +385,14 @@ app.get('/api/route-details/:regNo', async (req, res) => {
             }
         }
 
-        const bus = registeredBuses.find(b => b.regNo === regNo);
+        const bus = registeredBuses.find(b => b.regNo === identifier);
         if (!bus) {
             return res.status(404).json({ error: 'Bus not found' });
         }
 
         res.json({
             regNo: bus.regNo,
+            busNumber: bus.busNumber || '',
             route: bus.route,
             start: bus.start || '',
             destination: bus.destination || '',
@@ -414,19 +431,27 @@ app.get('/api/admin/buses', async (req, res) => {
 
 app.post('/api/admin/add-bus', async (req, res) => {
     try {
-        const { regNo, route, start, destination, stops } = req.body;
+        const { busNumber, regNo, route, start, destination, stops } = req.body;
 
-        if (!regNo || !route) {
-            return res.status(400).json({ error: 'Missing required fields' });
+        if (!busNumber || !regNo || !route) {
+            return res.status(400).json({ error: 'Missing required fields (busNumber, regNo, route)' });
         }
 
         if (mongoose.connection.readyState === 1) {
-            const existingBus = await Bus.findOne({ regNo: regNo.toUpperCase() });
+            // Check if bus number or reg no already exists
+            const existingBus = await Bus.findOne({
+                $or: [
+                    { busNumber: busNumber.toUpperCase() },
+                    { regNo: regNo.toUpperCase() }
+                ]
+            });
+
             if (existingBus) {
-                return res.status(400).json({ error: 'Bus already registered' });
+                return res.status(400).json({ error: 'Bus number or registration number already exists' });
             }
 
             const bus = new Bus({
+                busNumber: busNumber.toUpperCase(),
                 regNo: regNo.toUpperCase(),
                 route,
                 start: start || '',
