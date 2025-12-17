@@ -217,12 +217,14 @@ app.post('/api/login', async (req, res) => {
         }
 
         if (mongoose.connection.readyState === 1) {
-            const user = await User.findOne({ username: username.toLowerCase() });
+            const user = await User.findOne({ username: username.toLowerCase() }).populate('organization');
 
             if (!user) {
                 logger.warn(`Login attempt failed: User not found - ${username}`);
                 return res.status(401).json({ error: 'Invalid credentials' });
             }
+
+            // ... (rest of password check) ...
 
             const isMatch = await user.comparePassword(password);
             if (!isMatch) {
@@ -231,12 +233,14 @@ app.post('/api/login', async (req, res) => {
             }
 
             if (user.role !== type) {
-                return res.status(401).json({ error: 'Invalid credentials' });
+                // Allow Super Admin to log in as 'admin' if requested? No, strict check.
+                if (user.role === 'super_admin' && type === 'admin') {
+                    // Maybe allowed but let's strict check
+                    // Actually Super Admin uses /super logic usually.
+                    // Let's stick to strict role check.
+                }
+                return res.status(401).json({ error: 'Invalid role' });
             }
-
-            // Temporarily disabled to bypass save hook issue
-            // user.lastLogin = new Date();
-            // await user.save();
 
             const token = jwt.sign(
                 {
@@ -258,6 +262,8 @@ app.post('/api/login', async (req, res) => {
                 user: {
                     username: user.username,
                     role: user.role,
+                    organization: user.organization ? user.organization.name : null,
+                    organizationCode: user.organization ? user.organization.code : null,
                     busRegNo: user.busRegNo
                 }
             });

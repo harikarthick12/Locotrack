@@ -28,6 +28,7 @@ async function adminLogin() {
         if (response.ok) {
             localStorage.setItem('adminLoggedIn', 'true');
             localStorage.setItem('adminToken', result.token); // Store token
+            localStorage.setItem('collegeName', result.user.organization || 'My College');
             showDashboard();
         } else {
             alert(result.error);
@@ -41,6 +42,12 @@ async function adminLogin() {
 function showDashboard() {
     document.getElementById('loginSection').style.display = 'none';
     document.getElementById('dashboardSection').style.display = 'block';
+
+    // Set College Name
+    const collegeName = localStorage.getItem('collegeName') || 'My College';
+    const nameElem = document.getElementById('adminCollegeName');
+    if (nameElem) nameElem.textContent = collegeName;
+
     fetchBuses();
 
     // Auto-refresh every 5 seconds
