@@ -19,7 +19,16 @@
                 <span>🛡️</span> Admin Login
             </div>
             <div class="input-group">
-                <input type="text" id="adminUsername" placeholder="Username">
+                <label for="collegeSelect"
+                    style="text-align: left; font-weight: 600; color: #555; margin-bottom: 5px;">Select Your
+                    College:</label>
+                <select id="collegeSelect" class="form-select"
+                    style="padding: 12px; border-radius: 8px; border: 2px solid #ddd; margin-bottom: 15px; background: white;">
+                    <option value="" disabled selected>-- Choose College --</option>
+                    <!-- Populated by JS -->
+                </select>
+
+                <input type="text" id="adminUsername" placeholder="College Admin Username">
                 <input type="password" id="adminPassword" placeholder="Password">
                 <button class="btn btn-primary" onclick="adminLogin()">Login</button>
             </div>

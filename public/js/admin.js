@@ -3,13 +3,40 @@ document.addEventListener('DOMContentLoaded', () => {
     if (localStorage.getItem('adminLoggedIn') === 'true') {
         showDashboard();
     }
+
+    // Load Colleges for Dropdown
+    loadColleges();
 });
+
+async function loadColleges() {
+    try {
+        const res = await fetch('/api/public/organizations');
+        const colleges = await res.json();
+
+        const select = document.getElementById('collegeSelect');
+        colleges.forEach(col => {
+            const opt = document.createElement('option');
+            opt.value = col.code; // Store code to match later if needed, or ID
+            opt.textContent = `${col.name} (${col.code})`;
+            opt.dataset.id = col._id; // Store ID in dataset
+            select.appendChild(opt);
+        });
+    } catch (e) { console.error('Error loading colleges:', e); }
+}
 
 async function adminLogin() {
     const usernameInput = document.getElementById('adminUsername');
     const passwordInput = document.getElementById('adminPassword');
     const username = usernameInput.value.trim();
     const password = passwordInput.value.trim();
+
+    const collegeSelect = document.getElementById('collegeSelect');
+    const selectedCollegeCode = collegeSelect.value;
+
+    if (!selectedCollegeCode) {
+        alert('Please select your college from the dropdown');
+        return;
+    }
 
     if (!username || !password) {
         alert('Please enter username and password');
@@ -26,6 +53,14 @@ async function adminLogin() {
         const result = await response.json();
 
         if (response.ok) {
+            // Validate that the user actually belongs to the selected college
+            // The result.user object now contains organizationCode (populated in server.js)
+            if (result.user.organizationCode !== selectedCollegeCode) {
+                alert(`Login Failed: This admin account does not belong to the selected college.`);
+                // Clean up token just in case
+                return;
+            }
+
             localStorage.setItem('adminLoggedIn', 'true');
             localStorage.setItem('adminToken', result.token); // Store token
             localStorage.setItem('collegeName', result.user.organization || 'My College');

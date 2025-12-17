@@ -419,6 +419,17 @@ app.get('/api/route-details/:identifier', async (req, res) => {
     }
 });
 
+// ==================== PUBLIC APIs ====================
+
+app.get('/api/public/organizations', async (req, res) => {
+    try {
+        const orgs = await Organization.find({}, 'name code');
+        res.json(orgs);
+    } catch (error) {
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
 // ==================== SUPER ADMIN APIs ====================
 
 // Super Admin Login
