@@ -27,6 +27,7 @@ async function adminLogin() {
 
         if (response.ok) {
             localStorage.setItem('adminLoggedIn', 'true');
+            localStorage.setItem('adminToken', result.token); // Store token
             showDashboard();
         } else {
             alert(result.error);
@@ -56,7 +57,10 @@ function logout() {
 
 async function fetchBuses() {
     try {
-        const response = await fetch('/api/admin/buses');
+        const token = localStorage.getItem('adminToken');
+        const response = await fetch('/api/admin/buses', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
         const buses = await response.json();
         renderTable(buses);
         updateStatistics(buses);
@@ -124,9 +128,13 @@ async function addBus() {
     }
 
     try {
+        const token = localStorage.getItem('adminToken');
         const response = await fetch('/api/admin/add-bus', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
             body: JSON.stringify({ busNumber, regNo, route, start, destination, stops })
         });
 
@@ -152,8 +160,10 @@ async function removeBus(regNo) {
     if (!confirm(`Are you sure you want to remove bus ${regNo}?`)) return;
 
     try {
+        const token = localStorage.getItem('adminToken');
         const response = await fetch(`/api/admin/remove-bus/${regNo}`, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: { 'Authorization': `Bearer ${token}` }
         });
 
         if (response.ok) {

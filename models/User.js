@@ -15,8 +15,13 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['admin', 'driver'],
+        enum: ['super_admin', 'admin', 'driver'],
         required: true
+    },
+    organization: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Organization',
+        default: null // Null for Super Admin, required for others
     },
     busRegNo: {
         type: String,

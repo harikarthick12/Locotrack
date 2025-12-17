@@ -49,6 +49,11 @@ const busSchema = new mongoose.Schema({
     createdAt: {
         type: Date,
         default: Date.now
+    },
+    organization: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Organization',
+        required: true
     }
 });
 

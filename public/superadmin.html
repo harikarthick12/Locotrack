@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOCOTrack - Super Admin</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css"> <!-- Reusing admin styles -->
+    <style>
+        .super-header {
+            background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+        }
+
+        .org-card {
+            border-left: 5px solid #4F46E5;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="admin-container">
+        <!-- Login Section -->
+        <div id="loginSection" class="login-card">
+            <div class="brand-title"><span>👑</span> Super Admin</div>
+            <div class="input-group">
+                <input type="text" id="saUsername" placeholder="Super Admin Username">
+                <input type="password" id="saPassword" placeholder="Password">
+                <button class="btn btn-primary" onclick="superLogin()">Login</button>
+            </div>
+            <p style="text-align: center; margin-top: 15px;">
+                <a href="/admin" style="text-decoration: none; color: #666;">Go to College Admin Login</a>
+            </p>
+        </div>
+
+        <!-- Dashboard Section -->
+        <div id="dashboardSection" style="display: none;">
+            <header class="admin-header super-header">
+                <div class="brand-title"><span>👑</span> Super Admin Control</div>
+                <button class="btn btn-danger" onclick="logout()">Logout</button>
+            </header>
+
+            <main class="admin-content">
+                <!-- Add New College -->
+                <div class="card">
+                    <h2>Add New College / Organization</h2>
+                    <div class="form-column">
+                        <input type="text" id="newOrgName" placeholder="College Name (e.g. DSU College of Engineering)">
+                        <input type="text" id="newOrgCode" placeholder="College Code (e.g. DSU)">
+                        <input type="text" id="newOrgAdminUser" placeholder="Assign Admin Username (e.g. dsu_admin)">
+                        <input type="text" id="newOrgAdminPass" placeholder="Assign Admin Password">
+                        <button class="btn btn-primary" onclick="addOrganization()">Create College</button>
+                    </div>
+                </div>
+
+                <!-- List of Colleges -->
+                <div class="card">
+                    <h2>Registered Colleges</h2>
+                    <div class="table-responsive">
+                        <table class="bus-table">
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>College Name</th>
+                                    <th>Admin User</th>
+                                    <th>Buses</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="orgTableBody">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script src="js/superadmin.js"></script>
+</body>
+
+</html>

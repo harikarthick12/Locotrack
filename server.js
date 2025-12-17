@@ -15,6 +15,7 @@ const cron = require('node-cron');
 const logger = require('./config/logger');
 const Bus = require('./models/Bus');
 const User = require('./models/User');
+const Organization = require('./models/Organization');
 const { authMiddleware, adminOnly } = require('./middleware/auth');
 
 const app = express();
@@ -66,21 +67,29 @@ mongoose.connect(MONGODB_URI)
         logger.warn('⚠️  Falling back to in-memory storage');
     });
 
-// Initialize default admin user
+// Initialize Default Super Admin
 async function initializeAdmin() {
     try {
-        const adminExists = await User.findOne({ username: process.env.ADMIN_USERNAME });
-        if (!adminExists) {
-            const admin = new User({
-                username: process.env.ADMIN_USERNAME || 'vk18',
-                password: process.env.ADMIN_PASSWORD || 'vk18',
-                role: 'admin'
-            });
-            await admin.save();
-            logger.info('✅ Default admin user created');
+        const sa = await User.findOne({ role: 'super_admin' });
+        if (!sa) {
+            // Check if legacy admin exists, convert or create new
+            const legacyAdmin = await User.findOne({ username: 'vk18', role: 'admin' });
+            if (legacyAdmin) {
+                legacyAdmin.role = 'super_admin';
+                await legacyAdmin.save();
+                logger.info('✅ Legacy "vk18" admin promoted to Super Admin');
+            } else {
+                const newSa = new User({
+                    username: 's_admin', // Default super admin
+                    password: 'super_secret_password', // Change this!
+                    role: 'super_admin'
+                });
+                await newSa.save();
+                logger.info('✅ Default Super Admin created: s_admin');
+            }
         }
     } catch (error) {
-        logger.error('Error creating admin user:', error);
+        logger.error('Error initializing super admin:', error);
     }
 }
 
@@ -404,135 +413,200 @@ app.get('/api/route-details/:identifier', async (req, res) => {
     }
 });
 
+// ==================== SUPER ADMIN APIs ====================
+
+// Super Admin Login
+app.post('/api/super/login', async (req, res) => {
+    try {
+        const { username, password } = req.body;
+        const user = await User.findOne({ username, role: 'super_admin' });
+        if (!user || !(await user.comparePassword(password))) {
+            return res.status(401).json({ error: 'Invalid Super Admin credentials' });
+        }
+        const token = jwt.sign({ userId: user._id, role: 'super_admin' }, process.env.JWT_SECRET, { expiresIn: '1d' });
+        res.json({ success: true, token });
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// Middleware for Super Admin (Inline for simplicity)
+const verifySuper = async (req, res, next) => {
+    try {
+        const token = req.headers.authorization?.split(' ')[1];
+        if (!token) return res.status(401).json({ error: 'No token' });
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        if (decoded.role !== 'super_admin') return res.status(403).json({ error: 'Access denied' });
+        req.user = decoded;
+        next();
+    } catch (e) { res.status(401).json({ error: 'Invalid token' }); }
+};
+
+// List Organizations
+app.get('/api/super/organizations', verifySuper, async (req, res) => {
+    try {
+        const orgs = await Organization.find();
+        // Enrich with bus counts and admin username
+        const result = await Promise.all(orgs.map(async org => {
+            const busCount = await Bus.countDocuments({ organization: org._id });
+            const admin = await User.findOne({ organization: org._id, role: 'admin' });
+            return {
+                ...org.toObject(),
+                busCount,
+                adminUsername: admin ? admin.username : null
+            };
+        }));
+        res.json(result);
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// Create Organization & Admin
+app.post('/api/super/organizations', verifySuper, async (req, res) => {
+    try {
+        const { name, code, adminUser, adminPass } = req.body;
+
+        // 1. Create Org
+        const org = new Organization({ name, code });
+        await org.save();
+
+        // 2. Create Org Admin
+        const admin = new User({
+            username: adminUser,
+            password: adminPass, // Will be hashed by hook
+            role: 'admin',
+            organization: org._id
+        });
+        await admin.save();
+
+        res.json({ success: true, organization: org, admin: admin.username });
+    } catch (e) { res.status(400).json({ error: e.message }); }
+});
+
+// Delete Organization
+app.delete('/api/super/organizations/:id', verifySuper, async (req, res) => {
+    try {
+        const { id } = req.params;
+        await Bus.deleteMany({ organization: id });
+        await User.deleteMany({ organization: id });
+        await Organization.findByIdAndDelete(id);
+        res.json({ success: true });
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+
 // ==================== ADMIN APIs ====================
 
-app.get('/api/admin/buses', async (req, res) => {
+// Middleware for College Admin
+const verifyAdmin = async (req, res, next) => {
     try {
-        if (mongoose.connection.readyState === 1) {
-            const buses = await Bus.find({}).select('-__v');
-            return res.json(buses);
-        }
+        const token = req.headers.authorization?.split(' ')[1];
+        if (!token) return res.status(401).json({ error: 'No token' });
 
-        const now = new Date();
-        registeredBuses.forEach(bus => {
-            if (bus.status === 'online' && bus.lastSeen) {
-                const diff = (now - new Date(bus.lastSeen)) / 1000;
-                if (diff > 15) {
-                    bus.status = 'offline';
-                }
-            }
-        });
-        res.json(registeredBuses);
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        if (decoded.role !== 'admin') return res.status(403).json({ error: 'Access denied. College Admin only.' });
+
+        // Fetch full user to get Organization ID
+        const user = await User.findById(decoded.userId);
+        if (!user || !user.organization) return res.status(403).json({ error: 'Admin has no organization assigned.' });
+
+        req.user = user; // Contains organization reference
+        next();
+    } catch (e) { res.status(401).json({ error: 'Invalid token' }); }
+};
+
+// Get College Buses
+app.get('/api/admin/buses', verifyAdmin, async (req, res) => {
+    try {
+        // Only return buses for this admin's organization
+        const buses = await Bus.find({ organization: req.user.organization }).select('-__v');
+        res.json(buses);
     } catch (error) {
         logger.error('Get buses error:', error);
         res.status(500).json({ error: 'Server error' });
     }
 });
 
-app.post('/api/admin/add-bus', async (req, res) => {
+// Add Bus (Scoped to College)
+app.post('/api/admin/add-bus', verifyAdmin, async (req, res) => {
     try {
         const { busNumber, regNo, route, start, destination, stops } = req.body;
 
         if (!busNumber || !regNo || !route) {
-            return res.status(400).json({ error: 'Missing required fields (busNumber, regNo, route)' });
+            return res.status(400).json({ error: 'Missing required fields' });
         }
 
-        if (mongoose.connection.readyState === 1) {
-            // Check if bus number or reg no already exists
-            const existingBus = await Bus.findOne({
-                $or: [
-                    { busNumber: busNumber.toUpperCase() },
-                    { regNo: regNo.toUpperCase() }
-                ]
-            });
+        // Check if bus exists (RegNo must be unique globally, BusNumber unique within Org)
+        const existingReg = await Bus.findOne({ regNo: regNo.toUpperCase() });
+        if (existingReg) return res.status(400).json({ error: 'Registration Number already exists in the system' });
 
-            if (existingBus) {
-                return res.status(400).json({ error: 'Bus number or registration number already exists' });
-            }
+        const existingNum = await Bus.findOne({
+            busNumber: busNumber.toUpperCase(),
+            organization: req.user.organization
+        });
+        if (existingNum) return res.status(400).json({ error: `Bus Number ${busNumber} already exists in your college` });
 
-            const bus = new Bus({
-                busNumber: busNumber.toUpperCase(),
-                regNo: regNo.toUpperCase(),
-                route,
-                start: start || '',
-                destination: destination || '',
-                stops: stops || []
-            });
-
-            await bus.save();
-
-
-            // Create driver account (using updateOne to bypass save hook)
-            const bcrypt = require('bcryptjs');
-            const driverUsername = regNo.toLowerCase();
-            const driverPassword = regNo.toUpperCase() + '1818';
-
-            const salt = await bcrypt.genSalt(10);
-            const hashedPassword = await bcrypt.hash(driverPassword, salt);
-
-            await User.updateOne(
-                { username: driverUsername },
-                {
-                    $set: {
-                        password: hashedPassword,
-                        role: 'driver',
-                        busRegNo: regNo.toUpperCase()
-                    }
-                },
-                { upsert: true }
-            );
-
-            logger.info(`✅ Driver created: User=${driverUsername} Pass=${driverPassword}`);
-
-            logger.info(`✅ Bus added: ${regNo}`);
-
-            // Broadcast new bus to admin clients
-            io.emit('bus-added', bus);
-
-            return res.json({ success: true, message: 'Bus added successfully' });
-        }
-
-        if (registeredBuses.find(b => b.regNo === regNo)) {
-            return res.status(400).json({ error: 'Bus already registered' });
-        }
-
-        registeredBuses.push({
-            regNo,
+        const bus = new Bus({
+            busNumber: busNumber.toUpperCase(),
+            regNo: regNo.toUpperCase(),
             route,
             start: start || '',
             destination: destination || '',
             stops: stops || [],
-            status: 'offline',
-            lastSeen: null
+            organization: req.user.organization, // Assign to Admin's Org
+            status: 'offline'
         });
 
-        res.json({ success: true, message: 'Bus added' });
+        await bus.save();
+
+        // Also Create Driver Account automatically
+        const driverUsername = regNo.toLowerCase();
+        const driverPassword = regNo.toUpperCase() + '1818';
+
+        // Check if driver exists
+        let driver = await User.findOne({ username: driverUsername });
+        if (!driver) {
+            driver = new User({
+                username: driverUsername,
+                password: driverPassword,
+                role: 'driver',
+                busRegNo: regNo.toUpperCase(),
+                organization: req.user.organization
+            });
+            await driver.save();
+        }
+
+        res.status(201).json({
+            message: 'Bus added successfully',
+            bus,
+            driverCredentials: { username: driverUsername, password: driverPassword }
+        });
+
     } catch (error) {
         logger.error('Add bus error:', error);
-        res.status(500).json({ error: 'Server error' });
+        res.status(500).json({ error: error.message });
     }
 });
 
-app.delete('/api/admin/remove-bus/:regNo', async (req, res) => {
+// Remove Bus (Scoped)
+app.delete('/api/admin/remove-bus/:regNo', verifyAdmin, async (req, res) => {
     try {
         const { regNo } = req.params;
 
-        if (mongoose.connection.readyState === 1) {
-            await Bus.findOneAndDelete({ regNo: regNo.toUpperCase() });
-            await User.findOneAndDelete({ busRegNo: regNo.toUpperCase(), role: 'driver' });
+        // Only delete if it belongs to this org
+        const result = await Bus.findOneAndDelete({
+            regNo: regNo.toUpperCase(),
+            organization: req.user.organization
+        });
 
-            logger.info(`🗑️  Bus removed: ${regNo}`);
-
-            // Broadcast removal
-            io.emit('bus-removed', { regNo: regNo.toUpperCase() });
-
-            return res.json({ success: true, message: 'Bus removed' });
+        if (!result) {
+            return res.status(404).json({ error: 'Bus not found or does not belong to your college' });
         }
 
-        registeredBuses = registeredBuses.filter(b => b.regNo !== regNo);
-        delete busLocations[regNo];
+        // Also remove associated driver
+        await User.findOneAndDelete({
+            busRegNo: regNo.toUpperCase(),
+            role: 'driver'
+        });
 
-        res.json({ success: true, message: 'Bus removed' });
+        res.json({ message: 'Bus removed successfully' });
     } catch (error) {
         logger.error('Remove bus error:', error);
         res.status(500).json({ error: 'Server error' });
@@ -568,6 +642,10 @@ app.get('/driver', (req, res) => {
 
 app.get('/admin', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'admin.html'));
+});
+
+app.get('/super', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'superadmin.html'));
 });
 
 // Error handling middleware
