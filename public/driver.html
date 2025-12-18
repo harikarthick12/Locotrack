@@ -4,53 +4,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>LOCO.PILOT - TELEMETRY UPLINK</title>
+    <title>TELEMETRY / PILOT</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-    <div class="bg-ambient"></div>
+    <div class="perspective-grid"></div>
     <div class="driver-container">
         <!-- Auth Hub -->
         <div id="loginSection" class="driver-card">
-            <div class="overlay-inner" style="border-radius: 38px 8px 38px 8px;">
-                <div class="brand-title"><span>📡</span> PILOT.LOG</div>
-                <div class="input-group">
-                    <input type="text" id="driverUsername" placeholder="NODE REGISTRATION ID">
-                    <input type="password" id="driverPassword" placeholder="ACCESS KEY">
-                    <button class="btn btn-primary" onclick="driverLogin()">AUTHENTICATE</button>
-                </div>
-                <p style="margin-top: 30px; font-size: 0.6rem; letter-spacing: 2px; opacity: 0.3; text-align: center;">
-                    SECURE TELEMETRY CHANNEL</p>
+            <header class="brand-title">
+                <small>Pilot.Uplink</small>
+                Transmit
+            </header>
+            <div class="input-group">
+                <label>Node ID</label>
+                <input type="text" id="driverUsername" placeholder="...username">
+                <label>Passcode</label>
+                <input type="password" id="driverPassword" placeholder="...password">
+                <button class="btn" onclick="driverLogin()">Authenticate</button>
             </div>
         </div>
 
         <!-- Uplink Hub -->
         <div id="trackingSection" class="driver-card" style="display: none;">
-            <div class="overlay-inner" style="border-radius: 38px 8px 38px 8px;">
-                <div class="brand-title"><span>🚀</span> UPLINK.LIVE</div>
+            <header class="brand-title">
+                <small>Telemetry.Live</small>
+                Broadcast
+            </header>
 
-                <div
-                    style="background: rgba(255,255,255,0.03); padding: 30px; border-radius: 20px; margin-bottom: 30px; border-left: 4px solid var(--prism-4);">
-                    <p style="font-size: 0.6rem; letter-spacing: 3px; color: var(--prism-4); margin-bottom: 5px;">ACTIVE
-                        NODE</p>
-                    <p id="displayRegNo"
-                        style="font-family: var(--font-heading); font-size: 1.5rem; letter-spacing: 2px;"></p>
+            <div class="bus-info">
+                <div class="info-row">
+                    <span class="info-label">Active Node</span>
+                    <span id="displayRegNo" class="info-value">-</span>
                 </div>
-
-                <div class="input-group">
-                    <button id="toggleBtn" class="btn btn-primary" onclick="toggleTracking()">
-                        INITIALIZE BROADCAST
-                    </button>
-                </div>
-
-                <div id="statusIndicator" class="status-indicator">
-                    <span id="statusText">WAITING FOR HANDSHAKE...</span>
-                </div>
-
-                <button class="btn btn-danger" onclick="driverLogout()"
-                    style="margin-top: 50px; border-radius: 10px; font-size: 0.6rem;">TERMINATE UPLINK</button>
             </div>
+
+            <div class="input-group" style="margin-top: 40px;">
+                <button id="toggleBtn" class="btn" onclick="toggleTracking()">
+                    Initiate Stream
+                </button>
+            </div>
+
+            <div id="statusIndicator" class="status-indicator">
+                <span id="statusText">...Awaiting Stream</span>
+            </div>
+
+            <button class="btn btn-danger" onclick="driverLogout()" style="margin-top: 60px; width: 100%;">Terminate
+                Uplink</button>
         </div>
     </div>
 

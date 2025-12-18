@@ -53,20 +53,19 @@ let userWatchId = null;
 let selectedOrgId = null;
 let selectedOrgName = null;
 
-// Custom Bus Icon
-const busIcon = L.icon({
-    iconUrl: 'https://cdn-icons-png.flaticon.com/512/3448/3448339.png',
-    iconSize: [40, 40],
-    iconAnchor: [20, 20],
-    popupAnchor: [0, -20]
+// Custom Zenith Markers
+const busIcon = L.divIcon({
+    className: 'custom-bus-marker',
+    html: `<div class="custom-dot"></div>`,
+    iconSize: [20, 20],
+    iconAnchor: [10, 10]
 });
 
-// Custom User Icon
-const userIcon = L.icon({
-    iconUrl: 'https://cdn-icons-png.flaticon.com/512/149/149071.png',
-    iconSize: [35, 35],
-    iconAnchor: [17, 17],
-    popupAnchor: [0, -17]
+const userIcon = L.divIcon({
+    className: 'custom-user-marker',
+    html: `<div class="custom-dot" style="background: white; width: 8px; height: 8px;"></div>`,
+    iconSize: [20, 20],
+    iconAnchor: [10, 10]
 });
 
 // Get user's location with high accuracy
@@ -155,33 +154,36 @@ function updateDistance() {
         [userLocation.lat, userLocation.lng],
         [busLatLng.lat, busLatLng.lng]
     ], {
-        color: '#4F46E5',
-        weight: 3,
-        opacity: 0.7,
-        dashArray: '10, 10'
+        color: '#2E5BFF',
+        weight: 1,
+        opacity: 0.5,
+        dashArray: '5, 10'
     }).addTo(map);
 
     // Update distance in UI
+    let distanceDiv = document.getElementById('distanceInfo');
     if (!distanceDiv) {
         distanceDiv = document.createElement('div');
         distanceDiv.id = 'distanceInfo';
-        distanceDiv.className = 'telemetry-block';
-        document.getElementById('busInfo').appendChild(distanceDiv);
+        distanceDiv.className = 'bus-info';
+        document.getElementById('telemetryData').appendChild(distanceDiv);
     }
 
     const distanceText = distance < 1
-        ? `${(distance * 1000).toFixed(0)} meters`
-        : `${distance.toFixed(2)} km`;
+        ? `${(distance * 1000).toFixed(0)}m`
+        : `${distance.toFixed(2)}km`;
 
-    const eta = Math.round((distance / 40) * 60); // Assuming 40 km/h average speed
+    const eta = Math.round((distance / 40) * 60);
 
     distanceDiv.innerHTML = `
-        <p style="margin: 0; font-weight: bold; color: #4F46E5;">
-            📏 Distance: ${distanceText}
-        </p>
-        <p style="margin: 5px 0 0 0; font-size: 0.9rem; color: #666;">
-            ⏱️ Estimated arrival: ~${eta} min
-        </p>
+        <div class="info-row">
+            <span class="info-label">Current Separation</span>
+            <span class="info-value">${distanceText}</span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">Estimated Arrival</span>
+            <span class="info-value">~${eta}min</span>
+        </div>
     `;
 }
 
@@ -283,26 +285,28 @@ async function fetchRouteDetails(regNo) {
 function displayRouteInfo(routeData) {
     const busInfo = document.getElementById('busInfo');
 
-    let routeHTML = `<p><strong>Route:</strong> ${routeData.route}</p>`;
-
-    if (routeData.start || routeData.destination) {
-        routeHTML += `<p><strong>Journey:</strong> ${routeData.start || 'N/A'} → ${routeData.destination || 'N/A'}</p>`;
-    }
-
-    if (routeData.stops && routeData.stops.length > 0) {
-        routeHTML += `<p><strong>Stops:</strong></p><ul style="margin: 5px 0; padding-left: 20px;">`;
-        routeData.stops.forEach(stop => {
-            routeHTML += `<li>${stop}</li>`;
-        });
-        routeHTML += `</ul>`;
-    }
-
     let routeInfoDiv = document.getElementById('routeInfo');
     if (!routeInfoDiv) {
         routeInfoDiv = document.createElement('div');
         routeInfoDiv.id = 'routeInfo';
-        routeInfoDiv.className = 'route-telemetry';
-        busInfo.appendChild(routeInfoDiv);
+        routeInfoDiv.className = 'bus-info';
+        document.getElementById('telemetryData').appendChild(routeInfoDiv);
+    }
+
+    let routeHTML = `
+        <div class="info-row">
+            <span class="info-label">Archive Route</span>
+            <span class="info-value">${routeData.route}</span>
+        </div>
+    `;
+
+    if (routeData.start || routeData.destination) {
+        routeHTML += `
+            <div class="info-row">
+                <span class="info-label">Trajectory</span>
+                <span class="info-value">${routeData.start || '-'} → ${routeData.destination || '-'}</span>
+            </div>
+        `;
     }
 
     routeInfoDiv.innerHTML = routeHTML;

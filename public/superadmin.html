@@ -4,107 +4,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOCO.SUPREME - SYSTEM ARCHITECT</title>
+    <title>SUPREME / ARCHITECT</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/admin.css">
-    <style>
-        :root {
-            --prism-glow: linear-gradient(135deg, #fbbf24, #f59e0b, #fff);
-            --prism-4: #fbbf24;
-            /* Override to Gold for Supreme */
-        }
-
-        body {
-            background: radial-gradient(circle at center, #1e1b4b 0%, #020617 100%);
-        }
-
-        .super-header {
-            border-bottom: 2px solid #fbbf24;
-            background: rgba(0, 0, 0, 0.4) !important;
-        }
-
-        .login-card {
-            background: var(--prism-glow);
-        }
-
-        .login-card .overlay-inner {
-            background: #020617;
-        }
-
-        .card {
-            border: 1px solid rgba(251, 191, 36, 0.1) !important;
-            background: rgba(255, 255, 255, 0.01) !important;
-        }
-
-        .royal-text {
-            background: var(--prism-glow);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-family: var(--font-heading);
-        }
-
-        .btn-primary {
-            background: #fbbf24;
-            color: #000;
-            font-weight: 900;
-        }
-
-        .btn-primary:hover {
-            background: #fff;
-            box-shadow: 0 0 50px rgba(251, 191, 36, 0.3);
-        }
-
-        .bus-table th {
-            color: #fbbf24;
-        }
-    </style>
 </head>
 
 <body>
+    <div class="perspective-grid"></div>
     <div class="admin-container">
-        <!-- Login Section -->
-        <div id="loginSection" class="login-card">
-            <div class="overlay-inner" style="border-radius: 38px 8px 38px 8px;">
-                <div class="brand-title"><span class="royal-text">👑</span> SUPREME</div>
+        <!-- Auth Section -->
+        <div id="loginSection" class="overlay-container"
+            style="position: relative; top: auto; left: auto; margin: auto;">
+            <div class="overlay-inner">
+                <div class="brand-title">
+                    <small>System Architect</small>
+                    Supreme
+                </div>
                 <div class="input-group">
-                    <input type="text" id="saUsername" placeholder="ARCHITECT ID">
-                    <input type="password" id="saPassword" placeholder="CORE PASSCODE">
-                    <button class="btn btn-primary" onclick="superLogin()">INITIALIZE ACCESS</button>
+                    <label>Identity</label>
+                    <input type="text" id="saUsername" placeholder="...username">
+                    <label>Passcode</label>
+                    <input type="password" id="saPassword" placeholder="...password">
+                    <button class="btn" onclick="superLogin()">Engage Architect Mode</button>
                 </div>
             </div>
         </div>
 
-        <!-- Dashboard Section -->
+        <!-- System Section -->
         <div id="dashboardSection" style="display: none;">
-            <header class="admin-header super-header">
-                <div class="brand-title"><span class="royal-text">👑</span> CONTROL PANEL</div>
-                <button class="btn btn-danger" onclick="logout()">TERMINATE SESSION</button>
+            <header class="admin-header">
+                <div>
+                    <p class="tagline">System.Global / Locative Archive</p>
+                    <h1 class="royal-text">Control</h1>
+                </div>
+                <button class="btn btn-danger" onclick="logout()">Terminate</button>
             </header>
 
             <main class="admin-content">
                 <div class="card">
-                    <h2><span class="royal-text">Δ</span> CREATE INSTITUTION</h2>
+                    <h2>Creation / New Institution</h2>
                     <div class="input-group">
-                        <input type="text" id="newOrgName" placeholder="COLLEGE FULL NAME">
-                        <input type="text" id="newOrgCode" placeholder="IDENTIFIER CODE (e.g. DSU)">
-                        <input type="text" id="newOrgAdminUser" placeholder="ADMIN NODE ID">
-                        <input type="text" id="newOrgAdminPass" placeholder="ADMIN PASSCODE">
-                        <button class="btn btn-primary" onclick="addOrganization()">GENERATE NODE</button>
+                        <label>Institutional Name</label>
+                        <input type="text" id="newOrgName" placeholder="...college name">
+
+                        <label>Identifier Code</label>
+                        <input type="text" id="newOrgCode" placeholder="...e.g. KRC">
+
+                        <label>Admin Identity</label>
+                        <input type="text" id="newOrgAdminUser" placeholder="...admin username">
+
+                        <label>Admin Passcode</label>
+                        <input type="password" id="newOrgAdminPass" placeholder="...admin password">
+
+                        <button class="btn" onclick="addOrganization()">Create Node</button>
                     </div>
                 </div>
 
                 <div class="card">
-                    <h2><span class="royal-text">Σ</span> REGISTERED NODES</h2>
+                    <h2>Registries / Node Archive</h2>
                     <div class="table-container">
                         <table class="bus-table">
                             <thead>
                                 <tr>
-                                    <th>CODE</th>
-                                    <th>INSTITUTION</th>
-                                    <th>ADMIN</th>
-                                    <th>FLEET</th>
-                                    <th>ACTION</th>
+                                    <th>Node</th>
+                                    <th>Institution</th>
+                                    <th>Admin</th>
+                                    <th>Fleet</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody id="orgTableBody"></tbody>

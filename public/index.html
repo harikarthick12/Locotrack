@@ -4,40 +4,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>LOCO.CORE - NODE INTERCEPTION</title>
+    <title>LOCATIVE / INTERFACE</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-    <div class="bg-ambient"></div>
+    <div class="perspective-grid"></div>
     <div id="map"></div>
 
     <div class="overlay-container">
         <div class="overlay-inner">
-            <div class="brand-title">
-                <span>⚡</span> LOCO.CORE
-            </div>
+            <header class="brand-title">
+                <small>Archive.01</small>
+                Locotrack
+            </header>
 
-            <!-- Intercept Hub -->
             <div class="input-group">
+                <label>Institutional Node</label>
                 <select id="collegeSelect">
-                    <option value="" disabled selected>INTERCEPT COLLEGE</option>
-                    <!-- Populated by JS -->
+                    <option value="" disabled selected>...select college</option>
                 </select>
 
-                <div id="searchGroup" style="display: none; margin-top: 15px;">
+                <div id="searchGroup" style="display: none; margin-top: 30px;">
                     <div class="input-group">
-                        <input type="text" id="busRegInput" placeholder="ENTER NODE ID (e.g. A4)">
-                        <button class="btn btn-primary" onclick="trackBus()">LOCATE NODE</button>
+                        <label>Locative ID</label>
+                        <input type="text" id="busRegInput" placeholder="...enter bus id">
+                        <button class="btn btn-primary" onclick="trackBus()">Initialize Trace</button>
                     </div>
                 </div>
             </div>
 
             <div id="busInfo" class="bus-info" style="display: none;">
-                <p>TELEMETRY: <span id="statusText">WAITING</span></p>
-                <p>SYNCED: <span id="lastUpdated" class="last-updated">-</span></p>
+                <div class="info-row">
+                    <span class="info-label">Telemetry Status</span>
+                    <span id="statusText" class="info-value">Tracing</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Last Transmission</span>
+                    <span id="lastUpdated" class="info-value">-</span>
+                </div>
+                <div id="telemetryData"></div>
             </div>
         </div>
     </div>

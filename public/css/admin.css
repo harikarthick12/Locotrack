@@ -1,111 +1,101 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Syncopate:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100;300;600;900&family=Playfair+Display:ital,wght@0,900;1,900&family=JetBrains+Mono:wght@300&display=swap');
 
 :root {
-    --void: #020617;
-    --prism-1: #ff007a;
-    --prism-2: #7c3aed;
-    --prism-3: #10b981;
-    --prism-4: #0ea5e9;
-    --font-main: 'Space Grotesk', sans-serif;
-    --font-heading: 'Syncopate', sans-serif;
+    --base: #000000;
+    --surface: #0a0a0a;
+    --accent: #2E5BFF;
+    --border: rgba(255, 255, 255, 0.08);
+    --text: #F5F5F7;
+    --text-dim: #86868b;
+    --font-ui: 'Hanken Grotesk', sans-serif;
+    --font-heading: 'Playfair Display', serif;
+    --font-data: 'JetBrains Mono', monospace;
 }
 
 .admin-container {
     min-height: 100vh;
-    background: var(--void);
-    padding: 50px;
-    color: #fff;
+    background: var(--base);
+    padding: 80px;
     display: flex;
     flex-direction: column;
-    gap: 40px;
-}
-
-/* Prism Login */
-.login-card {
-    margin: auto;
-    width: 450px;
-    padding: 3px;
-    background: linear-gradient(135deg, var(--prism-1), var(--prism-2), var(--prism-4));
-    border-radius: 40px 10px 40px 10px;
-}
-
-.login-card .brand-title {
-    justify-content: center;
-    margin-bottom: 40px;
+    gap: 80px;
 }
 
 .admin-header {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(20px);
-    padding: 25px 40px;
-    border-radius: 20px 80px 20px 80px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-end;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 40px;
 }
 
-/* Staggered Dashboard Grid */
+.admin-header h1 {
+    font-family: var(--font-heading);
+    font-size: 4rem;
+    font-style: italic;
+    line-height: 0.8;
+}
+
+/* Spatial Grid for Dashboard */
 .admin-content {
     display: grid;
-    grid-template-columns: 400px 1fr;
-    gap: 40px;
+    grid-template-columns: 450px 1fr;
+    gap: 80px;
 }
 
 .stats-container {
     grid-column: span 2;
-    display: flex;
-    gap: 30px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
 }
 
 .stat-card {
-    flex: 1;
-    padding: 35px;
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 20px 50px 20px 50px;
+    background: var(--base);
+    padding: 60px 40px;
     display: flex;
-    align-items: center;
-    gap: 25px;
-    transition: 0.5s;
-}
-
-.stat-card:hover {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: var(--prism-2);
-    transform: translateY(-10px);
+    flex-direction: column;
+    gap: 10px;
 }
 
 .stat-value {
     font-family: var(--font-heading);
-    font-size: 2.5rem;
-    color: var(--prism-4);
+    font-size: 5rem;
+    font-style: italic;
+    line-height: 1;
 }
 
 .stat-label {
-    font-size: 0.7rem;
-    letter-spacing: 4px;
-    color: #64748b;
+    font-family: var(--font-data);
+    font-size: 0.65rem;
+    color: var(--accent);
     text-transform: uppercase;
+    letter-spacing: 0.4em;
 }
 
-/* Data Prism Tables */
+/* Management Cards */
 .card {
-    background: rgba(255, 255, 255, 0.02);
-    padding: 40px;
-    border-radius: 20px 60px 20px 60px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 60px 40px;
 }
 
 .card h2 {
-    font-family: var(--font-heading);
-    font-size: 1rem;
-    margin-bottom: 30px;
-    color: var(--prism-4);
-    letter-spacing: 4px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
+    font-family: var(--font-data);
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.4em;
+    margin-bottom: 40px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 15px;
+}
+
+/* Data Table - Architectural View */
+.table-container {
+    background: var(--base);
 }
 
 .bus-table {
@@ -116,47 +106,46 @@
 .bus-table th {
     text-align: left;
     padding: 20px;
-    font-family: var(--font-heading);
+    font-family: var(--font-data);
     font-size: 0.6rem;
-    letter-spacing: 2px;
-    color: #475569;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    border-bottom: 1px solid var(--border);
 }
 
 .bus-table td {
-    padding: 20px;
-    font-size: 0.9rem;
-    color: #94a3b8;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    padding: 25px 20px;
+    font-size: 1rem;
+    font-weight: 300;
+    border-bottom: 1px solid var(--border);
+}
+
+.bus-table tr:hover td {
+    background: rgba(255, 255, 255, 0.02);
 }
 
 .status-badge {
-    padding: 4px 15px;
-    border-radius: 5px 20px 5px 20px;
-    font-family: var(--font-heading);
+    font-family: var(--font-data);
     font-size: 0.6rem;
     text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 4px 8px;
+    border: 1px solid currentColor;
 }
 
 .status-online {
-    background: rgba(16, 185, 129, 0.1);
-    color: var(--prism-3);
-    border: 1px solid var(--prism-3);
+    color: var(--accent);
 }
 
 .status-offline {
-    background: rgba(255, 0, 122, 0.1);
-    color: var(--prism-1);
-    border: 1px solid var(--prism-1);
+    color: #ff453a;
 }
 
-/* Custom Inputs for Admin */
-.form-column input,
-.form-column textarea,
-select {
-    width: 100%;
-    margin-bottom: 20px;
-    background: rgba(0, 0, 0, 0.2) !important;
+/* Supreme Overrides */
+.royal-text {
+    color: #CBA35C;
+    /* Architectural Gold */
 }
 
 @media (max-width: 1200px) {
@@ -165,6 +154,6 @@ select {
     }
 
     .admin-container {
-        padding: 20px;
+        padding: 40px;
     }
 }

@@ -1,228 +1,173 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Syncopate:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100;300;600;900&family=Playfair+Display:ital,wght@0,900;1,900&family=JetBrains+Mono:wght@300&display=swap');
 
 :root {
-    --void: #020617;
-    --prism-1: #ff007a;
-    --prism-2: #7c3aed;
-    --prism-3: #10b981;
-    --prism-4: #0ea5e9;
-    --font-main: 'Space Grotesk', sans-serif;
-    --font-heading: 'Syncopate', sans-serif;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    --base: #000000;
+    --text: #F5F5F7;
+    --accent: #2E5BFF;
+    --font-heading: 'Playfair Display', serif;
+    --font-ui: 'Hanken Grotesk', sans-serif;
+    --font-data: 'JetBrains Mono', monospace;
 }
 
 body {
-    background-color: var(--void);
-    color: #fff;
-    font-family: var(--font-main);
+    background-color: var(--base);
+    color: var(--text);
+    font-family: var(--font-ui);
     min-height: 100vh;
+    display: grid;
+    place-items: center;
     overflow-x: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
-/* Prismatic Background Particles */
-.prism-bg {
+.perspective-grid {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 100px 100px;
     z-index: -1;
-    background:
-        radial-gradient(circle at 10% 20%, rgba(255, 0, 122, 0.05) 0%, transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(16, 185, 129, 0.05) 0%, transparent 40%);
-}
-
-.sphere-float {
-    position: absolute;
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(circle, var(--prism-2) 0%, transparent 70%);
-    filter: blur(100px);
-    opacity: 0.1;
-    z-index: -1;
-    animation: rotate 30s infinite linear;
-}
-
-@keyframes rotate {
-    from {
-        transform: rotate(0deg) translate(100px) rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg) translate(100px) rotate(-360deg);
-    }
+    mask-image: radial-gradient(circle at center, black, transparent 90%);
 }
 
 .container {
     width: 100%;
-    max-width: 1400px;
-    padding: 100px 30px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    max-width: 1200px;
+    padding: 80px 40px;
+    text-align: center;
 }
 
-/* The Nucleus Header */
 .header {
-    text-align: center;
     margin-bottom: 120px;
-    position: relative;
 }
 
 .header h1 {
     font-family: var(--font-heading);
-    font-size: clamp(3rem, 10vw, 6rem);
-    letter-spacing: 20px;
-    text-transform: uppercase;
-    background: linear-gradient(135deg, #fff 30%, var(--prism-4) 100%);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 0 30px rgba(14, 165, 233, 0.3));
+    font-size: clamp(4rem, 15vw, 12rem);
+    font-style: italic;
+    line-height: 0.8;
+    letter-spacing: -0.05em;
+    margin-bottom: 20px;
 }
 
 .tagline {
-    font-family: var(--font-heading);
-    font-size: 0.8rem;
-    letter-spacing: 12px;
-    color: var(--prism-1);
-    margin-top: 20px;
-    opacity: 0.8;
-}
-
-/* Staggered Constellation Portal Layout */
-.portal-selection {
-    width: 100%;
-    position: relative;
+    font-family: var(--font-data);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.8em;
+    color: var(--accent);
 }
 
 .portal-cards {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 40px;
-    perspective: 2000px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .portal-card {
-    position: relative;
-    width: 350px;
-    height: 500px;
-    padding: 3px;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent 50%, rgba(255, 255, 255, 0.1));
-    border-radius: 80px 15px 80px 15px;
+    background: var(--base);
+    padding: 80px 40px;
     text-decoration: none;
-    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-    transform-style: preserve-3d;
-}
-
-.card-inner {
-    height: 100%;
-    background: rgba(15, 23, 42, 0.5);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-radius: 78px 13px 78px 13px;
+    color: var(--text);
+    transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 50px 30px;
-    text-align: center;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.portal-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    background: var(--accent);
+    z-index: 0;
+    transition: height 0.6s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .portal-card:hover {
-    transform: translateY(-30px) scale(1.05) rotateX(10deg);
-    background: var(--prism-4);
-    box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.8), 0 0 50px rgba(14, 165, 233, 0.2);
+    color: white;
 }
 
-/* Card Transitions */
-.portal-card:nth-child(2) {
-    transform: translateY(60px);
+.portal-card:hover::after {
+    height: 100%;
 }
 
-.portal-card:nth-child(2):hover {
-    transform: translateY(30px) scale(1.05) rotateX(10deg);
+.card-inner {
+    position: relative;
+    z-index: 1;
 }
 
 .icon {
-    width: 100px;
-    height: 100px;
     margin-bottom: 40px;
-    color: #fff;
-    transition: 0.5s;
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    opacity: 0.5;
+    transition: all 0.6s ease;
 }
 
 .portal-card:hover .icon {
-    transform: scale(1.2) rotate(360deg);
-    background: #fff;
-    color: var(--void);
+    opacity: 1;
+    transform: scale(1.2) rotate(5deg);
 }
 
 .portal-card h3 {
-    font-family: var(--font-heading);
-    font-size: 1.2rem;
+    font-family: var(--font-data);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.4em;
     margin-bottom: 20px;
-    letter-spacing: 4px;
 }
 
 .portal-card p {
-    color: #94a3b8;
-    line-height: 1.8;
-    font-size: 0.95rem;
+    font-size: 1rem;
     font-weight: 300;
+    color: rgba(255, 255, 255, 0.4);
+    transition: color 0.6s ease;
+    line-height: 1.6;
+}
+
+.portal-card:hover p {
+    color: rgba(255, 255, 255, 0.8);
 }
 
 .arrow {
     margin-top: 40px;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
     font-size: 1.5rem;
-    transition: 0.5s;
+    font-weight: 100;
+    display: block;
+    transform: translateX(-10px);
+    opacity: 0;
+    transition: all 0.6s ease;
 }
 
 .portal-card:hover .arrow {
-    background: #fff;
-    color: var(--void);
-    border-color: #fff;
-    transform: rotate(-45deg);
+    transform: translateX(0);
+    opacity: 1;
 }
 
 .footer {
     margin-top: 150px;
-    color: #475569;
-    font-family: var(--font-heading);
+    font-family: var(--font-data);
     font-size: 0.6rem;
-    letter-spacing: 8px;
+    color: #444;
+    letter-spacing: 0.5em;
     text-transform: uppercase;
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 900px) {
     .portal-cards {
-        flex-direction: column;
-        gap: 80px;
+        grid-template-columns: 1fr;
     }
 
-    .portal-card:nth-child(2) {
-        transform: none;
+    .header h1 {
+        font-size: 6rem;
     }
 }

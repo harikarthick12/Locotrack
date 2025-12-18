@@ -1,22 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Syncopate:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100;300;600;900&family=Playfair+Display:ital,wght@0,900;1,900&family=JetBrains+Mono:wght@300&display=swap');
 
 :root {
-    /* Liquid Prism Palette - Deep Space with High Refraction */
-    --void: #020617;
-    --prism-1: #ff007a;
-    /* Neon Pink */
-    --prism-2: #7c3aed;
-    /* Electric Violet */
-    --prism-3: #10b981;
-    /* Emerald */
-    --prism-4: #0ea5e9;
-    /* Sky Blue */
+    /* ZENITH ARCHIVE - Curated Palette */
+    --base: #000000;
+    --surface: #0a0a0a;
+    --accent: #2E5BFF;
+    /* Electric Cobalt */
+    --accent-glow: rgba(46, 91, 255, 0.4);
+    --text: #F5F5F7;
+    --text-dim: #86868b;
+    --border: rgba(255, 255, 255, 0.08);
 
-    --glass: rgba(15, 23, 42, 0.7);
-    --border-glow: linear-gradient(135deg, var(--prism-1), var(--prism-2), var(--prism-4));
-
-    --font-main: 'Space Grotesk', sans-serif;
-    --font-heading: 'Syncopate', sans-serif;
+    --font-ui: 'Hanken Grotesk', sans-serif;
+    --font-heading: 'Playfair Display', serif;
+    --font-data: 'JetBrains Mono', monospace;
 }
 
 * {
@@ -26,323 +23,222 @@
 }
 
 body {
-    background-color: var(--void);
-    color: #f8fafc;
-    font-family: var(--font-main);
+    background-color: var(--base);
+    color: var(--text);
+    font-family: var(--font-ui);
     overflow: hidden;
     min-height: 100vh;
 }
 
-/* The High-Tech Scanline Effect (Never Seen Before) */
-body::after {
-    content: "";
+/* The Perspective Grid (Truly Unique) */
+.perspective-grid {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
-    z-index: 9999;
-    background-size: 100% 4px, 3px 100%;
-    pointer-events: none;
-    opacity: 0.3;
-    animation: scanline 0.2s infinite;
-}
-
-@keyframes scanline {
-    0% {
-        transform: translateY(0);
-    }
-
-    100% {
-        transform: translateY(2px);
-    }
-}
-
-/* Organic Background Atmosphere */
-.bg-ambient {
-    position: fixed;
-    width: 60vw;
-    height: 60vw;
-    background: radial-gradient(circle, var(--prism-2) 0%, transparent 70%);
-    filter: blur(100px);
-    opacity: 0.1;
-    top: -10vw;
-    right: -10vw;
+    background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 80px 80px;
     z-index: -1;
-    animation: pulse-ambient 15s infinite alternate;
+    mask-image: radial-gradient(circle at center, black, transparent 80%);
     pointer-events: none;
 }
 
-@keyframes pulse-ambient {
-    from {
-        transform: scale(1) translate(0, 0);
-        opacity: 0.1;
-    }
-
-    to {
-        transform: scale(1.2) translate(-50px, 50px);
-        opacity: 0.15;
-    }
-}
-
-/* The Map Container */
+/* Map Styling - Desaturated and Sharp */
 #map {
     height: 100vh;
     width: 100%;
     z-index: 1;
-    filter: saturate(1.1) contrast(1.1) brightness(0.9);
+    filter: invert(100%) hue-rotate(180deg) brightness(0.5) contrast(1.2) grayscale(1);
 }
 
-/* Unique Non-Linear Overlay */
+/* The Monolith Overlay */
 .overlay-container {
     position: absolute;
-    top: 30px;
-    left: 30px;
+    top: 40px;
+    left: 40px;
     z-index: 1000;
-    width: 420px;
-    max-width: calc(100vw - 60px);
-    padding: 2px;
-    background: var(--border-glow);
-    border-radius: 60px 10px 60px 10px;
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
-    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    width: 440px;
+    max-width: calc(100vw - 80px);
 }
 
 .overlay-inner {
-    background: var(--void);
-    backdrop-filter: blur(40px);
-    -webkit-backdrop-filter: blur(40px);
-    border-radius: 58px 8px 58px 8px;
-    padding: 40px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 60px 40px;
     position: relative;
-    overflow: hidden;
+    box-shadow: 0 50px 100px rgba(0, 0, 0, 0.9);
 }
 
-/* Brand Title with Glitch/Prism effect */
+/* Editorial Branding */
 .brand-title {
     font-family: var(--font-heading);
-    font-size: 1.4rem;
-    letter-spacing: 6px;
-    text-transform: uppercase;
-    margin-bottom: 30px;
-    background: linear-gradient(90deg, #fff 0%, var(--prism-4) 100%);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    font-size: 3rem;
+    font-style: italic;
+    line-height: 1;
+    margin-bottom: 40px;
     display: flex;
-    align-items: center;
-    gap: 15px;
-    animation: glitch 5s infinite step-end;
+    flex-direction: column;
 }
 
-@keyframes glitch {
-    0% {
-        transform: translate(0);
-    }
-
-    1% {
-        transform: translate(-2px, 2px);
-        filter: hue-rotate(90deg);
-    }
-
-    2% {
-        transform: translate(2px, -2px);
-        filter: hue-rotate(180deg);
-    }
-
-    3% {
-        transform: translate(0);
-        filter: none;
-    }
+.brand-title small {
+    font-family: var(--font-data);
+    font-size: 0.65rem;
+    font-style: normal;
+    text-transform: uppercase;
+    letter-spacing: 0.4em;
+    color: var(--accent);
+    margin-bottom: 8px;
 }
 
-.brand-title span {
-    -webkit-text-fill-color: initial;
-}
-
-/* Unique Input aesthetics */
+/* Spatial Inputs */
 .input-group {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 25px;
+}
+
+label {
+    font-family: var(--font-data);
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
 }
 
 select,
 input[type="text"],
 input[type="password"] {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    padding: 18px 24px;
-    color: #fff;
-    font-family: var(--font-main);
-    font-size: 1rem;
-    transition: all 0.5s ease;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    border-radius: 0;
+    padding: 15px 0;
+    color: var(--text);
+    font-size: 1.1rem;
+    font-weight: 300;
+    transition: all 0.4s ease;
     outline: none;
 }
 
 select:focus,
 input[type="text"]:focus,
 input[type="password"]:focus {
-    border-color: var(--prism-4);
-    background: rgba(14, 165, 233, 0.05);
-    box-shadow: 0 0 30px rgba(14, 165, 233, 0.1);
+    border-bottom-color: var(--accent);
+    padding-left: 10px;
 }
 
-/* Prism Action Button */
+/* Focal Point Buttons */
 .btn {
-    padding: 20px;
+    margin-top: 10px;
+    padding: 24px;
+    background: var(--accent);
+    color: white;
     border: none;
-    border-radius: 20px 60px 20px 60px;
-    font-family: var(--font-heading);
+    font-family: var(--font-data);
     font-size: 0.8rem;
-    font-weight: 900;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 3px;
+    letter-spacing: 0.3em;
     cursor: pointer;
-    transition: all 0.4s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
+    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-.btn-primary {
-    background: #fff;
-    color: var(--void);
-    box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
-}
-
-.btn-primary:hover {
-    background: var(--prism-4);
-    transform: scale(1.05) rotate(-1deg);
-    box-shadow: 0 20px 40px rgba(14, 165, 233, 0.3);
+.btn:hover {
+    background: white;
+    color: black;
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px var(--accent-glow);
 }
 
 .btn-danger {
     background: transparent;
-    border: 1px solid rgba(255, 0, 122, 0.3);
-    color: var(--prism-1);
+    border: 1px solid #ff453a;
+    color: #ff453a;
 }
 
 .btn-danger:hover {
-    background: rgba(255, 0, 122, 0.1);
-    border-color: var(--prism-1);
+    background: #ff453a;
+    color: white;
 }
 
-/* Bus Info Display */
+/* The Data Archive - Bus Info */
 .bus-info {
-    margin-top: 30px;
-    background: rgba(255, 255, 255, 0.02);
-    border-radius: 25px;
-    padding: 25px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    animation: slideUp 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    margin-top: 50px;
+    border-top: 1px solid var(--border);
+    padding-top: 40px;
+    animation: fadeIn 0.8s ease;
 }
 
-@keyframes slideUp {
+@keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(30px);
     }
 
     to {
         opacity: 1;
-        transform: translateY(0);
     }
 }
 
-.bus-info p {
-    margin: 10px 0;
+.info-row {
     display: flex;
     justify-content: space-between;
-    font-size: 0.9rem;
-    color: #94a3b8;
+    align-items: baseline;
+    margin-bottom: 15px;
 }
 
-.bus-info strong {
-    color: #fff;
+.info-label {
+    font-family: var(--font-data);
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+}
+
+.info-value {
+    font-weight: 600;
+    letter-spacing: -0.02em;
 }
 
 #statusText {
-    color: var(--prism-3) !important;
-    text-shadow: 0 0 10px var(--prism-3);
-    font-weight: 700;
+    color: var(--accent);
+    font-family: var(--font-data);
+    text-transform: uppercase;
+    font-size: 0.7rem;
 }
 
-/* Driver Specificity */
+/* Driver Interface */
 .driver-container {
-    background: var(--void);
+    background: var(--base);
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     min-height: 100vh;
-    padding: 20px;
 }
 
-.status-indicator {
-    margin: 30px 0;
-    padding: 30px;
-    border-radius: 30px;
-    background: rgba(0, 0, 0, 0.4);
-    border: 2px dashed rgba(255, 255, 255, 0.1);
-    font-family: var(--font-heading);
-    font-size: 0.9rem;
-    color: #475569;
+.driver-card {
+    width: 400px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 60px;
 }
 
-.status-indicator.active {
-    border-color: var(--prism-3);
-    color: var(--prism-3);
-    background: rgba(16, 185, 129, 0.05);
-    box-shadow: 0 0 40px rgba(16, 185, 129, 0.1);
+/* Custom Marker Styling */
+.custom-dot {
+    width: 12px;
+    height: 12px;
+    background: var(--accent);
+    border: 3px solid white;
+    border-radius: 50%;
+    box-shadow: 0 0 20px var(--accent-glow);
 }
 
-/* Custom Leaflet overrides */
-.leaflet-container {
-    background: var(--void) !important;
-}
-
-.leaflet-control-layers {
-    background: var(--glass) !important;
-    border: none !important;
-    border-radius: 20px !important;
-    color: #fff !important;
-}
-
-/* Telemetry Component Styles */
-.telemetry-block {
-    margin-top: 20px;
-    padding: 15px;
-    background: rgba(14, 165, 233, 0.1);
-    border: 1px solid rgba(14, 165, 233, 0.2);
-    border-radius: 12px;
-}
-
-.route-telemetry {
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 1px dashed rgba(255, 255, 255, 0.1);
-}
-
-.route-telemetry ul {
-    list-style: none;
-    margin-top: 10px;
-}
-
-.route-telemetry li {
-    padding: 8px 0;
-    color: #94a3b8;
-    position: relative;
-    padding-left: 20px;
-}
-
-.route-telemetry li::before {
-    content: '▶';
-    position: absolute;
-    left: 0;
-    color: var(--prism-4);
-    font-size: 0.6rem;
-    top: 10px;
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+    .overlay-container {
+        top: 20px;
+        left: 20px;
+        width: calc(100% - 40px);
+    }
 }
