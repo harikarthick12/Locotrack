@@ -1,0 +1,7 @@
+--- DIAGNOSTIC START ---
+
+COLLEGES (2):
+ - Code: DSU | ID: 6942dcabf4fef3b52fa8ba40
+ - Code: KRCET | ID: 6942dcd7f4fef3b52fa8ba47
+
+ADMINS (0):
