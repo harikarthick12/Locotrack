@@ -4,108 +4,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOCOTrack - Admin Console</title>
+    <title>LOCOTrack - Operations Control</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/admin.css">
 </head>
 
-<body>
-    <div class="admin-container">
-        <!-- Login Hub -->
-        <div id="loginSection" class="driver-card" style="margin: 100px auto;">
-            <header class="brand-title">
-                <span>🔐</span> Admin Login
-            </header>
-            <div class="input-group">
+<body class="page-wrapper">
+    <!-- Login Modal -->
+    <div id="loginSection" class="driver-card" style="margin: 100px auto; max-width: 500px;">
+        <header class="brand-title">
+            <div class="brand-icon">🔑</div>
+            Admin Login
+        </header>
+        <div class="input-group">
+            <div class="form-field">
                 <label>Select Institution</label>
                 <select id="collegeSelect">
                     <option value="" disabled selected>-- Choose Institution --</option>
                 </select>
+            </div>
 
+            <div class="form-field">
                 <label>Username</label>
-                <input type="text" id="adminUsername" placeholder="Enter admin username">
+                <input type="text" id="adminUsername" placeholder="Admin username">
+            </div>
 
+            <div class="form-field">
                 <label>Password</label>
                 <input type="password" id="adminPassword" placeholder="Enter password">
-
-                <button class="btn btn-primary" style="margin-top: 20px;" onclick="adminLogin()">Access
-                    Management</button>
-            </div>
-        </div>
-
-        <!-- System Hub -->
-        <div id="dashboardSection" style="display: none;">
-            <header class="admin-header">
-                <div>
-                    <h4 id="adminCollegeName" style="color: var(--primary); font-weight: 700;">INSTITUTION NODE</h4>
-                    <h1>Dashboard</h1>
-                </div>
-                <button class="btn btn-danger" style="width: auto; padding: 12px 24px;"
-                    onclick="logout()">Logout</button>
-            </header>
-
-            <div class="stats-container">
-                <div class="stat-card">
-                    <span class="stat-label">Total Fleet</span>
-                    <span id="totalBuses" class="stat-value">0</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-label">Online Now</span>
-                    <span id="onlineBuses" class="stat-value" style="color: #059669;">0</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-label">Offline</span>
-                    <span id="offlineBuses" class="stat-value" style="color: #64748b;">0</span>
-                </div>
             </div>
 
-            <main class="admin-content">
-                <div class="card">
-                    <h2>Fleet Registry</h2>
-                    <div class="table-container">
-                        <table class="bus-table">
-                            <thead>
-                                <tr>
-                                    <th>Bus ID</th>
-                                    <th>Reg. No</th>
-                                    <th>Route</th>
-                                    <th>Status</th>
-                                    <th>Operations</th>
-                                </tr>
-                            </thead>
-                            <tbody id="busTableBody"></tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h2>Add New Bus</h2>
-                    <div class="input-group">
-                        <label>Bus Number (Friendly ID)</label>
-                        <input type="text" id="newBusNumber" placeholder="e.g. A4">
-
-                        <label>Registration Number</label>
-                        <input type="text" id="newBusReg" placeholder="e.g. TN-01-AB-1234">
-
-                        <label>Route Description</label>
-                        <input type="text" id="newBusRoute" placeholder="e.g. Campus to Main Gate">
-
-                        <label>Starting Point</label>
-                        <input type="text" id="newBusStart" placeholder="Origin point">
-
-                        <label>Destination</label>
-                        <input type="text" id="newBusDestination" placeholder="Final stop">
-
-                        <label>Waypoints (One per line)</label>
-                        <textarea id="newBusStops"
-                            style="width: 100%; min-height: 100px; padding: 15px; border-radius: 12px; border: 2px solid #f1f5f9; background: #f8fafc; font-family: 'Inter', sans-serif; resize: vertical;"></textarea>
-
-                        <button class="btn btn-primary" onclick="addBus()">Register Bus</button>
-                    </div>
-                </div>
-            </main>
+            <button class="btn btn-primary" style="margin-top: 20px;" onclick="adminLogin()">Access Dashboard
+                🔓</button>
         </div>
     </div>
+
+    <!-- Main Workspace -->
+    <div id="dashboardSection" style="display: none;">
+        <header class="admin-header">
+            <div>
+                <h4 id="adminCollegeName"
+                    style="color: var(--primary); font-weight: 800; font-size: 0.9rem; text-transform: uppercase;">
+                    Institutional Node</h4>
+                <h1>System Control</h1>
+            </div>
+            <button class="btn btn-danger" style="width: auto; padding: 12px 24px;" onclick="logout()">Terminate
+                Session</button>
+        </header>
+
+        <main class="dashboard-grid">
+            <div class="stats-bar">
+                <div class="stat-unit">
+                    <small>Fleet Capacity</small>
+                    <strong id="totalBuses">0</strong>
+                </div>
+                <div class="stat-unit">
+                    <small>Uplinks Online</small>
+                    <strong id="onlineBuses" style="color: var(--success);">0</strong>
+                </div>
+                <div class="stat-unit">
+                    <small>Offline Nodes</small>
+                    <strong id="offlineBuses" style="color: var(--secondary);">0</strong>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2 style="margin-bottom: 30px;">Vehicle Registry</h2>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Bus ID</th>
+                                <th>Registration</th>
+                                <th>Route</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="busTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2 style="margin-bottom: 30px;">Add New Vehicle</h2>
+                <div class="input-group">
+                    <div class="form-field">
+                        <label>Bus ID (e.g. A4)</label>
+                        <input type="text" id="newBusNumber" placeholder="Friendly name">
+                    </div>
+
+                    <div class="form-field">
+                        <label>Registration Number</label>
+                        <input type="text" id="newBusReg" placeholder="Official number">
+                    </div>
+
+                    <div class="form-field">
+                        <label>Route Label</label>
+                        <input type="text" id="newBusRoute" placeholder="e.g. Campus Area">
+                    </div>
+
+                    <div class="form-field">
+                        <label>Start Hub</label>
+                        <input type="text" id="newBusStart" placeholder="Origin Node">
+                    </div>
+
+                    <div class="form-field">
+                        <label>End Hub</label>
+                        <input type="text" id="newBusDestination" placeholder="Final Node">
+                    </div>
+
+                    <div class="form-field">
+                        <label>Transit Stops (One per line)</label>
+                        <textarea id="newBusStops"
+                            style="width: 100%; min-height: 120px; padding: 20px; border-radius: 18px; border: 1px solid var(--border); font-family: inherit; resize: vertical;"></textarea>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="addBus()">Register Vehicle ⨮</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
     <script src="js/admin.js"></script>
 </body>
 

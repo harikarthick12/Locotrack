@@ -1,135 +1,137 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&display=swap');
 
 :root {
-    --background: #f8fafc;
-    --surface: #ffffff;
-    --primary: #3b82f6;
-    --accent: #f59e0b;
-    --text-main: #0f172a;
-    --border: #e2e8f0;
-    --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+    --primary: #2563eb;
+    --primary-light: #eff6ff;
+    --text-dark: #0f172a;
+    --text-soft: #475569;
 }
 
 body {
-    background-color: var(--background);
-    color: var(--text-main);
-    font-family: 'Outfit', sans-serif;
+    background: #f8fafc;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     min-height: 100vh;
-    padding-bottom: 100px;
+    overflow-y: auto;
+    /* ENFORCED SCROLLING */
 }
 
-.container {
+.landing-wrapper {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 60px 20px;
+    padding: 100px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.header {
+.hero {
     text-align: center;
     margin-bottom: 80px;
+    animation: fadeIn 1s ease;
 }
 
-.header h1 {
-    font-size: clamp(3rem, 8vw, 5rem);
-    font-weight: 900;
-    color: var(--text-main);
-    margin-bottom: 15px;
-    letter-spacing: -2px;
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.header span {
+.hero h1 {
+    font-size: clamp(3.5rem, 10vw, 6rem);
+    line-height: 1;
+    margin-bottom: 20px;
+    color: var(--text-dark);
+}
+
+.hero span {
     color: var(--primary);
 }
 
-.tagline {
+.hero p {
+    font-size: 1.5rem;
+    color: var(--text-soft);
     font-weight: 500;
-    color: #64748b;
-    font-size: 1.25rem;
-    letter-spacing: 2px;
 }
 
-/* User-Centric Portal Grid */
-.portal-cards {
+.grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
     gap: 30px;
+    width: 100%;
 }
 
 .portal-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 32px;
-    padding: 50px 40px;
+    background: white;
+    padding: 60px 40px;
+    border-radius: 40px;
     text-decoration: none;
-    color: var(--text-main);
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    color: var(--text-dark);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    box-shadow: var(--shadow);
 }
 
 .portal-card:hover {
-    transform: translateY(-10px);
+    transform: translateY(-12px) scale(1.02);
     border-color: var(--primary);
-    box-shadow: 0 30px 60px -12px rgba(59, 130, 246, 0.2);
+    box-shadow: 0 25px 50px -12px rgba(37, 99, 235, 0.2);
 }
 
-.icon {
-    width: 80px;
-    height: 80px;
-    background: #eff6ff;
+.icon-box {
+    width: 90px;
+    height: 90px;
+    background: var(--primary-light);
     color: var(--primary);
-    border-radius: 24px;
+    border-radius: 28px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 30px;
-    transition: all 0.3s ease;
+    margin-bottom: 40px;
+    font-size: 2.5rem;
 }
 
-.portal-card:hover .icon {
+.portal-card:hover .icon-box {
     background: var(--primary);
     color: white;
-    transform: scale(1.1) rotate(5deg);
+    transform: rotate(10deg);
 }
 
 .portal-card h3 {
-    font-size: 1.5rem;
-    font-weight: 800;
+    font-size: 1.8rem;
     margin-bottom: 15px;
 }
 
 .portal-card p {
-    color: #64748b;
-    font-size: 1rem;
+    color: var(--text-soft);
+    font-size: 1.1rem;
     line-height: 1.6;
 }
 
-.arrow {
+.cta-link {
     margin-top: 30px;
-    font-size: 1.5rem;
+    font-weight: 800;
     color: var(--primary);
-    opacity: 0.5;
-    transition: 0.3s;
-}
-
-.portal-card:hover .arrow {
-    opacity: 1;
-    transform: translateX(5px);
-}
-
-.footer {
-    text-align: center;
-    margin-top: 100px;
-    color: #94a3b8;
-    font-size: 0.9rem;
-    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 @media (max-width: 768px) {
-    .header h1 {
+    .landing-wrapper {
+        padding: 60px 20px;
+    }
+
+    .hero h1 {
         font-size: 3.5rem;
     }
 }

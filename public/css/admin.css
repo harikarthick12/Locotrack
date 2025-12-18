@@ -1,164 +1,110 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&display=swap');
 
 :root {
-    --background: #f1f5f9;
-    --surface: #ffffff;
-    --primary: #3b82f6;
-    --accent: #f59e0b;
-    --text-main: #0f172a;
-    --text-muted: #64748b;
+    --primary: #2563eb;
+    --primary-light: #eff6ff;
     --border: #e2e8f0;
-    --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 }
 
 body {
-    background-color: var(--background);
-    color: var(--text-main);
-    font-family: 'Inter', sans-serif;
-    min-height: 100vh;
-}
-
-.admin-container {
-    padding: 40px;
-    max-width: 1400px;
-    margin: 0 auto;
+    background: #f8fafc;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    overflow-y: auto;
+    /* ENFORCED SCROLLING */
+    padding-bottom: 50px;
 }
 
 .admin-header {
+    background: white;
+    padding: 30px 40px;
+    border-bottom: 1px solid var(--border);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 40px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
 .admin-header h1 {
-    font-weight: 800;
-    font-size: 2.25rem;
-    color: var(--text-main);
+    font-size: 1.8rem;
+    color: #0f172a;
 }
 
 .admin-header span {
     color: var(--primary);
 }
 
-/* Stats Cards */
-.stats-container {
+.dashboard-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 25px;
-    margin-bottom: 40px;
-}
-
-.stat-card {
-    background: var(--surface);
-    padding: 30px;
-    border-radius: 20px;
-    box-shadow: var(--shadow);
-    border: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.stat-value {
-    font-size: 2.5rem;
-    font-weight: 800;
-    font-family: 'Outfit', sans-serif;
-    color: var(--text-main);
-}
-
-.stat-label {
-    text-transform: uppercase;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-    color: var(--text-muted);
-}
-
-/* Dashboard Content */
-.admin-content {
-    display: grid;
-    grid-template-columns: 1fr 400px;
+    grid-template-columns: 1fr 450px;
     gap: 30px;
+    padding: 40px;
+    max-width: 1600px;
+    margin: 0 auto;
 }
 
 .card {
-    background: var(--surface);
-    border-radius: 24px;
-    padding: 35px;
-    box-shadow: var(--shadow);
+    background: white;
+    border-radius: 32px;
+    padding: 40px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
     border: 1px solid var(--border);
 }
 
-.card h2 {
-    font-size: 1.25rem;
-    font-weight: 700;
-    margin-bottom: 25px;
+.stats-bar {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.stat-unit {
+    background: white;
+    padding: 30px;
+    border-radius: 28px;
+    border: 1px solid var(--border);
     display: flex;
-    align-items: center;
-    gap: 10px;
+    flex-direction: column;
 }
 
-/* Table - Clean Professional View */
-.table-container {
-    overflow-x: auto;
-}
-
-.bus-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.bus-table th {
-    text-align: left;
-    padding: 15px 20px;
-    background: #f8fafc;
-    font-size: 0.8rem;
+.stat-unit small {
+    color: #64748b;
+    font-weight: 700;
     text-transform: uppercase;
-    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    font-size: 0.75rem;
+    margin-bottom: 10px;
+}
+
+.stat-unit strong {
+    font-size: 3rem;
+    color: #0f172a;
+}
+
+.status-tag {
+    padding: 6px 14px;
+    border-radius: 99px;
+    font-size: 0.8rem;
     font-weight: 700;
 }
 
-.bus-table td {
-    padding: 20px;
-    border-bottom: 1px solid var(--border);
-    font-size: 0.95rem;
-}
-
-.bus-table tr:last-child td {
-    border-bottom: none;
-}
-
-.status-badge {
-    padding: 6px 12px;
-    border-radius: 99px;
-    font-size: 0.75rem;
-    font-weight: 600;
-}
-
-.status-online {
+.online {
     background: #dcfce7;
     color: #15803d;
 }
 
-.status-offline {
-    background: #f1f5f9;
-    color: #64748b;
+.offline {
+    background: #fee2e2;
+    color: #b91c1c;
 }
 
-/* Supreme/Royal Colors for Labels */
-.royal-text {
-    color: #8b5cf6;
-    font-weight: 800;
-}
-
-/* Mobile Adjustments */
-@media (max-width: 1100px) {
-    .admin-content {
+@media (max-width: 1200px) {
+    .dashboard-grid {
         grid-template-columns: 1fr;
     }
 
-    .admin-container {
-        padding: 20px;
+    .stats-bar {
+        grid-template-columns: 1fr;
     }
 }

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>LOCOTrack - Student Tracking</title>
+    <title>LOCOTrack - Student Live Hub</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
     <link rel="stylesheet" href="css/style.css">
@@ -16,32 +16,39 @@
     <div class="overlay-container">
         <div class="overlay-inner">
             <header class="brand-title">
-                <span>🚌</span> LOCOTrack
+                <div class="brand-icon">📍</div>
+                LOCOTrack
             </header>
 
             <div class="input-group">
-                <label>Institutional Selection</label>
-                <select id="collegeSelect">
-                    <option value="" disabled selected>Select Your College</option>
-                </select>
+                <div class="form-field">
+                    <label>Your Institution</label>
+                    <select id="collegeSelect">
+                        <option value="" disabled selected>Select College</option>
+                    </select>
+                </div>
 
-                <div id="searchGroup" style="display: none; margin-top: 10px;">
-                    <div class="input-group">
+                <div id="searchGroup" style="display: none;">
+                    <div class="form-field">
                         <label>Bus Identification</label>
-                        <input type="text" id="busRegInput" placeholder="Bus Number (e.g. A4)">
-                        <button class="btn btn-primary" onclick="trackBus()">Track My Bus</button>
+                        <input type="text" id="busRegInput" placeholder="Enter Bus No (e.g. A4)">
                     </div>
+                    <button class="btn btn-primary" onclick="trackBus()" style="margin-top: 20px;">
+                        Locate My Bus 🚌
+                    </button>
                 </div>
             </div>
 
             <div id="busInfo" class="bus-info" style="display: none;">
-                <div class="info-row">
-                    <span class="info-label">Current Status</span>
-                    <span id="statusText" class="info-value">Locating...</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Last Signal</span>
-                    <span id="lastUpdated" class="info-value">-</span>
+                <div class="info-card">
+                    <div class="info-card-row">
+                        <span class="info-card-label">Signal Status</span>
+                        <span id="statusText" class="info-card-value live">Tracing...</span>
+                    </div>
+                    <div class="info-card-row">
+                        <span class="info-card-label">Last Transmission</span>
+                        <span id="lastUpdated" class="info-card-value">-</span>
+                    </div>
                 </div>
                 <div id="telemetryData"></div>
             </div>

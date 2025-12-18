@@ -4,79 +4,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOCOTrack - Supreme Console</title>
+    <title>LOCOTrack - Supreme Architect</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/admin.css">
 </head>
 
-<body>
-    <div class="admin-container">
-        <!-- Auth Hub -->
-        <div id="loginSection" class="driver-card" style="margin: 100px auto;">
-            <header class="brand-title">
-                <span>⭐</span> Supreme Login
-            </header>
-            <div class="input-group">
-                <label>Supreme Identity</label>
-                <input type="text" id="saUsername" placeholder="Enter username">
+<body class="page-wrapper">
+    <!-- Auth Section -->
+    <div id="loginSection" class="driver-card" style="margin: 100px auto; max-width: 500px;">
+        <header class="brand-title" style="color: #7c3aed;">
+            <div class="brand-icon" style="background: #7c3aed;">⭐</div>
+            Supreme Login
+        </header>
+        <div class="input-group">
+            <div class="form-field">
+                <label>Admin Username</label>
+                <input type="text" id="saUsername" placeholder="Enter master user">
+            </div>
+            <div class="form-field">
                 <label>Master Passcode</label>
                 <input type="password" id="saPassword" placeholder="Enter password">
-                <button class="btn btn-primary" style="margin-top: 20px;" onclick="superLogin()">Initialize
-                    Control</button>
             </div>
-        </div>
-
-        <!-- Global Hub -->
-        <div id="dashboardSection" style="display: none;">
-            <header class="admin-header">
-                <div>
-                    <h4 style="color: #8b5cf6; font-weight: 800;">GLOBAL ADMINISTRATION</h4>
-                    <h1>Supreme Control</h1>
-                </div>
-                <button class="btn btn-danger" style="width: auto; padding: 12px 24px;" onclick="logout()">Terminate
-                    System</button>
-            </header>
-
-            <main class="admin-content">
-                <div class="card">
-                    <h2>Register New Institution</h2>
-                    <div class="input-group">
-                        <label>Institution Name</label>
-                        <input type="text" id="newOrgName" placeholder="e.g. Dream State University">
-
-                        <label>Unique Code</label>
-                        <input type="text" id="newOrgCode" placeholder="e.g. DSU">
-
-                        <label>Primary Admin Username</label>
-                        <input type="text" id="newOrgAdminUser" placeholder="admin_dsu">
-
-                        <label>Primary Admin Password</label>
-                        <input type="password" id="newOrgAdminPass" placeholder="password">
-
-                        <button class="btn btn-primary" onclick="addOrganization()">Create Institution Node</button>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h2>Institution Registry</h2>
-                    <div class="table-container">
-                        <table class="bus-table">
-                            <thead>
-                                <tr>
-                                    <th>Code</th>
-                                    <th>Institution</th>
-                                    <th>Admin</th>
-                                    <th>Fleet</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="orgTableBody"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </main>
+            <button class="btn btn-primary" style="background: #7c3aed;" onclick="superLogin()">Engage Control
+                Panel</button>
         </div>
     </div>
+
+    <!-- Global Management -->
+    <div id="dashboardSection" style="display: none;">
+        <header class="admin-header">
+            <div>
+                <h4 style="color: #7c3aed; font-weight: 800; font-size: 0.9rem; text-transform: uppercase;">System
+                    Global</h4>
+                <h1>Supreme Control</h1>
+            </div>
+            <button class="btn btn-danger" style="width: auto; padding: 12px 24px;" onclick="logout()">Terminate
+                System</button>
+        </header>
+
+        <main class="dashboard-grid">
+            <div class="card">
+                <h2 style="margin-bottom: 30px;">Create Institution</h2>
+                <div class="input-group">
+                    <div class="form-field">
+                        <label>Institutional Name</label>
+                        <input type="text" id="newOrgName" placeholder="e.g. Dream State University">
+                    </div>
+                    <div class="form-field">
+                        <label>Short Identifier Code</label>
+                        <input type="text" id="newOrgCode" placeholder="e.g. DSU">
+                    </div>
+                    <div class="form-field">
+                        <label>Admin Username Allocation</label>
+                        <input type="text" id="newOrgAdminUser" placeholder="admin_username">
+                    </div>
+                    <div class="form-field">
+                        <label>Admin Password Allocation</label>
+                        <input type="password" id="newOrgAdminPass" placeholder="password">
+                    </div>
+                    <button class="btn btn-primary" style="background: #7c3aed;" onclick="addOrganization()">Register
+                        Institution</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2 style="margin-bottom: 30px;">Master Registry</h2>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Institution</th>
+                                <th>Admin</th>
+                                <th>Fleet Size</th>
+                                <th>Ops</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orgTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
     <script src="js/superadmin.js"></script>
 </body>
 
