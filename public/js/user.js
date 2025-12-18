@@ -49,6 +49,8 @@ let currentBusReg = null;
 let mapCentered = false;
 let socket = null;
 let userLocation = null;
+let selectedOrgId = null;
+let selectedOrgName = null;
 
 // Custom Bus Icon
 const busIcon = L.icon({
@@ -209,6 +211,12 @@ async function trackBus() {
     currentBusReg = regNo.toUpperCase();
     mapCentered = false;
 
+    // Build query params
+    const queryParams = new URLSearchParams({
+        regNo: currentBusReg,
+        orgId: selectedOrgId
+    }).toString();
+
     // Initialize socket if not already done
     if (!socket) {
         initializeSocket();
@@ -229,9 +237,35 @@ async function trackBus() {
     document.getElementById('busInfo').style.display = 'block';
 }
 
+async function loadColleges() {
+    try {
+        const response = await fetch('/api/public/organizations');
+        if (response.ok) {
+            const orgs = await response.json();
+            const select = document.getElementById('collegeSelect');
+            orgs.forEach(org => {
+                const opt = document.createElement('option');
+                opt.value = org._id;
+                opt.textContent = `${org.name} (${org.code})`;
+                select.appendChild(opt);
+            });
+
+            select.addEventListener('change', (e) => {
+                selectedOrgId = e.target.value;
+                selectedOrgName = e.target.options[e.target.selectedIndex].text;
+                document.getElementById('searchGroup').style.display = 'flex';
+                // Adjust placeholder based on college
+                document.getElementById('busRegInput').placeholder = `Search ${selectedOrgName.split('(')[0].trim()} Bus (e.g., A4)`;
+            });
+        }
+    } catch (error) {
+        console.error('Error loading colleges:', error);
+    }
+}
+
 async function fetchRouteDetails(regNo) {
     try {
-        const response = await fetch(`/api/route-details/${regNo}`);
+        const response = await fetch(`/api/route-details/${regNo}?orgId=${selectedOrgId}`);
         if (response.ok) {
             const routeData = await response.json();
             displayRouteInfo(routeData);
@@ -273,7 +307,7 @@ function displayRouteInfo(routeData) {
 
 async function updateLocation() {
     try {
-        const response = await fetch(`/api/bus-location/${currentBusReg}`);
+        const response = await fetch(`/api/bus-location/${currentBusReg}?orgId=${selectedOrgId}`);
 
         if (!response.ok) {
             document.getElementById('statusText').innerText = 'Bus Offline / Not Found';
@@ -337,5 +371,6 @@ function updateMapLocation(data) {
     }
 }
 
-// Initialize socket on page load
+// Initialize socket and load colleges on page load
 initializeSocket();
+loadColleges();

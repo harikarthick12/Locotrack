@@ -19,8 +19,19 @@
         <div class="brand-title">
             <span>🌍</span> LOCOTrack
         </div>
-        <div class="input-group">
-            <input type="text" id="busRegInput" placeholder="Enter Bus Number (e.g., A4, B19) or Reg No">
+        <div class="input-group" id="collegeSelection">
+            <label for="collegeSelect"
+                style="display: block; width: 100%; color: #666; font-size: 0.9rem; margin-bottom: 5px;">📍 Select Your
+                College:</label>
+            <select id="collegeSelect"
+                style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem; background: #f9f9f9;">
+                <option value="" disabled selected>-- Choose College --</option>
+                <!-- Populated by JS -->
+            </select>
+        </div>
+
+        <div class="input-group" id="searchGroup" style="display: none; margin-top: 15px;">
+            <input type="text" id="busRegInput" placeholder="Enter Bus Number (e.g., A4) or Reg No">
             <button class="btn btn-primary" onclick="trackBus()">Track Now</button>
         </div>
         <div id="busInfo" class="bus-info" style="display: none;">

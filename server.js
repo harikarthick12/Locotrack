@@ -349,13 +349,19 @@ app.get('/api/bus-location/:identifier', async (req, res) => {
         const searchTerm = identifier.toUpperCase();
 
         if (mongoose.connection.readyState === 1) {
-            // Search by busNumber first, then regNo
-            const bus = await Bus.findOne({
+            const { orgId } = req.query;
+            const query = {
                 $or: [
                     { busNumber: searchTerm },
                     { regNo: searchTerm }
                 ]
-            });
+            };
+
+            if (orgId && mongoose.Types.ObjectId.isValid(orgId)) {
+                query.organization = orgId;
+            }
+
+            const bus = await Bus.findOne(query);
 
             if (bus && bus.currentLocation) {
                 return res.json(bus.currentLocation);
@@ -381,12 +387,19 @@ app.get('/api/route-details/:identifier', async (req, res) => {
         const searchTerm = identifier.toUpperCase();
 
         if (mongoose.connection.readyState === 1) {
-            const bus = await Bus.findOne({
+            const { orgId } = req.query;
+            const query = {
                 $or: [
                     { busNumber: searchTerm },
                     { regNo: searchTerm }
                 ]
-            });
+            };
+
+            if (orgId && mongoose.Types.ObjectId.isValid(orgId)) {
+                query.organization = orgId;
+            }
+
+            const bus = await Bus.findOne(query);
 
             if (bus) {
                 return res.json({
@@ -681,24 +694,20 @@ server.listen(PORT, () => {
 });
 
 // Graceful shutdown
-process.on('SIGTERM', () => {
-    logger.info('SIGTERM signal received: closing HTTP server');
-    server.close(() => {
+const shutdown = async (signal) => {
+    logger.info(`${signal} signal received: closing HTTP server`);
+    server.close(async () => {
         logger.info('HTTP server closed');
-        mongoose.connection.close(false, () => {
+        try {
+            await mongoose.connection.close();
             logger.info('MongoDB connection closed');
             process.exit(0);
-        });
+        } catch (err) {
+            logger.error('Error during MongoDB connection close:', err);
+            process.exit(1);
+        }
     });
-});
+};
 
-process.on('SIGINT', () => {
-    logger.info('SIGINT signal received: closing HTTP server');
-    server.close(() => {
-        logger.info('HTTP server closed');
-        mongoose.connection.close(false, () => {
-            logger.info('MongoDB connection closed');
-            process.exit(0);
-        });
-    });
-});
+process.on('SIGTERM', () => shutdown('SIGTERM'));
+process.on('SIGINT', () => shutdown('SIGINT'));
