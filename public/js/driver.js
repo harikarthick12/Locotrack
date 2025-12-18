@@ -103,23 +103,40 @@ function toggleTracking() {
                 const accuracyText = accuracy ? `Accuracy: ${Math.round(accuracy)}m` : 'Accuracy: N/A';
                 const speedText = speed !== null && speed >= 0 ? ` | Speed: ${Math.round(speed * 3.6)} km/h` : '';
 
-                document.getElementById('statusText').innerText = `SENDING... (${accuracyText}${speedText})`;
-
-                // Visual feedback for signal quality
+                // SIGNAL FILTERING:
+                // If accuracy is poor (> 150m), it's likely IP-based or Cell Tower only.
+                // We show it in UI but warn the user and maybe don't send to server if it's too bad.
                 const statusIndicator = document.getElementById('statusIndicator');
-                if (accuracy <= 20) {
-                    statusIndicator.style.borderColor = '#00E676'; // Green (Good)
+                let quality = 'POOR';
+
+                if (accuracy <= 25) {
+                    quality = 'EXCELLENT';
+                    statusIndicator.style.borderColor = '#00E676'; // Green
                     statusIndicator.style.color = '#00E676';
-                } else if (accuracy <= 50) {
-                    statusIndicator.style.borderColor = '#FFC107'; // Yellow (Okay)
+                } else if (accuracy <= 80) {
+                    quality = 'GOOD';
+                    statusIndicator.style.borderColor = '#AEEA00'; // Lime
+                    statusIndicator.style.color = '#AEEA00';
+                } else if (accuracy <= 200) {
+                    quality = 'FAIR';
+                    statusIndicator.style.borderColor = '#FFC107'; // Yellow
                     statusIndicator.style.color = '#FFC107';
                 } else {
-                    statusIndicator.style.borderColor = '#FF5252'; // Red (Poor)
+                    quality = 'BAD (IP-BASED?)';
+                    statusIndicator.style.borderColor = '#FF5252'; // Red
                     statusIndicator.style.color = '#FF5252';
                 }
 
+                document.getElementById('statusText').innerText = `SIGNAL: ${quality}\n(${accuracyText}${speedText})`;
+
+                // Reject updates that are clearly wrong (e.g. > 500m accuracy)
+                if (accuracy > 500) {
+                    console.warn('Rejected low accuracy update:', accuracy);
+                    return;
+                }
+
                 // Log location for debugging
-                console.log(`GPS Update: Lat: ${latitude}, Lng: ${longitude}, Accuracy: ${accuracy}m`);
+                console.log(`GPS Update [${quality}]: Lat: ${latitude}, Lng: ${longitude}, Accuracy: ${accuracy}m`);
 
                 // Send location
                 sendLocation(currentRegNo, latitude, longitude, accuracy);

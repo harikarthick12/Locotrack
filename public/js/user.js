@@ -49,6 +49,7 @@ let currentBusReg = null;
 let mapCentered = false;
 let socket = null;
 let userLocation = null;
+let userWatchId = null;
 let selectedOrgId = null;
 let selectedOrgName = null;
 
@@ -68,46 +69,55 @@ const userIcon = L.icon({
     popupAnchor: [0, -17]
 });
 
-// Get user's location
+// Get user's location with high accuracy
 function getUserLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                userLocation = {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
-                };
-
-                // Add user marker
-                if (userMarker) {
-                    userMarker.setLatLng([userLocation.lat, userLocation.lng]);
-                } else {
-                    userMarker = L.marker([userLocation.lat, userLocation.lng], {
-                        icon: userIcon
-                    }).addTo(map);
-                    userMarker.bindPopup('📍 Your Location').openPopup();
-                }
-
-                console.log('✅ User location obtained:', userLocation);
-
-                // Update distance if bus is being tracked
-                if (busMarker) {
-                    updateDistance();
-                }
-            },
-            (error) => {
-                console.error('❌ Error getting location:', error);
-                alert('Unable to get your location. Please enable location services.');
-            },
-            {
-                enableHighAccuracy: true,
-                timeout: 5000,
-                maximumAge: 0
-            }
-        );
-    } else {
+    if (!navigator.geolocation) {
         alert('Geolocation is not supported by your browser');
+        return;
     }
+
+    if (userWatchId) navigator.geolocation.clearWatch(userWatchId);
+
+    userWatchId = navigator.geolocation.watchPosition(
+        (position) => {
+            const { latitude, longitude, accuracy } = position.coords;
+
+            // Filter out extremely low accuracy updates (over 1km is usually wrong city)
+            if (accuracy > 1000) {
+                console.warn('User location accuracy too low:', accuracy);
+                return;
+            }
+
+            userLocation = { lat: latitude, lng: longitude };
+
+            // Add/Update user marker
+            if (userMarker) {
+                userMarker.setLatLng([userLocation.lat, userLocation.lng]);
+            } else {
+                userMarker = L.marker([userLocation.lat, userLocation.lng], {
+                    icon: userIcon
+                }).addTo(map);
+                userMarker.bindPopup('📍 Your Location');
+            }
+
+            console.log(`✅ User location [Acc: ${Math.round(accuracy)}m]:`, userLocation);
+
+            // Update distance if bus is being tracked
+            if (busMarker) {
+                updateDistance();
+            }
+        },
+        (error) => {
+            console.error('❌ Error getting location:', error);
+            // Only alert once
+            if (!userLocation) alert('Unable to get your location. Please enable "Precise Location" in your settings.');
+        },
+        {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0
+        }
+    );
 }
 
 // Calculate distance between two points (Haversine formula)
