@@ -1,19 +1,21 @@
-@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100;300;600;900&family=Playfair+Display:ital,wght@0,900;1,900&family=JetBrains+Mono:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap');
 
 :root {
-    /* ZENITH ARCHIVE - Curated Palette */
-    --base: #000000;
-    --surface: #0a0a0a;
-    --accent: #2E5BFF;
-    /* Electric Cobalt */
-    --accent-glow: rgba(46, 91, 255, 0.4);
-    --text: #F5F5F7;
-    --text-dim: #86868b;
-    --border: rgba(255, 255, 255, 0.08);
+    /* CAMPUS FLOW - Light Professional Palette */
+    --background: #f1f5f9;
+    --surface: #ffffff;
+    --primary: #3b82f6;
+    /* Trust Blue */
+    --accent: #f59e0b;
+    /* Safety Yellow */
+    --text-main: #0f172a;
+    /* Slate 900 */
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
 
-    --font-ui: 'Hanken Grotesk', sans-serif;
-    --font-heading: 'Playfair Display', serif;
-    --font-data: 'JetBrains Mono', monospace;
+    --font-heading: 'Outfit', sans-serif;
+    --font-body: 'Inter', sans-serif;
 }
 
 * {
@@ -23,194 +25,175 @@
 }
 
 body {
-    background-color: var(--base);
-    color: var(--text);
-    font-family: var(--font-ui);
-    overflow: hidden;
+    background-color: var(--background);
+    color: var(--text-main);
+    font-family: var(--font-body);
     min-height: 100vh;
+    line-height: 1.5;
+    /* Scrolling enabled by default */
 }
 
-/* The Perspective Grid (Truly Unique) */
-.perspective-grid {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image:
-        linear-gradient(var(--border) 1px, transparent 1px),
-        linear-gradient(90deg, var(--border) 1px, transparent 1px);
-    background-size: 80px 80px;
-    z-index: -1;
-    mask-image: radial-gradient(circle at center, black, transparent 80%);
-    pointer-events: none;
+h1,
+h2,
+h3,
+h4,
+.brand-title {
+    font-family: var(--font-heading);
 }
 
-/* Map Styling - Desaturated and Sharp */
+/* Map - Clean and Full Screen */
 #map {
     height: 100vh;
     width: 100%;
     z-index: 1;
-    filter: invert(100%) hue-rotate(180deg) brightness(0.5) contrast(1.2) grayscale(1);
 }
 
-/* The Monolith Overlay */
+/* Modern Floating Dashboard */
 .overlay-container {
     position: absolute;
-    top: 40px;
-    left: 40px;
+    top: 20px;
+    left: 20px;
     z-index: 1000;
-    width: 440px;
-    max-width: calc(100vw - 80px);
+    width: 400px;
+    max-width: calc(100vw - 40px);
 }
 
 .overlay-inner {
     background: var(--surface);
+    border-radius: 24px;
+    padding: 30px;
+    box-shadow: var(--shadow);
     border: 1px solid var(--border);
-    padding: 60px 40px;
-    position: relative;
-    box-shadow: 0 50px 100px rgba(0, 0, 0, 0.9);
 }
 
-/* Editorial Branding */
 .brand-title {
-    font-family: var(--font-heading);
-    font-size: 3rem;
-    font-style: italic;
-    line-height: 1;
-    margin-bottom: 40px;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--primary);
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 25px;
 }
 
-.brand-title small {
-    font-family: var(--font-data);
-    font-size: 0.65rem;
-    font-style: normal;
-    text-transform: uppercase;
-    letter-spacing: 0.4em;
-    color: var(--accent);
-    margin-bottom: 8px;
+.brand-title span {
+    background: var(--accent);
+    color: white;
+    padding: 8px;
+    border-radius: 12px;
+    font-size: 1.2rem;
 }
 
-/* Spatial Inputs */
+/* Functional Input Group */
 .input-group {
     display: flex;
     flex-direction: column;
-    gap: 25px;
+    gap: 15px;
 }
 
 label {
-    font-family: var(--font-data);
-    font-size: 0.7rem;
-    color: var(--text-dim);
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: -10px;
 }
 
 select,
 input[type="text"],
 input[type="password"] {
-    background: transparent;
-    border: none;
-    border-bottom: 1px solid var(--border);
-    border-radius: 0;
-    padding: 15px 0;
-    color: var(--text);
-    font-size: 1.1rem;
-    font-weight: 300;
-    transition: all 0.4s ease;
+    width: 100%;
+    padding: 14px 18px;
+    background: #f8fafc;
+    border: 2px solid #f1f5f9;
+    border-radius: 14px;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: var(--text-main);
+    transition: all 0.2s ease;
     outline: none;
 }
 
 select:focus,
 input[type="text"]:focus,
 input[type="password"]:focus {
-    border-bottom-color: var(--accent);
-    padding-left: 10px;
+    border-color: var(--primary);
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
 }
 
-/* Focal Point Buttons */
+/* User-Friendly Action Button */
 .btn {
-    margin-top: 10px;
-    padding: 24px;
-    background: var(--accent);
-    color: white;
-    border: none;
-    font-family: var(--font-data);
-    font-size: 0.8rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.3em;
+    width: 100%;
+    padding: 16px;
+    border-radius: 14px;
+    font-weight: 700;
+    font-family: var(--font-heading);
     cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: all 0.2s ease;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 1rem;
 }
 
-.btn:hover {
-    background: white;
-    color: black;
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px var(--accent-glow);
+.btn-primary {
+    background: var(--primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #2563eb;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px -5px rgba(59, 130, 246, 0.4);
 }
 
 .btn-danger {
-    background: transparent;
-    border: 1px solid #ff453a;
-    color: #ff453a;
+    background: #fee2e2;
+    color: #dc2626;
 }
 
 .btn-danger:hover {
-    background: #ff453a;
-    color: white;
+    background: #fecaca;
 }
 
-/* The Data Archive - Bus Info */
+/* Real-Time Bus Info Card */
 .bus-info {
-    margin-top: 50px;
-    border-top: 1px solid var(--border);
-    padding-top: 40px;
-    animation: fadeIn 0.8s ease;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
+    margin-top: 25px;
+    padding-top: 25px;
+    border-top: 1px dashed var(--border);
 }
 
 .info-row {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
+    background: #f8fafc;
+    padding: 12px 16px;
+    border-radius: 12px;
 }
 
 .info-label {
-    font-family: var(--font-data);
-    font-size: 0.65rem;
-    color: var(--text-dim);
-    text-transform: uppercase;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 500;
 }
 
 .info-value {
     font-weight: 600;
-    letter-spacing: -0.02em;
+    color: var(--text-main);
 }
 
 #statusText {
-    color: var(--accent);
-    font-family: var(--font-data);
-    text-transform: uppercase;
-    font-size: 0.7rem;
+    color: #059669;
+    /* Success Green */
+    font-weight: 700;
 }
 
-/* Driver Interface */
+/* Driver Specificity */
 .driver-container {
-    background: var(--base);
+    padding: 40px 20px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -218,27 +201,73 @@ input[type="password"]:focus {
 }
 
 .driver-card {
-    width: 400px;
+    width: 100%;
+    max-width: 450px;
     background: var(--surface);
+    padding: 40px;
+    border-radius: 24px;
+    box-shadow: var(--shadow);
     border: 1px solid var(--border);
-    padding: 60px;
 }
 
-/* Custom Marker Styling */
+.status-indicator {
+    margin: 20px 0;
+    padding: 20px;
+    border-radius: 16px;
+    text-align: center;
+    font-weight: 700;
+    background: #f1f5f9;
+}
+
+.status-indicator.active {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+/* Map Icons - Modern Simple Markers */
 .custom-dot {
-    width: 12px;
-    height: 12px;
-    background: var(--accent);
+    width: 24px;
+    height: 24px;
+    background: var(--primary);
     border: 3px solid white;
     border-radius: 50%;
-    box-shadow: 0 0 20px var(--accent-glow);
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* Mobile Adjustments */
-@media (max-width: 768px) {
+.custom-dot::after {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+}
+
+/* Map Support - Overwrite Leaflet */
+.leaflet-container {
+    background: var(--background) !important;
+}
+
+.leaflet-bar {
+    border: none !important;
+    box-shadow: var(--shadow) !important;
+}
+
+.leaflet-bar a {
+    background: white !important;
+    border-radius: 12px !important;
+    margin-bottom: 5px !important;
+    border: 1px solid var(--border) !important;
+}
+
+/* Mobile Support */
+@media (max-width: 600px) {
     .overlay-container {
-        top: 20px;
-        left: 20px;
-        width: calc(100% - 40px);
+        top: auto;
+        bottom: 20px;
+        left: 10px;
+        width: calc(100% - 20px);
     }
 }

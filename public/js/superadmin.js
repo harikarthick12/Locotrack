@@ -43,11 +43,11 @@ async function fetchOrganizations() {
     orgs.forEach(org => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-            <td><strong class="royal-text" style="font-family: 'Outfit'; font-size: 1.1rem;">${org.code}</strong></td>
-            <td style="font-weight: 500;">${org.name}</td>
-            <td style="font-family: monospace; color: #94a3b8;">${org.adminUsername || 'None'}</td>
-            <td><span class="status-badge" style="background: rgba(251, 191, 36, 0.1); color: #fbbf24;">${org.busCount || 0} Buses</span></td>
-            <td><button class="btn btn-danger btn-sm" style="padding: 6px 12px; border: 1px solid rgba(239, 68, 68, 0.3); background: transparent;" onclick="deleteOrg('${org._id}')">Delete</button></td>
+            <td><strong style="color: var(--primary); font-weight: 700;">${org.code}</strong></td>
+            <td>${org.name}</td>
+            <td><span style="font-family: monospace; color: var(--text-muted);">${org.adminUsername || 'None'}</span></td>
+            <td><span class="status-badge" style="background: #eff6ff; color: #3b82f6;">${org.busCount || 0} Buses</span></td>
+            <td><button class="btn btn-danger" style="padding: 8px 16px; font-size: 0.8rem; width: auto;" onclick="deleteOrg('${org._id}')">Delete</button></td>
         `;
         tbody.appendChild(tr);
     });

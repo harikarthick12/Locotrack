@@ -4,47 +4,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARCHITECT / DASHBOARD</title>
+    <title>LOCOTrack - Admin Console</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/admin.css">
 </head>
 
 <body>
-    <div class="perspective-grid"></div>
     <div class="admin-container">
-        <!-- Auth Section -->
-        <div id="loginSection" class="overlay-container"
-            style="position: relative; top: auto; left: auto; margin: auto;">
-            <div class="overlay-inner">
-                <div class="brand-title">
-                    <small>Access Required</small>
-                    Admin
-                </div>
-                <div class="input-group">
-                    <label>Institution</label>
-                    <select id="collegeSelect">
-                        <option value="" disabled selected>...select institution</option>
-                    </select>
+        <!-- Login Hub -->
+        <div id="loginSection" class="driver-card" style="margin: 100px auto;">
+            <header class="brand-title">
+                <span>🔐</span> Admin Login
+            </header>
+            <div class="input-group">
+                <label>Select Institution</label>
+                <select id="collegeSelect">
+                    <option value="" disabled selected>-- Choose Institution --</option>
+                </select>
 
-                    <label>Identity</label>
-                    <input type="text" id="adminUsername" placeholder="...username">
+                <label>Username</label>
+                <input type="text" id="adminUsername" placeholder="Enter admin username">
 
-                    <label>Passcode</label>
-                    <input type="password" id="adminPassword" placeholder="...password">
+                <label>Password</label>
+                <input type="password" id="adminPassword" placeholder="Enter password">
 
-                    <button class="btn" onclick="adminLogin()">Enter Dashboard</button>
-                </div>
+                <button class="btn btn-primary" style="margin-top: 20px;" onclick="adminLogin()">Access
+                    Management</button>
             </div>
         </div>
 
-        <!-- System Section -->
+        <!-- System Hub -->
         <div id="dashboardSection" style="display: none;">
             <header class="admin-header">
                 <div>
-                    <p class="tagline" id="adminCollegeName">Institution.Node</p>
+                    <h4 id="adminCollegeName" style="color: var(--primary); font-weight: 700;">INSTITUTION NODE</h4>
                     <h1>Dashboard</h1>
                 </div>
-                <button class="btn btn-danger" onclick="logout()">Terminate</button>
+                <button class="btn btn-danger" style="width: auto; padding: 12px 24px;"
+                    onclick="logout()">Logout</button>
             </header>
 
             <div class="stats-container">
@@ -53,27 +50,27 @@
                     <span id="totalBuses" class="stat-value">0</span>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-label">Active Uplink</span>
-                    <span id="onlineBuses" class="stat-value" style="color: var(--accent);">0</span>
+                    <span class="stat-label">Online Now</span>
+                    <span id="onlineBuses" class="stat-value" style="color: #059669;">0</span>
                 </div>
                 <div class="stat-card">
                     <span class="stat-label">Offline</span>
-                    <span id="offlineBuses" class="stat-value" style="color: #ff453a;">0</span>
+                    <span id="offlineBuses" class="stat-value" style="color: #64748b;">0</span>
                 </div>
             </div>
 
             <main class="admin-content">
                 <div class="card">
-                    <h2>Registrations / Archive</h2>
+                    <h2>Fleet Registry</h2>
                     <div class="table-container">
                         <table class="bus-table">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Reg. №</th>
+                                    <th>Bus ID</th>
+                                    <th>Reg. No</th>
                                     <th>Route</th>
                                     <th>Status</th>
-                                    <th>Archive</th>
+                                    <th>Operations</th>
                                 </tr>
                             </thead>
                             <tbody id="busTableBody"></tbody>
@@ -82,29 +79,28 @@
                 </div>
 
                 <div class="card">
-                    <h2>Node Creation / Add Bus</h2>
+                    <h2>Add New Bus</h2>
                     <div class="input-group">
-                        <label>Bus ID</label>
-                        <input type="text" id="newBusNumber" placeholder="...e.g. A4">
+                        <label>Bus Number (Friendly ID)</label>
+                        <input type="text" id="newBusNumber" placeholder="e.g. A4">
 
                         <label>Registration Number</label>
-                        <input type="text" id="newBusReg" placeholder="...registration">
+                        <input type="text" id="newBusReg" placeholder="e.g. TN-01-AB-1234">
 
-                        <label>Route Label</label>
-                        <input type="text" id="newBusRoute" placeholder="...route name">
+                        <label>Route Description</label>
+                        <input type="text" id="newBusRoute" placeholder="e.g. Campus to Main Gate">
 
-                        <label>Journey Start</label>
-                        <input type="text" id="newBusStart" placeholder="...origin node">
+                        <label>Starting Point</label>
+                        <input type="text" id="newBusStart" placeholder="Origin point">
 
-                        <label>Journey End</label>
-                        <input type="text" id="newBusDestination" placeholder="...destination node">
+                        <label>Destination</label>
+                        <input type="text" id="newBusDestination" placeholder="Final stop">
 
-                        <label>Secondary Nodes (One per line)</label>
+                        <label>Waypoints (One per line)</label>
                         <textarea id="newBusStops"
-                            style="background: transparent; border: 1px solid var(--border); color: white; padding: 15px; border-radius: 0; outline: none; transition: 0.4s;"
-                            onfocus="this.style.borderColor='var(--accent)'"></textarea>
+                            style="width: 100%; min-height: 100px; padding: 15px; border-radius: 12px; border: 2px solid #f1f5f9; background: #f8fafc; font-family: 'Inter', sans-serif; resize: vertical;"></textarea>
 
-                        <button class="btn" onclick="addBus()">Register Node</button>
+                        <button class="btn btn-primary" onclick="addBus()">Register Bus</button>
                     </div>
                 </div>
             </main>

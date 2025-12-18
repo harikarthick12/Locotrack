@@ -4,45 +4,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>LOCATIVE / INTERFACE</title>
+    <title>LOCOTrack - Student Tracking</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-    <div class="perspective-grid"></div>
     <div id="map"></div>
 
     <div class="overlay-container">
         <div class="overlay-inner">
             <header class="brand-title">
-                <small>Archive.01</small>
-                Locotrack
+                <span>🚌</span> LOCOTrack
             </header>
 
             <div class="input-group">
-                <label>Institutional Node</label>
+                <label>Institutional Selection</label>
                 <select id="collegeSelect">
-                    <option value="" disabled selected>...select college</option>
+                    <option value="" disabled selected>Select Your College</option>
                 </select>
 
-                <div id="searchGroup" style="display: none; margin-top: 30px;">
+                <div id="searchGroup" style="display: none; margin-top: 10px;">
                     <div class="input-group">
-                        <label>Locative ID</label>
-                        <input type="text" id="busRegInput" placeholder="...enter bus id">
-                        <button class="btn btn-primary" onclick="trackBus()">Initialize Trace</button>
+                        <label>Bus Identification</label>
+                        <input type="text" id="busRegInput" placeholder="Bus Number (e.g. A4)">
+                        <button class="btn btn-primary" onclick="trackBus()">Track My Bus</button>
                     </div>
                 </div>
             </div>
 
             <div id="busInfo" class="bus-info" style="display: none;">
                 <div class="info-row">
-                    <span class="info-label">Telemetry Status</span>
-                    <span id="statusText" class="info-value">Tracing</span>
+                    <span class="info-label">Current Status</span>
+                    <span id="statusText" class="info-value">Locating...</span>
                 </div>
                 <div class="info-row">
-                    <span class="info-label">Last Transmission</span>
+                    <span class="info-label">Last Signal</span>
                     <span id="lastUpdated" class="info-value">-</span>
                 </div>
                 <div id="telemetryData"></div>

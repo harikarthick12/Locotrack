@@ -1,101 +1,107 @@
-@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100;300;600;900&family=Playfair+Display:ital,wght@0,900;1,900&family=JetBrains+Mono:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap');
 
 :root {
-    --base: #000000;
-    --surface: #0a0a0a;
-    --accent: #2E5BFF;
-    --border: rgba(255, 255, 255, 0.08);
-    --text: #F5F5F7;
-    --text-dim: #86868b;
-    --font-ui: 'Hanken Grotesk', sans-serif;
-    --font-heading: 'Playfair Display', serif;
-    --font-data: 'JetBrains Mono', monospace;
+    --background: #f1f5f9;
+    --surface: #ffffff;
+    --primary: #3b82f6;
+    --accent: #f59e0b;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+body {
+    background-color: var(--background);
+    color: var(--text-main);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
 }
 
 .admin-container {
-    min-height: 100vh;
-    background: var(--base);
-    padding: 80px;
-    display: flex;
-    flex-direction: column;
-    gap: 80px;
+    padding: 40px;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
 .admin-header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 40px;
+    align-items: center;
+    margin-bottom: 40px;
 }
 
 .admin-header h1 {
-    font-family: var(--font-heading);
-    font-size: 4rem;
-    font-style: italic;
-    line-height: 0.8;
+    font-weight: 800;
+    font-size: 2.25rem;
+    color: var(--text-main);
 }
 
-/* Spatial Grid for Dashboard */
-.admin-content {
-    display: grid;
-    grid-template-columns: 450px 1fr;
-    gap: 80px;
+.admin-header span {
+    color: var(--primary);
 }
 
+/* Stats Cards */
 .stats-container {
-    grid-column: span 2;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-bottom: 40px;
 }
 
 .stat-card {
-    background: var(--base);
-    padding: 60px 40px;
+    background: var(--surface);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
 }
 
 .stat-value {
-    font-family: var(--font-heading);
-    font-size: 5rem;
-    font-style: italic;
-    line-height: 1;
+    font-size: 2.5rem;
+    font-weight: 800;
+    font-family: 'Outfit', sans-serif;
+    color: var(--text-main);
 }
 
 .stat-label {
-    font-family: var(--font-data);
-    font-size: 0.65rem;
-    color: var(--accent);
     text-transform: uppercase;
-    letter-spacing: 0.4em;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--text-muted);
 }
 
-/* Management Cards */
+/* Dashboard Content */
+.admin-content {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 30px;
+}
+
 .card {
     background: var(--surface);
+    border-radius: 24px;
+    padding: 35px;
+    box-shadow: var(--shadow);
     border: 1px solid var(--border);
-    padding: 60px 40px;
 }
 
 .card h2 {
-    font-family: var(--font-data);
-    font-size: 0.7rem;
-    color: var(--text-dim);
-    text-transform: uppercase;
-    letter-spacing: 0.4em;
-    margin-bottom: 40px;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 15px;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-/* Data Table - Architectural View */
+/* Table - Clean Professional View */
 .table-container {
-    background: var(--base);
+    overflow-x: auto;
 }
 
 .bus-table {
@@ -105,55 +111,54 @@
 
 .bus-table th {
     text-align: left;
-    padding: 20px;
-    font-family: var(--font-data);
-    font-size: 0.6rem;
-    color: var(--text-dim);
+    padding: 15px 20px;
+    background: #f8fafc;
+    font-size: 0.8rem;
     text-transform: uppercase;
-    letter-spacing: 0.2em;
-    border-bottom: 1px solid var(--border);
+    color: var(--text-muted);
+    font-weight: 700;
 }
 
 .bus-table td {
-    padding: 25px 20px;
-    font-size: 1rem;
-    font-weight: 300;
+    padding: 20px;
     border-bottom: 1px solid var(--border);
+    font-size: 0.95rem;
 }
 
-.bus-table tr:hover td {
-    background: rgba(255, 255, 255, 0.02);
+.bus-table tr:last-child td {
+    border-bottom: none;
 }
 
 .status-badge {
-    font-family: var(--font-data);
-    font-size: 0.6rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    padding: 4px 8px;
-    border: 1px solid currentColor;
+    padding: 6px 12px;
+    border-radius: 99px;
+    font-size: 0.75rem;
+    font-weight: 600;
 }
 
 .status-online {
-    color: var(--accent);
+    background: #dcfce7;
+    color: #15803d;
 }
 
 .status-offline {
-    color: #ff453a;
+    background: #f1f5f9;
+    color: #64748b;
 }
 
-/* Supreme Overrides */
+/* Supreme/Royal Colors for Labels */
 .royal-text {
-    color: #CBA35C;
-    /* Architectural Gold */
+    color: #8b5cf6;
+    font-weight: 800;
 }
 
-@media (max-width: 1200px) {
+/* Mobile Adjustments */
+@media (max-width: 1100px) {
     .admin-content {
         grid-template-columns: 1fr;
     }
 
     .admin-container {
-        padding: 40px;
+        padding: 20px;
     }
 }

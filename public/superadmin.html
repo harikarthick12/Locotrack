@@ -4,73 +4,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SUPREME / ARCHITECT</title>
+    <title>LOCOTrack - Supreme Console</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/admin.css">
 </head>
 
 <body>
-    <div class="perspective-grid"></div>
     <div class="admin-container">
-        <!-- Auth Section -->
-        <div id="loginSection" class="overlay-container"
-            style="position: relative; top: auto; left: auto; margin: auto;">
-            <div class="overlay-inner">
-                <div class="brand-title">
-                    <small>System Architect</small>
-                    Supreme
-                </div>
-                <div class="input-group">
-                    <label>Identity</label>
-                    <input type="text" id="saUsername" placeholder="...username">
-                    <label>Passcode</label>
-                    <input type="password" id="saPassword" placeholder="...password">
-                    <button class="btn" onclick="superLogin()">Engage Architect Mode</button>
-                </div>
+        <!-- Auth Hub -->
+        <div id="loginSection" class="driver-card" style="margin: 100px auto;">
+            <header class="brand-title">
+                <span>⭐</span> Supreme Login
+            </header>
+            <div class="input-group">
+                <label>Supreme Identity</label>
+                <input type="text" id="saUsername" placeholder="Enter username">
+                <label>Master Passcode</label>
+                <input type="password" id="saPassword" placeholder="Enter password">
+                <button class="btn btn-primary" style="margin-top: 20px;" onclick="superLogin()">Initialize
+                    Control</button>
             </div>
         </div>
 
-        <!-- System Section -->
+        <!-- Global Hub -->
         <div id="dashboardSection" style="display: none;">
             <header class="admin-header">
                 <div>
-                    <p class="tagline">System.Global / Locative Archive</p>
-                    <h1 class="royal-text">Control</h1>
+                    <h4 style="color: #8b5cf6; font-weight: 800;">GLOBAL ADMINISTRATION</h4>
+                    <h1>Supreme Control</h1>
                 </div>
-                <button class="btn btn-danger" onclick="logout()">Terminate</button>
+                <button class="btn btn-danger" style="width: auto; padding: 12px 24px;" onclick="logout()">Terminate
+                    System</button>
             </header>
 
             <main class="admin-content">
                 <div class="card">
-                    <h2>Creation / New Institution</h2>
+                    <h2>Register New Institution</h2>
                     <div class="input-group">
-                        <label>Institutional Name</label>
-                        <input type="text" id="newOrgName" placeholder="...college name">
+                        <label>Institution Name</label>
+                        <input type="text" id="newOrgName" placeholder="e.g. Dream State University">
 
-                        <label>Identifier Code</label>
-                        <input type="text" id="newOrgCode" placeholder="...e.g. KRC">
+                        <label>Unique Code</label>
+                        <input type="text" id="newOrgCode" placeholder="e.g. DSU">
 
-                        <label>Admin Identity</label>
-                        <input type="text" id="newOrgAdminUser" placeholder="...admin username">
+                        <label>Primary Admin Username</label>
+                        <input type="text" id="newOrgAdminUser" placeholder="admin_dsu">
 
-                        <label>Admin Passcode</label>
-                        <input type="password" id="newOrgAdminPass" placeholder="...admin password">
+                        <label>Primary Admin Password</label>
+                        <input type="password" id="newOrgAdminPass" placeholder="password">
 
-                        <button class="btn" onclick="addOrganization()">Create Node</button>
+                        <button class="btn btn-primary" onclick="addOrganization()">Create Institution Node</button>
                     </div>
                 </div>
 
                 <div class="card">
-                    <h2>Registries / Node Archive</h2>
+                    <h2>Institution Registry</h2>
                     <div class="table-container">
                         <table class="bus-table">
                             <thead>
                                 <tr>
-                                    <th>Node</th>
+                                    <th>Code</th>
                                     <th>Institution</th>
                                     <th>Admin</th>
                                     <th>Fleet</th>
-                                    <th>Action</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody id="orgTableBody"></tbody>

@@ -137,12 +137,12 @@ function renderTable(buses) {
         const statusText = bus.status === 'online' ? 'Online' : 'Offline';
 
         tr.innerHTML = `
-            <td><strong style="color: var(--primary); font-family: 'Outfit'; font-size: 1.1rem;">${bus.busNumber || '-'}</strong></td>
-            <td style="font-family: monospace; font-weight: 600;">${bus.regNo}</td>
-            <td style="color: #64748b;">${bus.route}</td>
+            <td><strong style="color: var(--primary); font-weight: 700;">${bus.busNumber || '-'}</strong></td>
+            <td><span style="font-family: monospace; color: var(--text-muted);">${bus.regNo}</span></td>
+            <td>${bus.route}</td>
             <td><span class="status-badge ${statusClass}">${statusText}</span></td>
             <td>
-                <button class="btn btn-danger" style="padding: 6px 12px; font-size: 0.75rem; background: #fee2e2; color: #991b1b; border: 1px solid #fecaca;" onclick="removeBus('${bus.regNo}')">Remove</button>
+                <button class="btn btn-danger" style="padding: 8px 16px; font-size: 0.8rem; width: auto;" onclick="removeBus('${bus.regNo}')">Remove</button>
             </td>
         `;
         tbody.appendChild(tr);

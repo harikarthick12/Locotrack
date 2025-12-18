@@ -53,17 +53,17 @@ let userWatchId = null;
 let selectedOrgId = null;
 let selectedOrgName = null;
 
-// Custom Zenith Markers
+// Custom Campus Flow Markers
 const busIcon = L.divIcon({
     className: 'custom-bus-marker',
-    html: `<div class="custom-dot"></div>`,
-    iconSize: [20, 20],
-    iconAnchor: [10, 10]
+    html: `<div class="custom-dot" style="background: #3b82f6; border: 3px solid white; box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);"></div>`,
+    iconSize: [24, 24],
+    iconAnchor: [12, 12]
 });
 
 const userIcon = L.divIcon({
     className: 'custom-user-marker',
-    html: `<div class="custom-dot" style="background: white; width: 8px; height: 8px;"></div>`,
+    html: `<div class="custom-dot" style="background: #ef4444; border: 3px solid white; box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);"></div>`,
     iconSize: [20, 20],
     iconAnchor: [10, 10]
 });
@@ -154,10 +154,10 @@ function updateDistance() {
         [userLocation.lat, userLocation.lng],
         [busLatLng.lat, busLatLng.lng]
     ], {
-        color: '#2E5BFF',
-        weight: 1,
-        opacity: 0.5,
-        dashArray: '5, 10'
+        color: '#3b82f6',
+        weight: 3,
+        opacity: 0.6,
+        dashArray: '10, 15'
     }).addTo(map);
 
     // Update distance in UI
@@ -366,8 +366,8 @@ function updateMapLocation(data) {
     }
 
     // Update Info
-    document.getElementById('statusText').innerText = 'Live Tracking (Real-time)';
-    document.getElementById('statusText').style.color = 'green';
+    document.getElementById('statusText').innerText = 'Live Signal Active';
+    document.getElementById('statusText').style.color = '#059669';
 
     const date = new Date(updatedAt);
     document.getElementById('lastUpdated').innerText = date.toLocaleTimeString();

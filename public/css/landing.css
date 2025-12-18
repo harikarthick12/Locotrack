@@ -1,173 +1,135 @@
-@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100;300;600;900&family=Playfair+Display:ital,wght@0,900;1,900&family=JetBrains+Mono:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&display=swap');
 
 :root {
-    --base: #000000;
-    --text: #F5F5F7;
-    --accent: #2E5BFF;
-    --font-heading: 'Playfair Display', serif;
-    --font-ui: 'Hanken Grotesk', sans-serif;
-    --font-data: 'JetBrains Mono', monospace;
+    --background: #f8fafc;
+    --surface: #ffffff;
+    --primary: #3b82f6;
+    --accent: #f59e0b;
+    --text-main: #0f172a;
+    --border: #e2e8f0;
+    --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
 }
 
 body {
-    background-color: var(--base);
-    color: var(--text);
-    font-family: var(--font-ui);
+    background-color: var(--background);
+    color: var(--text-main);
+    font-family: 'Outfit', sans-serif;
     min-height: 100vh;
-    display: grid;
-    place-items: center;
-    overflow-x: hidden;
-}
-
-.perspective-grid {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image:
-        linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-    background-size: 100px 100px;
-    z-index: -1;
-    mask-image: radial-gradient(circle at center, black, transparent 90%);
+    padding-bottom: 100px;
 }
 
 .container {
-    width: 100%;
     max-width: 1200px;
-    padding: 80px 40px;
-    text-align: center;
+    margin: 0 auto;
+    padding: 60px 20px;
 }
 
 .header {
-    margin-bottom: 120px;
+    text-align: center;
+    margin-bottom: 80px;
 }
 
 .header h1 {
-    font-family: var(--font-heading);
-    font-size: clamp(4rem, 15vw, 12rem);
-    font-style: italic;
-    line-height: 0.8;
-    letter-spacing: -0.05em;
-    margin-bottom: 20px;
+    font-size: clamp(3rem, 8vw, 5rem);
+    font-weight: 900;
+    color: var(--text-main);
+    margin-bottom: 15px;
+    letter-spacing: -2px;
+}
+
+.header span {
+    color: var(--primary);
 }
 
 .tagline {
-    font-family: var(--font-data);
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.8em;
-    color: var(--accent);
+    font-weight: 500;
+    color: #64748b;
+    font-size: 1.25rem;
+    letter-spacing: 2px;
 }
 
+/* User-Centric Portal Grid */
 .portal-cards {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
 }
 
 .portal-card {
-    background: var(--base);
-    padding: 80px 40px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 32px;
+    padding: 50px 40px;
     text-decoration: none;
-    color: var(--text);
-    transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+    color: var(--text-main);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: relative;
-    overflow: hidden;
-}
-
-.portal-card::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 0%;
-    background: var(--accent);
-    z-index: 0;
-    transition: height 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+    text-align: center;
+    box-shadow: var(--shadow);
 }
 
 .portal-card:hover {
-    color: white;
-}
-
-.portal-card:hover::after {
-    height: 100%;
-}
-
-.card-inner {
-    position: relative;
-    z-index: 1;
+    transform: translateY(-10px);
+    border-color: var(--primary);
+    box-shadow: 0 30px 60px -12px rgba(59, 130, 246, 0.2);
 }
 
 .icon {
-    margin-bottom: 40px;
-    opacity: 0.5;
-    transition: all 0.6s ease;
+    width: 80px;
+    height: 80px;
+    background: #eff6ff;
+    color: var(--primary);
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+    transition: all 0.3s ease;
 }
 
 .portal-card:hover .icon {
-    opacity: 1;
-    transform: scale(1.2) rotate(5deg);
+    background: var(--primary);
+    color: white;
+    transform: scale(1.1) rotate(5deg);
 }
 
 .portal-card h3 {
-    font-family: var(--font-data);
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.4em;
-    margin-bottom: 20px;
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 15px;
 }
 
 .portal-card p {
+    color: #64748b;
     font-size: 1rem;
-    font-weight: 300;
-    color: rgba(255, 255, 255, 0.4);
-    transition: color 0.6s ease;
     line-height: 1.6;
 }
 
-.portal-card:hover p {
-    color: rgba(255, 255, 255, 0.8);
-}
-
 .arrow {
-    margin-top: 40px;
+    margin-top: 30px;
     font-size: 1.5rem;
-    font-weight: 100;
-    display: block;
-    transform: translateX(-10px);
-    opacity: 0;
-    transition: all 0.6s ease;
+    color: var(--primary);
+    opacity: 0.5;
+    transition: 0.3s;
 }
 
 .portal-card:hover .arrow {
-    transform: translateX(0);
     opacity: 1;
+    transform: translateX(5px);
 }
 
 .footer {
-    margin-top: 150px;
-    font-family: var(--font-data);
-    font-size: 0.6rem;
-    color: #444;
-    letter-spacing: 0.5em;
-    text-transform: uppercase;
+    text-align: center;
+    margin-top: 100px;
+    color: #94a3b8;
+    font-size: 0.9rem;
+    font-weight: 500;
 }
 
-@media (max-width: 900px) {
-    .portal-cards {
-        grid-template-columns: 1fr;
-    }
-
+@media (max-width: 768px) {
     .header h1 {
-        font-size: 6rem;
+        font-size: 3.5rem;
     }
 }

@@ -4,54 +4,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TELEMETRY / PILOT</title>
+    <title>LOCOTrack - Driver Portal</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-    <div class="perspective-grid"></div>
     <div class="driver-container">
-        <!-- Auth Hub -->
+        <!-- Login Hub -->
         <div id="loginSection" class="driver-card">
             <header class="brand-title">
-                <small>Pilot.Uplink</small>
-                Transmit
+                <span>📍</span> Driver Login
             </header>
             <div class="input-group">
-                <label>Node ID</label>
-                <input type="text" id="driverUsername" placeholder="...username">
-                <label>Passcode</label>
-                <input type="password" id="driverPassword" placeholder="...password">
-                <button class="btn" onclick="driverLogin()">Authenticate</button>
+                <label>Driver Username (Bus ID)</label>
+                <input type="text" id="driverUsername" placeholder="e.g. driver_a4">
+
+                <label>Password</label>
+                <input type="password" id="driverPassword" placeholder="Enter password">
+
+                <button class="btn btn-primary" style="margin-top: 20px;" onclick="driverLogin()">Login & Start
+                    Tracking</button>
             </div>
+            <p style="text-align: center; margin-top: 30px; font-size: 0.85rem; color: #64748b;">
+                Secure location sharing for campus safety.
+            </p>
         </div>
 
-        <!-- Uplink Hub -->
+        <!-- Tracking Hub -->
         <div id="trackingSection" class="driver-card" style="display: none;">
             <header class="brand-title">
-                <small>Telemetry.Live</small>
-                Broadcast
+                <span>📡</span> Live Broadcast
             </header>
 
             <div class="bus-info">
                 <div class="info-row">
-                    <span class="info-label">Active Node</span>
+                    <span class="info-label">Current Vehicle</span>
                     <span id="displayRegNo" class="info-value">-</span>
                 </div>
             </div>
 
-            <div class="input-group" style="margin-top: 40px;">
-                <button id="toggleBtn" class="btn" onclick="toggleTracking()">
-                    Initiate Stream
+            <div style="margin-top: 30px;">
+                <button id="toggleBtn" class="btn btn-primary" onclick="toggleTracking()">
+                    🚀 Start Live Share
                 </button>
             </div>
 
             <div id="statusIndicator" class="status-indicator">
-                <span id="statusText">...Awaiting Stream</span>
+                <span id="statusText">System Idle</span>
             </div>
 
-            <button class="btn btn-danger" onclick="driverLogout()" style="margin-top: 60px; width: 100%;">Terminate
-                Uplink</button>
+            <button class="btn btn-danger" onclick="driverLogout()" style="margin-top: 100px;">Stop & Logout</button>
         </div>
     </div>
 
