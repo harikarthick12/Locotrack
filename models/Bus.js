@@ -11,7 +11,6 @@ const busSchema = new mongoose.Schema({
     busNumber: {
         type: String,
         required: true,
-        unique: true,
         uppercase: true,
         trim: true,
         // Format: A4, B19, etc.
@@ -58,8 +57,9 @@ const busSchema = new mongoose.Schema({
 });
 
 // Index for faster queries
-// busSchema.index({ regNo: 1 }); // Already indexed by unique: true
-// busSchema.index({ busNumber: 1 }); // Already indexed by unique: true
+// regNo must be globally unique
+// busNumber must be unique WITHIN an organization
+busSchema.index({ organization: 1, busNumber: 1 }, { unique: true });
 busSchema.index({ status: 1 });
 
 module.exports = mongoose.model('Bus', busSchema);
