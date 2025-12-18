@@ -21,11 +21,11 @@ const userSchema = new mongoose.Schema({
     organization: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Organization',
-        default: null // Null for Super Admin, required for others
+        default: null
     },
     busRegNo: {
         type: String,
-        default: null // Only for drivers
+        default: null
     },
     createdAt: {
         type: Date,
@@ -37,26 +37,38 @@ const userSchema = new mongoose.Schema({
     }
 });
 
-// Hash password before saving
-// Hash password before saving
-userSchema.pre('save', async function () {
-    if (!this.isModified('password')) return;
+// Use standard callback pattern for pre-save hook to ensure widest compatibility
+userSchema.pre('save', function (next) {
+    const user = this;
 
-    try {
-        const salt = await bcrypt.genSalt(10);
-        this.password = await bcrypt.hash(this.password, salt);
-    } catch (err) {
-        throw err;
+    // Only hash the password if it has been modified (or is new)
+    if (!user.isModified('password')) {
+        return next();
     }
+
+    // Generate a salt
+    bcrypt.genSalt(10, function (err, salt) {
+        if (err) return next(err);
+
+        // Hash the password using our new salt
+        bcrypt.hash(user.password, salt, function (err, hash) {
+            if (err) return next(err);
+
+            // Override the cleartext password with the hashed one
+            user.password = hash;
+            next();
+        });
+    });
 });
 
-// Method to compare passwords
 userSchema.methods.comparePassword = async function (candidatePassword) {
-    return await bcrypt.compare(candidatePassword, this.password);
+    try {
+        return await bcrypt.compare(candidatePassword, this.password);
+    } catch (err) {
+        return false;
+    }
 };
 
-// Index for faster queries
-// userSchema.index({ username: 1 }); // Already indexed by unique: true
 userSchema.index({ role: 1 });
 
 module.exports = mongoose.model('User', userSchema);
