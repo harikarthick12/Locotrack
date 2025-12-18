@@ -37,28 +37,16 @@ const userSchema = new mongoose.Schema({
     }
 });
 
-// Use standard callback pattern for pre-save hook to ensure widest compatibility
-userSchema.pre('save', function (next) {
-    const user = this;
+// Hash password before saving
+userSchema.pre('save', async function () {
+    if (!this.isModified('password')) return;
 
-    // Only hash the password if it has been modified (or is new)
-    if (!user.isModified('password')) {
-        return next();
+    try {
+        const salt = await bcrypt.genSalt(10);
+        this.password = await bcrypt.hash(this.password, salt);
+    } catch (err) {
+        throw err;
     }
-
-    // Generate a salt
-    bcrypt.genSalt(10, function (err, salt) {
-        if (err) return next(err);
-
-        // Hash the password using our new salt
-        bcrypt.hash(user.password, salt, function (err, hash) {
-            if (err) return next(err);
-
-            // Override the cleartext password with the hashed one
-            user.password = hash;
-            next();
-        });
-    });
 });
 
 userSchema.methods.comparePassword = async function (candidatePassword) {
