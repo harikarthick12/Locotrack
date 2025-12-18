@@ -4,70 +4,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOCOTrack - Super Admin</title>
+    <title>LOCO.SUPREME - SYSTEM ARCHITECT</title>
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/admin.css"> <!-- Reusing admin styles -->
+    <link rel="stylesheet" href="css/admin.css">
     <style>
         :root {
-            --primary: #fbbf24;
-            /* Gold */
-            --primary-glow: rgba(251, 191, 36, 0.4);
-            --secondary: #1e1b4b;
-            /* Deep Indigo House */
+            --prism-glow: linear-gradient(135deg, #fbbf24, #f59e0b, #fff);
+            --prism-4: #fbbf24;
+            /* Override to Gold for Supreme */
         }
 
         body {
-            background: radial-gradient(circle at center, #1e1b4b 0%, #030617 100%);
+            background: radial-gradient(circle at center, #1e1b4b 0%, #020617 100%);
         }
 
         .super-header {
-            background: linear-gradient(135deg, #111827 0%, #1e1b4b 100%) !important;
-            border-bottom: 2px solid var(--primary);
+            border-bottom: 2px solid #fbbf24;
+            background: rgba(0, 0, 0, 0.4) !important;
         }
 
-        .royal-text {
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .login-card {
+            background: var(--prism-glow);
+        }
+
+        .login-card .overlay-inner {
+            background: #020617;
         }
 
         .card {
-            background: rgba(255, 255, 255, 0.03) !important;
-            backdrop-filter: blur(20px);
             border: 1px solid rgba(251, 191, 36, 0.1) !important;
-            color: white;
+            background: rgba(255, 255, 255, 0.01) !important;
         }
 
-        .card h2 {
-            color: var(--primary) !important;
-            border-bottom-color: rgba(251, 191, 36, 0.1) !important;
+        .royal-text {
+            background: var(--prism-glow);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-family: var(--font-heading);
         }
 
-        .admin-header .brand-title {
-            background: none;
-            -webkit-text-fill-color: var(--primary);
+        .btn-primary {
+            background: #fbbf24;
+            color: #000;
+            font-weight: 900;
+        }
+
+        .btn-primary:hover {
+            background: #fff;
+            box-shadow: 0 0 50px rgba(251, 191, 36, 0.3);
         }
 
         .bus-table th {
-            background: rgba(0, 0, 0, 0.3);
-            color: #94a3b8;
-            border-bottom-color: rgba(255, 255, 255, 0.05);
-        }
-
-        .bus-table td {
-            color: #e2e8f0;
-            border-bottom-color: rgba(255, 255, 255, 0.05);
-        }
-
-        .bus-table tr:hover td {
-            background: rgba(251, 191, 36, 0.05);
-        }
-
-        input {
-            background: rgba(0, 0, 0, 0.2) !important;
-            border-color: rgba(255, 255, 255, 0.1) !important;
-            color: white !important;
+            color: #fbbf24;
         }
     </style>
 </head>
@@ -76,54 +65,49 @@
     <div class="admin-container">
         <!-- Login Section -->
         <div id="loginSection" class="login-card">
-            <div class="brand-title"><span>👑</span> Super Admin</div>
-            <div class="input-group">
-                <input type="text" id="saUsername" placeholder="Super Admin Username">
-                <input type="password" id="saPassword" placeholder="Password">
-                <button class="btn btn-primary" onclick="superLogin()">Login</button>
+            <div class="overlay-inner" style="border-radius: 38px 8px 38px 8px;">
+                <div class="brand-title"><span class="royal-text">👑</span> SUPREME</div>
+                <div class="input-group">
+                    <input type="text" id="saUsername" placeholder="ARCHITECT ID">
+                    <input type="password" id="saPassword" placeholder="CORE PASSCODE">
+                    <button class="btn btn-primary" onclick="superLogin()">INITIALIZE ACCESS</button>
+                </div>
             </div>
-            <p style="text-align: center; margin-top: 15px;">
-                <a href="/admin" style="text-decoration: none; color: #666;">Go to College Admin Login</a>
-            </p>
         </div>
 
         <!-- Dashboard Section -->
         <div id="dashboardSection" style="display: none;">
             <header class="admin-header super-header">
-                <div class="brand-title"><span>👑</span> Super Admin Control</div>
-                <button class="btn btn-danger" onclick="logout()">Logout</button>
+                <div class="brand-title"><span class="royal-text">👑</span> CONTROL PANEL</div>
+                <button class="btn btn-danger" onclick="logout()">TERMINATE SESSION</button>
             </header>
 
             <main class="admin-content">
-                <!-- Add New College -->
                 <div class="card">
-                    <h2>Add New College / Organization</h2>
-                    <div class="form-column">
-                        <input type="text" id="newOrgName" placeholder="College Name (e.g. DSU College of Engineering)">
-                        <input type="text" id="newOrgCode" placeholder="College Code (e.g. DSU)">
-                        <input type="text" id="newOrgAdminUser" placeholder="Assign Admin Username (e.g. dsu_admin)">
-                        <input type="text" id="newOrgAdminPass" placeholder="Assign Admin Password">
-                        <button class="btn btn-primary" onclick="addOrganization()">Create College</button>
+                    <h2><span class="royal-text">Δ</span> CREATE INSTITUTION</h2>
+                    <div class="input-group">
+                        <input type="text" id="newOrgName" placeholder="COLLEGE FULL NAME">
+                        <input type="text" id="newOrgCode" placeholder="IDENTIFIER CODE (e.g. DSU)">
+                        <input type="text" id="newOrgAdminUser" placeholder="ADMIN NODE ID">
+                        <input type="text" id="newOrgAdminPass" placeholder="ADMIN PASSCODE">
+                        <button class="btn btn-primary" onclick="addOrganization()">GENERATE NODE</button>
                     </div>
                 </div>
 
-                <!-- List of Colleges -->
                 <div class="card">
-                    <h2>Registered Colleges</h2>
-                    <div class="table-responsive">
+                    <h2><span class="royal-text">Σ</span> REGISTERED NODES</h2>
+                    <div class="table-container">
                         <table class="bus-table">
                             <thead>
                                 <tr>
-                                    <th>Code</th>
-                                    <th>College Name</th>
-                                    <th>Admin User</th>
-                                    <th>Buses</th>
-                                    <th>Action</th>
+                                    <th>CODE</th>
+                                    <th>INSTITUTION</th>
+                                    <th>ADMIN</th>
+                                    <th>FLEET</th>
+                                    <th>ACTION</th>
                                 </tr>
                             </thead>
-                            <tbody id="orgTableBody">
-                                <!-- Populated by JS -->
-                            </tbody>
+                            <tbody id="orgTableBody"></tbody>
                         </table>
                     </div>
                 </div>

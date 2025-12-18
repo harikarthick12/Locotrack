@@ -162,15 +162,10 @@ function updateDistance() {
     }).addTo(map);
 
     // Update distance in UI
-    let distanceDiv = document.getElementById('distanceInfo');
     if (!distanceDiv) {
         distanceDiv = document.createElement('div');
         distanceDiv.id = 'distanceInfo';
-        distanceDiv.style.marginTop = '10px';
-        distanceDiv.style.padding = '10px';
-        distanceDiv.style.background = '#f0f9ff';
-        distanceDiv.style.borderRadius = '8px';
-        distanceDiv.style.border = '2px solid #4F46E5';
+        distanceDiv.className = 'telemetry-block';
         document.getElementById('busInfo').appendChild(distanceDiv);
     }
 
@@ -306,9 +301,7 @@ function displayRouteInfo(routeData) {
     if (!routeInfoDiv) {
         routeInfoDiv = document.createElement('div');
         routeInfoDiv.id = 'routeInfo';
-        routeInfoDiv.style.marginTop = '10px';
-        routeInfoDiv.style.paddingTop = '10px';
-        routeInfoDiv.style.borderTop = '1px solid #eee';
+        routeInfoDiv.className = 'route-telemetry';
         busInfo.appendChild(routeInfoDiv);
     }
 

@@ -4,44 +4,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>LOCOTrack - Live Bus Tracking</title>
+    <title>LOCO.CORE - NODE INTERCEPTION</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
     <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
+    <div class="bg-ambient"></div>
     <div id="map"></div>
 
     <div class="overlay-container">
-        <div class="brand-title">
-            <span>🌍</span> LOCOTrack
-        </div>
-        <div class="input-group" id="collegeSelection">
-            <label for="collegeSelect"
-                style="display: block; width: 100%; color: #666; font-size: 0.9rem; margin-bottom: 5px;">📍 Select Your
-                College:</label>
-            <select id="collegeSelect"
-                style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem; background: #f9f9f9;">
-                <option value="" disabled selected>-- Choose College --</option>
-                <!-- Populated by JS -->
-            </select>
-        </div>
+        <div class="overlay-inner">
+            <div class="brand-title">
+                <span>⚡</span> LOCO.CORE
+            </div>
 
-        <div class="input-group" id="searchGroup" style="display: none; margin-top: 15px;">
-            <input type="text" id="busRegInput" placeholder="Enter Bus Number (e.g., A4) or Reg No">
-            <button class="btn btn-primary" onclick="trackBus()">Track Now</button>
-        </div>
-        <div id="busInfo" class="bus-info" style="display: none;">
-            <p>Status: <span id="statusText">Locating...</span></p>
-            <p>Last Updated: <span id="lastUpdated" class="last-updated">-</span></p>
+            <!-- Intercept Hub -->
+            <div class="input-group">
+                <select id="collegeSelect">
+                    <option value="" disabled selected>INTERCEPT COLLEGE</option>
+                    <!-- Populated by JS -->
+                </select>
+
+                <div id="searchGroup" style="display: none; margin-top: 15px;">
+                    <div class="input-group">
+                        <input type="text" id="busRegInput" placeholder="ENTER NODE ID (e.g. A4)">
+                        <button class="btn btn-primary" onclick="trackBus()">LOCATE NODE</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="busInfo" class="bus-info" style="display: none;">
+                <p>TELEMETRY: <span id="statusText">WAITING</span></p>
+                <p>SYNCED: <span id="lastUpdated" class="last-updated">-</span></p>
+            </div>
         </div>
     </div>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="js/user.js"></script>
 </body>
