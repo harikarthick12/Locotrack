@@ -8,12 +8,66 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/admin.css"> <!-- Reusing admin styles -->
     <style>
-        .super-header {
-            background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+        :root {
+            --primary: #fbbf24;
+            /* Gold */
+            --primary-glow: rgba(251, 191, 36, 0.4);
+            --secondary: #1e1b4b;
+            /* Deep Indigo House */
         }
 
-        .org-card {
-            border-left: 5px solid #4F46E5;
+        body {
+            background: radial-gradient(circle at center, #1e1b4b 0%, #030617 100%);
+        }
+
+        .super-header {
+            background: linear-gradient(135deg, #111827 0%, #1e1b4b 100%) !important;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .royal-text {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.03) !important;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(251, 191, 36, 0.1) !important;
+            color: white;
+        }
+
+        .card h2 {
+            color: var(--primary) !important;
+            border-bottom-color: rgba(251, 191, 36, 0.1) !important;
+        }
+
+        .admin-header .brand-title {
+            background: none;
+            -webkit-text-fill-color: var(--primary);
+        }
+
+        .bus-table th {
+            background: rgba(0, 0, 0, 0.3);
+            color: #94a3b8;
+            border-bottom-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .bus-table td {
+            color: #e2e8f0;
+            border-bottom-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .bus-table tr:hover td {
+            background: rgba(251, 191, 36, 0.05);
+        }
+
+        input {
+            background: rgba(0, 0, 0, 0.2) !important;
+            border-color: rgba(255, 255, 255, 0.1) !important;
+            color: white !important;
         }
     </style>
 </head>

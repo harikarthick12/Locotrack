@@ -15,22 +15,22 @@
     <div class="admin-container">
         <!-- Login Section -->
         <div id="loginSection" class="login-card">
-            <div class="brand-title" style="justify-content: center; margin-bottom: 20px;">
-                <span>🛡️</span> Admin Login
+            <div class="brand-title">
+                <span>🛡️</span> Admin Portal
             </div>
             <div class="input-group">
                 <label for="collegeSelect"
-                    style="text-align: left; font-weight: 600; color: #555; margin-bottom: 5px;">Select Your
-                    College:</label>
-                <select id="collegeSelect" class="form-select"
-                    style="padding: 12px; border-radius: 8px; border: 2px solid #ddd; margin-bottom: 15px; background: white;">
+                    style="text-align: left; font-size: 0.85rem; font-weight: 700; color: #64748b; margin-bottom: -4px;">
+                    INSTITUTION
+                </label>
+                <select id="collegeSelect">
                     <option value="" disabled selected>-- Choose College --</option>
                     <!-- Populated by JS -->
                 </select>
 
-                <input type="text" id="adminUsername" placeholder="College Admin Username">
-                <input type="password" id="adminPassword" placeholder="Password">
-                <button class="btn btn-primary" onclick="adminLogin()">Login</button>
+                <input type="text" id="adminUsername" placeholder="Admin Username">
+                <input type="password" id="adminPassword" placeholder="Admin Password">
+                <button class="btn btn-primary" onclick="adminLogin()">Enter Dashboard</button>
             </div>
         </div>
 
@@ -38,71 +38,70 @@
         <div id="dashboardSection" style="display: none;">
             <header class="admin-header">
                 <div class="brand-title">
-                    <span>🛡️</span> <span id="adminCollegeName">Loading College...</span>
+                    <span>🛡️</span> <span id="adminCollegeName">College Admin</span>
                 </div>
-                <button class="btn btn-danger" onclick="logout()">Logout</button>
+                <button class="btn btn-danger" onclick="logout()"
+                    style="background: #fee2e2; color: #991b1b;">Logout</button>
             </header>
 
             <main class="admin-content">
-                <!-- Statistics Dashboard -->
+                <!-- Statistics Summary -->
                 <div class="stats-container">
-                    <div class="stat-card">
+                    <div class="stat-card total">
                         <div class="stat-icon">🚌</div>
                         <div class="stat-info">
+                            <div class="stat-label">Total Fleet</div>
                             <div class="stat-value" id="totalBuses">0</div>
-                            <div class="stat-label">Total Buses</div>
                         </div>
                     </div>
                     <div class="stat-card online">
-                        <div class="stat-icon">🟢</div>
+                        <div class="stat-icon">📡</div>
                         <div class="stat-info">
+                            <div class="stat-label">Active Signals</div>
                             <div class="stat-value" id="onlineBuses">0</div>
-                            <div class="stat-label">Online Now</div>
                         </div>
                     </div>
                     <div class="stat-card offline">
-                        <div class="stat-icon">🔴</div>
+                        <div class="stat-icon">💤</div>
                         <div class="stat-info">
+                            <div class="stat-label">Buses Offline</div>
                             <div class="stat-value" id="offlineBuses">0</div>
-                            <div class="stat-label">Offline</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Add Bus Card -->
-                <div class="card add-bus-card">
-                    <h2>Add New Bus</h2>
-                    <div class="form-column">
-                        <input type="text" id="newBusNumber" placeholder="Bus Number (e.g. A4, B19)" />
-                        <input type="text" id="newBusReg" placeholder="Bus Reg No (e.g. TN61H7526)" />
-                        <input type="text" id="newBusRoute" placeholder="Route Name (e.g. Route 5)" />
-                        <input type="text" id="newBusStart" placeholder="Starting Point (e.g. Central Station)" />
-                        <input type="text" id="newBusDestination" placeholder="Destination (e.g. Airport)" />
+                <!-- Left Column: Add Bus -->
+                <div class="card">
+                    <h2>Add Bus</h2>
+                    <div class="input-group">
+                        <input type="text" id="newBusNumber" placeholder="Bus Number (e.g. A4)" />
+                        <input type="text" id="newBusReg" placeholder="Registration No" />
+                        <input type="text" id="newBusRoute" placeholder="Route (e.g. Hosur to DSU)" />
+                        <input type="text" id="newBusStart" placeholder="Starting Point" />
+                        <input type="text" id="newBusDestination" placeholder="Final Destination" />
                         <textarea id="newBusStops"
-                            placeholder="Stops (one per line, e.g.&#10;Stop 1&#10;Stop 2&#10;Stop 3)"
-                            rows="4"></textarea>
-                        <button class="btn btn-primary" onclick="addBus()">Add Bus</button>
+                            style="padding: 14px; border-radius: 14px; border: 2px solid rgba(0,0,0,0.05); background: rgba(255,255,255,0.8); font-size: 1rem; outline: none; height: 100px;"
+                            placeholder="Stops (One per line)"></textarea>
+                        <button class="btn btn-primary" onclick="addBus()">Register Bus</button>
                     </div>
                 </div>
 
-                <!-- Bus List -->
-                <div class="card bus-list-card">
-                    <h2>Registered Buses</h2>
-                    <div class="table-responsive">
+                <!-- Right Column: Bus Fleet -->
+                <div class="card">
+                    <h2>Fleet Management</h2>
+                    <div class="table-container">
                         <table class="bus-table">
                             <thead>
                                 <tr>
-                                    <th>Bus #</th>
+                                    <th>Fleet #</th>
                                     <th>Reg No</th>
                                     <th>Route</th>
-                                    <th>Start → Destination</th>
                                     <th>Status</th>
-                                    <th>Last Seen</th>
-                                    <th>Action</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody id="busTableBody">
-                                <!-- Rows injected by JS -->
+                                <!-- Dynamic Rows -->
                             </tbody>
                         </table>
                     </div>

@@ -133,20 +133,16 @@ function renderTable(buses) {
     buses.forEach(bus => {
         const tr = document.createElement('tr');
 
-        const lastSeen = bus.lastSeen ? new Date(bus.lastSeen).toLocaleTimeString() : 'Never';
         const statusClass = bus.status === 'online' ? 'status-online' : 'status-offline';
         const statusText = bus.status === 'online' ? 'Online' : 'Offline';
-        const routeInfo = bus.start && bus.destination ? `${bus.start} → ${bus.destination}` : '-';
 
         tr.innerHTML = `
-            <td><strong>${bus.busNumber || '-'}</strong></td>
-            <td>${bus.regNo}</td>
-            <td>${bus.route}</td>
-            <td>${routeInfo}</td>
+            <td><strong style="color: var(--primary); font-family: 'Outfit'; font-size: 1.1rem;">${bus.busNumber || '-'}</strong></td>
+            <td style="font-family: monospace; font-weight: 600;">${bus.regNo}</td>
+            <td style="color: #64748b;">${bus.route}</td>
             <td><span class="status-badge ${statusClass}">${statusText}</span></td>
-            <td>${lastSeen}</td>
             <td>
-                <button class="btn btn-danger btn-sm" onclick="removeBus('${bus.regNo}')">Remove</button>
+                <button class="btn btn-danger" style="padding: 6px 12px; font-size: 0.75rem; background: #fee2e2; color: #991b1b; border: 1px solid #fecaca;" onclick="removeBus('${bus.regNo}')">Remove</button>
             </td>
         `;
         tbody.appendChild(tr);

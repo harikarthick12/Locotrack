@@ -14,38 +14,46 @@
     <div class="driver-container">
         <!-- Login Section -->
         <div id="loginSection" class="driver-card">
-            <div class="brand-title" style="color: white;">
+            <div class="brand-title">
                 <span>🚌</span> Driver Login
             </div>
             <div class="input-group">
-                <input type="text" id="driverUsername" placeholder="Bus Reg No (e.g. TN01)"
-                    style="background: rgba(255,255,255,0.9);">
-                <input type="password" id="driverPassword" placeholder="Password"
-                    style="background: rgba(255,255,255,0.9);">
-                <button class="btn btn-primary" onclick="driverLogin()">Login</button>
+                <input type="text" id="driverUsername" placeholder="Bus Registration No">
+                <input type="password" id="driverPassword" placeholder="Driver Password">
+                <button class="btn btn-primary" onclick="driverLogin()">Access Portal</button>
             </div>
+            <p style="margin-top: 20px; font-size: 0.8rem; opacity: 0.5;">Authorized Personnel Only</p>
         </div>
 
-        <!-- Tracking Section (Hidden) -->
+        <!-- Tracking Section (Hidden by default) -->
         <div id="trackingSection" class="driver-card" style="display: none;">
-            <div class="brand-title" style="color: white;">
-                <span>🚌</span> Driver Portal
+            <div class="brand-title">
+                <span>🚌</span> Live Tracking
             </div>
-            <p style="margin-bottom: 20px; opacity: 0.8;">Bus: <span id="displayRegNo"></span></p>
+            <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; margin-bottom: 24px;">
+                <p style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--primary);">
+                    Assigned Bus</p>
+                <p style="font-size: 1.5rem; font-weight: 800; font-family: 'Outfit';" id="displayRegNo"></p>
+            </div>
 
             <div class="input-group">
-                <button id="toggleBtn" class="btn btn-primary" onclick="toggleTracking()">Start Sharing
-                    Location</button>
+                <button id="toggleBtn" class="btn btn-primary" onclick="toggleTracking()">
+                    🚀 Start Sharing Location
+                </button>
             </div>
 
             <div id="statusIndicator" class="status-indicator">
-                Status: <span id="statusText">OFFLINE</span>
+                <span id="statusText">WAITING...</span>
             </div>
 
-            <div style="margin-top: 20px; font-size: 0.8rem; opacity: 0.6;">
-                Keep this tab open to maintain tracking.
-            </div>
-            <button class="btn btn-danger btn-sm" onclick="driverLogout()" style="margin-top: 20px;">Logout</button>
+            <p style="margin-top: 24px; font-size: 0.85rem; color: #94a3b8; line-height: 1.5;">
+                Keep this screen active to ensure smooth tracking for passengers. 📱
+            </p>
+
+            <button class="btn btn-danger" onclick="driverLogout()"
+                style="margin-top: 32px; background: transparent; border: 1px solid rgba(239, 68, 68, 0.3);">
+                Sign Out
+            </button>
         </div>
     </div>
 

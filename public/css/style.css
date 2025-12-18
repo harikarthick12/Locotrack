@@ -1,221 +1,319 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700;800&display=swap');
+
 :root {
-    --primary-color: #FFC107;
-    /* Amber/Bus Yellow */
-    --secondary-color: #212121;
-    /* Dark Gray */
-    --accent-color: #00E676;
-    /* Green for active */
-    --danger-color: #FF5252;
-    /* Red for inactive/error */
-    --text-light: #ffffff;
-    --text-dark: #333333;
-    --glass-bg: rgba(255, 255, 255, 0.95);
-    --glass-border: rgba(255, 255, 255, 0.2);
-    --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    /* Premium Color Palette - Midnight Nebula */
+    --primary: #6366f1;
+    /* Indigo */
+    --primary-glow: rgba(99, 102, 241, 0.4);
+    --secondary: #0f172a;
+    /* Slate 900 */
+    --accent: #10b981;
+    /* Emerald */
+    --danger: #ef4444;
+    /* Rose */
+    --warning: #f59e0b;
+    /* Amber */
+    --surface: #ffffff;
+    --background: #f8fafc;
+
+    /* Dark Mode Tokens (Will be used in Cards) */
+    --card-bg: rgba(255, 255, 255, 0.85);
+    --card-border: rgba(255, 255, 255, 0.5);
+    --card-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
 body {
-    background-color: var(--secondary-color);
-    color: var(--text-dark);
-    /* overflow: hidden; */
-    /* Removed - only needed for map pages */
+    font-family: 'Inter', sans-serif;
+    background-color: var(--background);
+    color: var(--secondary);
+    -webkit-font-smoothing: antialiased;
 }
 
-/* Map Container */
+h1,
+h2,
+h3,
+.brand-title {
+    font-family: 'Outfit', sans-serif;
+}
+
+/* Map Styling */
 #map {
     height: 100vh;
     width: 100%;
     z-index: 1;
 }
 
-/* Floating UI Overlay */
+/* Premium Floating Overlay */
 .overlay-container {
     position: absolute;
-    top: 10px;
-    left: 10px;
+    top: 20px;
+    left: 20px;
     z-index: 1000;
-    width: 90%;
-    max-width: 380px;
-    background: var(--glass-bg);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 16px;
-    padding: 20px;
-    box-shadow: var(--shadow);
-    border: 1px solid var(--glass-border);
-    transition: all 0.3s ease;
+    width: 380px;
+    max-width: calc(100vw - 40px);
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--card-border);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* Ensure Leaflet controls don't overlap */
-.leaflet-top.leaflet-right {
-    top: 10px;
-    right: 10px;
-}
-
-/* Mobile adjustments */
-@media (max-width: 768px) {
-    .overlay-container {
-        width: calc(100% - 20px);
-        max-width: none;
-        left: 10px;
-        right: 10px;
-        top: 10px;
-    }
-
-    /* Stack layer control below search on mobile */
-    .leaflet-top.leaflet-right {
-        top: auto;
-        bottom: 80px;
-        right: 10px;
-    }
+.overlay-container:hover {
+    transform: translateY(-4px);
 }
 
 .brand-title {
-    text-align: center;
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-bottom: 15px;
-    color: var(--secondary-color);
+    font-size: 1.75rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, var(--primary), #8b5cf6);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 10px;
+    gap: 12px;
 }
 
-.brand-icon {
-    color: var(--primary-color);
+.brand-title span {
+    -webkit-text-fill-color: initial;
+    font-size: 2rem;
 }
 
-/* Form Elements */
+/* Modern Input Groups */
 .input-group {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
 }
 
-input[type="text"] {
-    padding: 12px 15px;
-    border-radius: 8px;
-    border: 2px solid #ddd;
+input[type="text"],
+select {
+    padding: 14px 18px;
+    border-radius: 14px;
+    border: 2px solid rgba(0, 0, 0, 0.05);
+    background: rgba(255, 255, 255, 0.8);
     font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
     outline: none;
-    transition: border-color 0.3s;
+    color: var(--secondary);
 }
 
-input[type="text"]:focus {
-    border-color: var(--primary-color);
+input[type="text"]:focus,
+select:focus {
+    border-color: var(--primary);
+    background: #ffffff;
+    box-shadow: 0 0 0 4px var(--primary-glow);
 }
 
+/* Futuristic Buttons */
 .btn {
-    padding: 12px;
+    padding: 14px 24px;
     border: none;
-    border-radius: 8px;
+    border-radius: 14px;
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
-    transition: transform 0.2s, opacity 0.2s;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.btn:active {
-    transform: scale(0.98);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
 .btn-primary {
-    background-color: var(--primary-color);
-    color: var(--secondary-color);
-}
-
-.btn-success {
-    background-color: var(--accent-color);
+    background: linear-gradient(135deg, var(--primary), #4f46e5);
     color: white;
+    box-shadow: 0 10px 15px -3px var(--primary-glow);
 }
 
-.btn-danger {
-    background-color: var(--danger-color);
-    color: white;
+.btn-primary:hover {
+    filter: brightness(1.1);
+    transform: translateY(-2px);
 }
 
-/* Driver Specific Styles */
+/* Bus Info Card */
+.bus-info {
+    margin-top: 24px;
+    padding: 20px;
+    background: rgba(99, 102, 241, 0.05);
+    border-radius: 18px;
+    border: 1px solid rgba(99, 102, 241, 0.1);
+    animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.bus-info p {
+    margin: 8px 0;
+    font-size: 0.95rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.bus-info strong {
+    color: var(--secondary);
+}
+
+#statusText {
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+}
+
+/* Custom Leaflet Controls */
+.leaflet-bar {
+    border: none !important;
+    box-shadow: var(--card-shadow) !important;
+}
+
+.leaflet-bar a {
+    background-color: var(--surface) !important;
+    color: var(--secondary) !important;
+    border: none !important;
+    width: 40px !important;
+    height: 40px !important;
+    line-height: 40px !important;
+    font-weight: bold !important;
+}
+
+.leaflet-bar a:first-child {
+    border-radius: 12px 12px 0 0 !important;
+}
+
+.leaflet-bar a:last-child {
+    border-radius: 0 0 12px 12px !important;
+}
+
+/* Pulse Animation for Live Status */
+.pulse {
+    position: relative;
+    display: inline-flex;
+}
+
+.pulse::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    right: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    animation: status-pulse 2s infinite;
+}
+
+@keyframes status-pulse {
+    0% {
+        transform: translateY(-50%) scale(0.95);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    }
+
+    70% {
+        transform: translateY(-50%) scale(1);
+        box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+    }
+
+    100% {
+        transform: translateY(-50%) scale(0.95);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+    }
+}
+
+/* Driver Specific Styles - Modern Safety View */
 .driver-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
-    background: linear-gradient(135deg, #212121 0%, #000000 100%);
-    color: var(--text-light);
-    padding: 20px;
+    min-height: 100vh;
+    background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+    color: white;
+    padding: 24px;
 }
 
 .driver-card {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    padding: 30px;
-    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    padding: 40px;
+    border-radius: 32px;
     width: 100%;
-    max-width: 350px;
+    max-width: 400px;
     text-align: center;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.5);
+}
+
+.driver-card .brand-title {
+    justify-content: center;
+    margin-bottom: 32px;
 }
 
 .status-indicator {
-    margin-top: 20px;
-    padding: 10px;
-    border-radius: 8px;
-    font-weight: bold;
-    background: rgba(0, 0, 0, 0.2);
+    margin: 32px 0;
+    padding: 24px;
+    border-radius: 20px;
+    font-weight: 800;
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px solid transparent;
+    transition: all 0.4s ease;
     display: none;
+    letter-spacing: 2px;
 }
 
 .status-indicator.active {
     display: block;
-    color: var(--accent-color);
-    border: 1px solid var(--accent-color);
+    color: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 0 30px rgba(16, 185, 129, 0.2);
 }
 
 .status-indicator.inactive {
     display: block;
-    color: var(--danger-color);
-    border: 1px solid var(--danger-color);
+    color: var(--danger);
+    border-color: var(--danger);
 }
 
-.pulse {
-    animation: pulse-animation 2s infinite;
+.driver-card .input-group input {
+    background: rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    text-align: center;
 }
 
-@keyframes pulse-animation {
-    0% {
-        box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.4);
-    }
-
-    70% {
-        box-shadow: 0 0 0 10px rgba(0, 230, 118, 0);
-    }
-
-    100% {
-        box-shadow: 0 0 0 0 rgba(0, 230, 118, 0);
-    }
+.driver-card .input-group input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
 }
 
-/* Info Box on Map */
-.bus-info {
-    margin-top: 15px;
-    padding-top: 15px;
-    border-top: 1px solid #eee;
-    font-size: 0.9rem;
-    color: #666;
+.driver-card .btn {
+    width: 100%;
+    margin-top: 12px;
 }
 
-.last-updated {
-    font-weight: bold;
-    color: var(--secondary-color);
+@media (max-width: 600px) {
+    /* ... existing overlay media query ... */
 }
