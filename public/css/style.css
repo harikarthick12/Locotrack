@@ -18,11 +18,24 @@
     --shadow-heavy: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
 }
 
+[data-theme='dark'] {
+    --bg-main: #0f172a;
+    --bg-glass: rgba(30, 41, 59, 0.95);
+    --primary: #60a5fa;
+    --primary-light: rgba(59, 130, 246, 0.1);
+    --text-dark: #f8fafc;
+    --text-soft: #94a3b8;
+    --border: #334155;
+    --shadow-soft: 0 4px 6px -1px rgb(0 0 0 / 0.5);
+    --shadow-heavy: 0 20px 25px -5px rgb(0 0 0 / 0.8);
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 body {
@@ -146,7 +159,7 @@ input[type="text"],
 input[type="password"] {
     width: 100%;
     padding: 16px 20px;
-    background: white;
+    background: var(--bg-main);
     border: 1px solid var(--border);
     border-radius: 18px;
     font-size: 1rem;
@@ -161,8 +174,34 @@ select:focus,
 input[type="text"]:focus,
 input[type="password"]:focus {
     border-color: var(--primary);
+    background: var(--bg-glass);
     box-shadow: 0 0 0 4px var(--primary-light);
     transform: translateY(-1px);
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+    position: fixed;
+    top: 25px;
+    right: 25px;
+    z-index: 2000;
+    background: var(--bg-glass);
+    border: 1px solid var(--border);
+    color: var(--text-dark);
+    width: 50px;
+    height: 50px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: var(--shadow-soft);
+    font-size: 1.4rem;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1) rotate(10deg);
 }
 
 /* High Fidelity Buttons */
@@ -290,7 +329,7 @@ input[type="password"]:focus {
 }
 
 .stat-box {
-    background: white;
+    background: var(--bg-glass);
     padding: 35px;
     border-radius: 28px;
     box-shadow: var(--shadow-soft);
@@ -323,7 +362,7 @@ input[type="password"]:focus {
 /* TABLE Styling for Admins */
 .table-wrapper {
     overflow-x: auto;
-    background: white;
+    background: var(--bg-glass);
     border-radius: 28px;
     border: 1px solid var(--border);
     box-shadow: var(--shadow-soft);
@@ -358,15 +397,35 @@ tr:last-child td {
 /* Mobile Support */
 @media (max-width: 768px) {
     .overlay-container {
-        margin: 20px;
-        width: auto;
+        margin: 15px;
+        width: calc(100% - 30px);
     }
 
     .overlay-inner {
-        padding: 30px;
+        padding: 24px;
+        border-radius: 24px;
     }
 
     .brand-title {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
+        margin-bottom: 20px;
+    }
+
+    .brand-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+
+    .theme-toggle {
+        top: 15px;
+        right: 15px;
+        width: 44px;
+        height: 44px;
+        font-size: 1.2rem;
+    }
+
+    .info-card {
+        padding: 15px;
     }
 }
