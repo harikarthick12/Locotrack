@@ -16,41 +16,44 @@
     <div class="overlay-container">
         <div class="overlay-inner">
             <header class="brand-title">
-                <div class="brand-icon">📍</div>
+                <div class="brand-logo-node">🛰️</div>
                 LOCOTrack
             </header>
 
             <div class="input-group">
                 <div class="form-field">
-                    <label>Your Institution</label>
+                    <div class="field-label">Institutional Node</div>
                     <select id="collegeSelect">
-                        <option value="" disabled selected>Select College</option>
+                        <option value="" disabled selected>Select Organization</option>
                     </select>
                 </div>
 
                 <div id="searchGroup" style="display: none;">
                     <div class="form-field">
-                        <label>Bus Identification</label>
-                        <input type="text" id="busRegInput" placeholder="Enter Bus No (e.g. A4)">
+                        <div class="field-label">Vehicle Identifier</div>
+                        <input type="text" id="busRegInput" placeholder="Bus Number (e.g. A4)">
                     </div>
                     <button class="btn btn-primary" onclick="trackBus()" style="margin-top: 20px;">
-                        Locate My Bus 🚌
+                        Establish Tracking
                     </button>
                 </div>
             </div>
 
             <div id="busInfo" class="bus-info" style="display: none;">
-                <div class="info-card">
+                <div class="telemetry-card">
                     <div class="info-card-row">
-                        <span class="info-card-label">Signal Status</span>
-                        <span id="statusText" class="info-card-value live">Tracing...</span>
+                        <div class="field-label">Uplink Status</div>
+                        <div id="statusText" class="signal-node">
+                            <span class="pulse-node"></span>
+                            Live Tracing
+                        </div>
                     </div>
-                    <div class="info-card-row">
-                        <span class="info-card-label">Last Transmission</span>
-                        <span id="lastUpdated" class="info-card-value">-</span>
+                    <div class="info-card-row" style="margin-top: 15px;">
+                        <div class="field-label">Last Ping</div>
+                        <span id="lastUpdated" class="info-card-value" style="font-weight: 800;">-</span>
                     </div>
                 </div>
-                <div id="telemetryData"></div>
+                <div id="telemetryData" style="margin-top: 20px;"></div>
             </div>
         </div>
     </div>

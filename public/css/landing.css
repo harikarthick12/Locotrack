@@ -1,22 +1,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&display=swap');
 
 :root {
-    --primary: #2563eb;
+    --primary: #0a46e4;
     --primary-light: #eff6ff;
-    --text-dark: #0f172a;
+    --text-dark: #020617;
     --text-soft: #475569;
-    --bg-main: #f8fafc;
+    --bg-main: #fcfdfe;
     --bg-card: #ffffff;
-    --border: #e2e8f0;
+    --border: #f1f5f9;
 }
 
 [data-theme='dark'] {
-    --bg-main: #0f172a;
-    --bg-card: #1e293b;
+    --bg-main: #020617;
+    --bg-card: #0f172a;
     --text-dark: #f8fafc;
     --text-soft: #94a3b8;
-    --border: #334155;
+    --border: #1e293b;
     --primary-light: rgba(59, 130, 246, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
@@ -25,13 +31,13 @@ body {
     font-family: 'Plus Jakarta Sans', sans-serif;
     min-height: 100vh;
     overflow-y: auto;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.4s ease, color 0.4s ease;
 }
 
 .landing-wrapper {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
-    padding: 100px 20px;
+    padding: 120px 24px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -39,14 +45,14 @@ body {
 
 .hero {
     text-align: center;
-    margin-bottom: 80px;
-    animation: fadeIn 1s ease;
+    margin-bottom: 100px;
+    animation: slideUp 1s cubic-bezier(0.2, 1, 0.3, 1);
 }
 
-@keyframes fadeIn {
+@keyframes slideUp {
     from {
         opacity: 0;
-        transform: translateY(-20px);
+        transform: translateY(30px);
     }
 
     to {
@@ -56,95 +62,148 @@ body {
 }
 
 .hero h1 {
-    font-size: clamp(3.5rem, 10vw, 6rem);
-    line-height: 1;
-    margin-bottom: 20px;
-    color: var(--text-dark);
+    font-size: clamp(4rem, 12vw, 8rem);
+    line-height: 0.9;
+    letter-spacing: -0.06em;
+    font-weight: 800;
+    margin-bottom: 32px;
+    background: linear-gradient(to bottom, var(--text-dark), var(--text-soft));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-.hero span {
+.hero h1 span {
     color: var(--primary);
+    -webkit-text-fill-color: var(--primary);
 }
 
 .hero p {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     color: var(--text-soft);
     font-weight: 500;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    gap: 40px;
     width: 100%;
+    margin-top: 40px;
 }
 
 .portal-card {
     background: var(--bg-card);
-    padding: 60px 40px;
-    border-radius: 40px;
+    padding: 80px 48px;
+    border-radius: 48px;
     text-decoration: none;
     color: var(--text-dark);
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
     border: 1px solid var(--border);
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.portal-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, transparent, rgba(10, 70, 228, 0.05));
+    opacity: 0;
+    transition: opacity 0.5s ease;
 }
 
 .portal-card:hover {
-    transform: translateY(-12px) scale(1.02);
+    transform: translateY(-16px) scale(1.02);
     border-color: var(--primary);
-    box-shadow: 0 25px 50px -12px rgba(37, 99, 235, 0.2);
+    box-shadow: 0 40px 80px -20px rgba(10, 70, 228, 0.15);
+}
+
+.portal-card:hover::before {
+    opacity: 1;
 }
 
 .icon-box {
-    width: 90px;
-    height: 90px;
+    width: 100px;
+    height: 100px;
     background: var(--primary-light);
     color: var(--primary);
-    border-radius: 28px;
+    border-radius: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 40px;
-    font-size: 2.5rem;
+    margin-bottom: 48px;
+    font-size: 3rem;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 10px 20px -5px rgba(10, 70, 228, 0.1);
 }
 
 .portal-card:hover .icon-box {
     background: var(--primary);
     color: white;
-    transform: rotate(10deg);
+    transform: rotate(12deg) scale(1.1);
+    box-shadow: 0 20px 40px -10px rgba(10, 70, 228, 0.4);
 }
 
 .portal-card h3 {
-    font-size: 1.8rem;
-    margin-bottom: 15px;
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+    letter-spacing: -0.04em;
 }
 
 .portal-card p {
     color: var(--text-soft);
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     line-height: 1.6;
 }
 
 .cta-link {
-    margin-top: 30px;
+    margin-top: 40px;
     font-weight: 800;
     color: var(--primary);
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
+    font-size: 1.1rem;
+}
+
+.cta-link::after {
+    content: '→';
+    transition: transform 0.3s ease;
+}
+
+.portal-card:hover .cta-link::after {
+    transform: translateX(8px);
 }
 
 @media (max-width: 768px) {
     .landing-wrapper {
-        padding: 60px 20px;
+        padding: 80px 24px;
     }
 
     .hero h1 {
         font-size: 3.5rem;
+    }
+
+    .hero p {
+        font-size: 1.4rem;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .portal-card {
+        padding: 60px 32px;
+        Border-radius: 36px;
     }
 }

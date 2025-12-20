@@ -7,77 +7,99 @@
     <title>LOCOTrack - Supreme Architect</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/admin.css">
+    <style>
+        :root {
+            --supreme: #7c3aed;
+            --supreme-light: #f5f3ff;
+        }
+
+        .btn-supreme {
+            background: var(--supreme) !important;
+            color: white !important;
+        }
+
+        .btn-supreme:hover {
+            box-shadow: 0 20px 25px -10px rgba(124, 58, 237, 0.4) !important;
+            transform: translateY(-4px);
+        }
+
+        .text-supreme {
+            color: var(--supreme) !important;
+        }
+
+        .brand-logo-supreme {
+            background: var(--supreme) !important;
+        }
+    </style>
 </head>
 
 <body class="page-wrapper">
-    <!-- Auth Section -->
-    <div id="loginSection" class="driver-card" style="margin: 100px auto; max-width: 500px;">
-        <header class="brand-title" style="color: #7c3aed;">
-            <div class="brand-icon" style="background: #7c3aed;">⭐</div>
-            Supreme Login
+    <!-- Supreme Auth Context -->
+    <div id="loginSection" class="overlay-inner" style="margin: 80px auto; max-width: 500px; pointer-events: auto;">
+        <header class="brand-title text-supreme">
+            <div class="brand-logo-node brand-logo-supreme">👑</div>
+            Supreme Control
         </header>
         <div class="input-group">
             <div class="form-field">
-                <label>Admin Username</label>
+                <div class="field-label">Architect ID</div>
                 <input type="text" id="saUsername" placeholder="Enter master user">
             </div>
             <div class="form-field">
-                <label>Master Passcode</label>
-                <input type="password" id="saPassword" placeholder="Enter password">
+                <div class="field-label">Master Passcode</div>
+                <input type="password" id="saPassword" placeholder="Enter security key">
             </div>
-            <button class="btn btn-primary" style="background: #7c3aed;" onclick="superLogin()">Engage Control
-                Panel</button>
+            <button class="btn btn-primary btn-supreme" onclick="superLogin()">Engage Core Infrastructure</button>
         </div>
     </div>
 
-    <!-- Global Management -->
+    <!-- Global Infrastructure Workspace -->
     <div id="dashboardSection" style="display: none;">
         <header class="admin-header">
             <div>
-                <h4 style="color: #7c3aed; font-weight: 800; font-size: 0.9rem; text-transform: uppercase;">System
-                    Global</h4>
-                <h1>Supreme Control</h1>
+                <div class="field-label text-supreme" style="margin-bottom: 4px;">Global Infrastructure</div>
+                <h1 style="font-size: 2.2rem; letter-spacing: -0.05em;">Supreme Command</h1>
             </div>
-            <button class="btn btn-danger" style="width: auto; padding: 12px 24px;" onclick="logout()">Terminate
-                System</button>
+            <button class="btn btn-danger" style="width: auto; padding: 14px 28px;" onclick="logout()">Terminate
+                Session</button>
         </header>
 
         <main class="dashboard-grid">
             <div class="card">
-                <h2 style="margin-bottom: 30px;">Create Institution</h2>
+                <h2 style="margin-bottom: 35px; font-size: 1.8rem;">Provision New Institution</h2>
                 <div class="input-group">
                     <div class="form-field">
-                        <label>Institutional Name</label>
+                        <div class="field-label">Institutional Destination</div>
                         <input type="text" id="newOrgName" placeholder="e.g. Dream State University">
                     </div>
                     <div class="form-field">
-                        <label>Short Identifier Code</label>
+                        <div class="field-label">Short Identifier Node</div>
                         <input type="text" id="newOrgCode" placeholder="e.g. DSU">
                     </div>
                     <div class="form-field">
-                        <label>Admin Username Allocation</label>
+                        <div class="field-label">Admin ID Allocation</div>
                         <input type="text" id="newOrgAdminUser" placeholder="admin_username">
                     </div>
                     <div class="form-field">
-                        <label>Admin Password Allocation</label>
+                        <div class="field-label">Access Token Allocation</div>
                         <input type="password" id="newOrgAdminPass" placeholder="password">
                     </div>
-                    <button class="btn btn-primary" style="background: #7c3aed;" onclick="addOrganization()">Register
+                    <button class="btn btn-primary btn-supreme" onclick="addOrganization()">Register
                         Institution</button>
                 </div>
             </div>
 
             <div class="card">
-                <h2 style="margin-bottom: 30px;">Master Registry</h2>
-                <div class="table-wrapper">
-                    <table>
+                <h2 style="margin-bottom: 35px; font-size: 1.8rem;">Master Node Registry</h2>
+                <div class="data-registry">
+                    <table class="registry-table">
                         <thead>
                             <tr>
-                                <th>Code</th>
+                                <th>Node</th>
                                 <th>Institution</th>
-                                <th>Admin</th>
-                                <th>Fleet Size</th>
-                                <th>Ops</th>
+                                <th>Lead Admin</th>
+                                <th>Fleet Capacity</th>
+                                <th>Registry Ops</th>
                             </tr>
                         </thead>
                         <tbody id="orgTableBody"></tbody>

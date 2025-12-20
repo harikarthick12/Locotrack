@@ -133,16 +133,16 @@ function renderTable(buses) {
     buses.forEach(bus => {
         const tr = document.createElement('tr');
 
-        const statusClass = bus.status === 'online' ? 'status-online' : 'status-offline';
-        const statusText = bus.status === 'online' ? 'Online' : 'Offline';
+        const statusClass = bus.status === 'online' ? 'online' : 'offline';
+        const statusText = bus.status === 'online' ? 'Active Uplink' : 'Node Offline';
 
         tr.innerHTML = `
-            <td><strong style="color: var(--primary); font-weight: 700;">${bus.busNumber || '-'}</strong></td>
-            <td><span style="font-family: monospace; color: var(--text-muted);">${bus.regNo}</span></td>
-            <td>${bus.route}</td>
-            <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+            <td><strong style="color: var(--primary); font-weight: 800; font-size: 1.1rem;">${bus.busNumber || '-'}</strong></td>
+            <td><span style="font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; color: var(--text-soft); font-weight: 600;">${bus.regNo}</span></td>
+            <td><span style="font-weight: 600;">${bus.route}</span></td>
+            <td><span class="status-tag ${statusClass}">${statusText}</span></td>
             <td>
-                <button class="btn btn-danger" style="padding: 8px 16px; font-size: 0.8rem; width: auto;" onclick="removeBus('${bus.regNo}')">Remove</button>
+                <button class="btn btn-danger" style="padding: 10px 20px; font-size: 0.85rem; width: auto; font-weight: 800; letter-spacing: 0.05em;" onclick="removeBus('${bus.regNo}')">Terminate Node</button>
             </td>
         `;
         tbody.appendChild(tr);

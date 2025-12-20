@@ -10,75 +10,75 @@
 </head>
 
 <body class="page-wrapper">
-    <!-- Login Modal -->
-    <div id="loginSection" class="driver-card" style="margin: 100px auto; max-width: 500px;">
+    <!-- Login Context -->
+    <div id="loginSection" class="overlay-inner" style="margin: 80px auto; max-width: 500px; pointer-events: auto;">
         <header class="brand-title">
-            <div class="brand-icon">🔑</div>
-            Admin Login
+            <div class="brand-logo-node">🔐</div>
+            Ops Control
         </header>
         <div class="input-group">
             <div class="form-field">
-                <label>Select Institution</label>
+                <div class="field-label">Institutional Node</div>
                 <select id="collegeSelect">
-                    <option value="" disabled selected>-- Choose Institution --</option>
+                    <option value="" disabled selected>-- Select Organization --</option>
                 </select>
             </div>
 
             <div class="form-field">
-                <label>Username</label>
-                <input type="text" id="adminUsername" placeholder="Admin username">
+                <div class="field-label">Administrative ID</div>
+                <input type="text" id="adminUsername" placeholder="Authorized user">
             </div>
 
             <div class="form-field">
-                <label>Password</label>
-                <input type="password" id="adminPassword" placeholder="Enter password">
+                <div class="field-label">Access Passcode</div>
+                <input type="password" id="adminPassword" placeholder="Security key">
             </div>
 
-            <button class="btn btn-primary" style="margin-top: 20px;" onclick="adminLogin()">Access Dashboard
-                🔓</button>
+            <button class="btn btn-primary" style="margin-top: 20px;" onclick="adminLogin()">
+                Establish Session
+            </button>
         </div>
     </div>
 
-    <!-- Main Workspace -->
+    <!-- Telemetry Workspace -->
     <div id="dashboardSection" style="display: none;">
         <header class="admin-header">
             <div>
-                <h4 id="adminCollegeName"
-                    style="color: var(--primary); font-weight: 800; font-size: 0.9rem; text-transform: uppercase;">
-                    Institutional Node</h4>
-                <h1>System Control</h1>
+                <div id="adminCollegeName" class="field-label" style="color: var(--primary); margin-bottom: 4px;">
+                    Institutional Node</div>
+                <h1 style="font-size: 2.2rem; letter-spacing: -0.05em;">System Command</h1>
             </div>
-            <button class="btn btn-danger" style="width: auto; padding: 12px 24px;" onclick="logout()">Terminate
-                Session</button>
+            <button class="btn btn-danger" style="width: auto; padding: 14px 28px;" onclick="logout()">Terminate
+                Uplink</button>
         </header>
 
         <main class="dashboard-grid">
             <div class="stats-bar">
                 <div class="stat-unit">
-                    <small>Fleet Capacity</small>
+                    <small>Fleet Allocation</small>
                     <strong id="totalBuses">0</strong>
                 </div>
                 <div class="stat-unit">
-                    <small>Uplinks Online</small>
+                    <small>Active Uplinks</small>
                     <strong id="onlineBuses" style="color: var(--success);">0</strong>
                 </div>
                 <div class="stat-unit">
-                    <small>Offline Nodes</small>
-                    <strong id="offlineBuses" style="color: var(--secondary);">0</strong>
+                    <small>Inactive Nodes</small>
+                    <strong id="offlineBuses" style="color: var(--text-soft);">0</strong>
                 </div>
             </div>
 
-            <div class="card">
-                <h2 style="margin-bottom: 30px;">Vehicle Registry</h2>
-                <div class="table-wrapper">
-                    <table>
+            <div class="card" style="grid-column: 1 / -1 if needed; overflow: visible;">
+                <h2 style="margin-bottom: 35px; font-size: 1.8rem;">Vehicle Data Registry</h2>
+                <div class="data-registry">
+                    <table class="registry-table">
                         <thead>
                             <tr>
-                                <th>Bus ID</th>
-                                <th>Registration</th>
-                                <th>Route</th>
-                                <th>Status</th>
-                                <th>Actions</th>
+                                <th>Terminal ID</th>
+                                <th>Hardware ID</th>
+                                <th>Route Node</th>
+                                <th>Uplink Status</th>
+                                <th>Surgical Ops</th>
                             </tr>
                         </thead>
                         <tbody id="busTableBody"></tbody>
@@ -87,40 +87,40 @@
             </div>
 
             <div class="card">
-                <h2 style="margin-bottom: 30px;">Add New Vehicle</h2>
+                <h2 style="margin-bottom: 35px; font-size: 1.8rem;">Provision New Node</h2>
                 <div class="input-group">
                     <div class="form-field">
-                        <label>Bus ID (e.g. A4)</label>
-                        <input type="text" id="newBusNumber" placeholder="Friendly name">
+                        <div class="field-label">Terminal ID (e.g. A4)</div>
+                        <input type="text" id="newBusNumber" placeholder="Logical identifier">
                     </div>
 
                     <div class="form-field">
-                        <label>Registration Number</label>
-                        <input type="text" id="newBusReg" placeholder="Official number">
+                        <div class="field-label">Hardware Identifier</div>
+                        <input type="text" id="newBusReg" placeholder="Registration node">
                     </div>
 
                     <div class="form-field">
-                        <label>Route Label</label>
-                        <input type="text" id="newBusRoute" placeholder="e.g. Campus Area">
+                        <div class="field-label">Route Designation</div>
+                        <input type="text" id="newBusRoute" placeholder="Regional area">
                     </div>
 
                     <div class="form-field">
-                        <label>Start Hub</label>
-                        <input type="text" id="newBusStart" placeholder="Origin Node">
+                        <div class="field-label">Primary Hub</div>
+                        <input type="text" id="newBusStart" placeholder="Origin source">
                     </div>
 
                     <div class="form-field">
-                        <label>End Hub</label>
-                        <input type="text" id="newBusDestination" placeholder="Final Node">
+                        <div class="field-label">Terminal Hub</div>
+                        <input type="text" id="newBusDestination" placeholder="Final sink">
                     </div>
 
                     <div class="form-field">
-                        <label>Transit Stops (One per line)</label>
+                        <div class="field-label">Transit Nodes (Line-delimited)</div>
                         <textarea id="newBusStops"
-                            style="width: 100%; min-height: 120px; padding: 20px; border-radius: 18px; border: 1px solid var(--border); font-family: inherit; resize: vertical;"></textarea>
+                            style="width: 100%; min-height: 140px; padding: 24px; border-radius: 20px; border: 1.5px solid var(--border-rich); background: var(--bg-main); font-family: inherit; resize: vertical; outline: none; transition: 0.3s;"></textarea>
                     </div>
 
-                    <button class="btn btn-primary" onclick="addBus()">Register Vehicle ⨮</button>
+                    <button class="btn btn-primary" onclick="addBus()">Register Node</button>
                 </div>
             </div>
         </main>

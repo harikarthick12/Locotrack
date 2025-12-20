@@ -176,13 +176,15 @@ function updateDistance() {
     const eta = Math.round((distance / 40) * 60);
 
     distanceDiv.innerHTML = `
-        <div class="info-row">
-            <span class="info-label">Current Separation</span>
-            <span class="info-value">${distanceText}</span>
-        </div>
-        <div class="info-row">
-            <span class="info-label">Estimated Arrival</span>
-            <span class="info-value">~${eta}min</span>
+        <div class="telemetry-card" style="margin-top: 20px;">
+            <div class="info-card-row">
+                <div class="field-label">Current Separation</div>
+                <span class="info-card-value" style="font-weight: 800; font-family: monospace; color: var(--primary);">${distanceText}</span>
+            </div>
+            <div class="info-card-row" style="margin-top: 15px;">
+                <div class="field-label">Time to Intercept</div>
+                <span class="info-card-value" style="font-weight: 800;">~${eta} SECONDS</span>
+            </div>
         </div>
     `;
 }
@@ -294,17 +296,33 @@ function displayRouteInfo(routeData) {
     }
 
     let routeHTML = `
-        <div class="info-row">
-            <span class="info-label">Archive Route</span>
-            <span class="info-value">${routeData.route}</span>
+        <div class="telemetry-card" style="margin-top: 20px;">
+            <div class="info-card-row">
+                <div class="field-label">Active Node</div>
+                <span class="info-card-value" style="font-weight: 800; font-family: monospace;">${routeData.busNumber || '-'}</span>
+            </div>
+            <div class="info-card-row" style="margin-top: 15px;">
+                <div class="field-label">Regional Hub</div>
+                <span class="info-card-value">${routeData.route}</span>
+            </div>
+            <div class="info-card-row" style="margin-top: 15px;">
+                <div class="field-label">Node Source</div>
+                <span class="info-card-value">${routeData.start || '-'}</span>
+            </div>
+            <div class="info-card-row" style="margin-top: 15px;">
+                <div class="field-label">Terminal Sink</div>
+                <span class="info-card-value">${routeData.destination || '-'}</span>
+            </div>
         </div>
     `;
 
-    if (routeData.start || routeData.destination) {
+    if (routeData.stops && routeData.stops.length > 0) {
         routeHTML += `
-            <div class="info-row">
-                <span class="info-label">Trajectory</span>
-                <span class="info-value">${routeData.start || '-'} → ${routeData.destination || '-'}</span>
+            <div class="telemetry-card" style="margin-top: 20px;">
+                <div class="field-label" style="margin-bottom: 12px;">Satellite Transits</div>
+                <div class="transit-nodes" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                    ${routeData.stops.map(stop => `<span class="status-tag" style="background: var(--bg-main); font-size: 0.75rem; border: 1px solid var(--border-rich); color: var(--text-soft);">${stop}</span>`).join('')}
+                </div>
             </div>
         `;
     }

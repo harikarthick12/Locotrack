@@ -11,66 +11,71 @@
 <body class="page-wrapper">
     <div class="driver-container">
         <!-- Auth Hub -->
-        <div id="loginSection" class="driver-card">
+        <div id="loginSection" class="overlay-inner" style="margin: 80px auto; max-width: 500px; pointer-events: auto;">
             <header class="brand-title">
-                <div class="brand-icon">🚐</div>
-                Driver Login
+                <div class="brand-logo-node">🔑</div>
+                Driver Uplink
             </header>
 
             <div class="input-group">
-                <!-- ADDED COLLEGE SELECTION FOR CONSISTENCY -->
                 <div class="form-field">
-                    <label>Select Your Institution</label>
+                    <div class="field-label">Institutional Node</div>
                     <select id="collegeSelect">
-                        <option value="" disabled selected>-- Choose College --</option>
+                        <option value="" disabled selected>-- Select Organization --</option>
                     </select>
                 </div>
 
                 <div class="form-field">
-                    <label>Assigned ID (Bus Number)</label>
-                    <input type="text" id="driverUsername" placeholder="Enter your ID">
+                    <div class="field-label">Pilot ID (Vehicle No)</div>
+                    <input type="text" id="driverUsername" placeholder="Enter assigned ID">
                 </div>
 
                 <div class="form-field">
-                    <label>Passcode</label>
-                    <input type="password" id="driverPassword" placeholder="Enter password">
+                    <div class="field-label">Access Passcode</div>
+                    <input type="password" id="driverPassword" placeholder="Enter security key">
                 </div>
 
                 <button class="btn btn-primary" style="margin-top: 10px;" onclick="driverLogin()">
-                    Authenticate & Enter
+                    Initialize Session
                 </button>
             </div>
-            <p style="text-align: center; margin-top: 30px; font-size: 0.85rem; color: #64748b; font-weight: 500;">
-                Live location sharing facilitates campus logistics.
+            <p
+                style="text-align: center; margin-top: 30px; font-size: 0.85rem; color: var(--text-soft); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">
+                Encrypted Telemetry Gateway
             </p>
         </div>
 
         <!-- Broadcast Hub -->
-        <div id="trackingSection" class="driver-card" style="display: none;">
+        <div id="trackingSection" class="overlay-inner"
+            style="display: none; margin: 80px auto; max-width: 500px; pointer-events: auto;">
             <header class="brand-title">
-                <div class="brand-icon">📡</div>
-                Live Stream
+                <div class="brand-logo-node">📡</div>
+                Live Broadcast
             </header>
 
-            <div class="info-card">
+            <div class="telemetry-card">
                 <div class="info-card-row">
-                    <span class="info-card-label">Active Vehicle</span>
-                    <span id="displayRegNo" class="info-card-value">-</span>
+                    <div class="field-label">Active Node</div>
+                    <span id="displayRegNo" class="info-card-value"
+                        style="font-weight: 800; font-family: monospace;">-</span>
                 </div>
             </div>
 
-            <div style="margin-top: 30px;">
+            <div style="margin-top: 35px;">
                 <button id="toggleBtn" class="btn btn-primary" onclick="toggleTracking()">
-                    🚀 Start Live Broadcast
+                    Establish Broadcast
                 </button>
             </div>
 
-            <div id="statusIndicator" class="status-indicator">
-                <span id="statusText" style="font-size: 0.9rem;">Ready for transmission</span>
+            <div id="statusIndicator" class="telemetry-card"
+                style="margin-top: 25px; background: rgba(10, 70, 228, 0.03); border: 1.5px dashed var(--border-rich);">
+                <div id="statusText"
+                    style="font-size: 0.9rem; font-weight: 800; color: var(--text-soft); text-align: center;">Ready for
+                    transmission</div>
             </div>
 
-            <button class="btn btn-danger" onclick="driverLogout()" style="margin-top: 80px; width: 100%;">
-                Stop & Terminate Session
+            <button class="btn btn-danger" onclick="driverLogout()" style="margin-top: 60px; width: 100%;">
+                Terminate Uplink
             </button>
         </div>
     </div>

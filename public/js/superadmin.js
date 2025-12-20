@@ -43,11 +43,11 @@ async function fetchOrganizations() {
     orgs.forEach(org => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-            <td><strong style="color: var(--primary); font-weight: 700;">${org.code}</strong></td>
-            <td>${org.name}</td>
-            <td><span style="font-family: monospace; color: var(--text-muted);">${org.adminUsername || 'None'}</span></td>
-            <td><span class="status-badge" style="background: #eff6ff; color: #3b82f6;">${org.busCount || 0} Buses</span></td>
-            <td><button class="btn btn-danger" style="padding: 8px 16px; font-size: 0.8rem; width: auto;" onclick="deleteOrg('${org._id}')">Delete</button></td>
+            <td><strong style="color: var(--supreme); font-weight: 800; font-size: 1.1rem;">${org.code}</strong></td>
+            <td><span style="font-weight: 600;">${org.name}</span></td>
+            <td><span style="font-family: 'JetBrains Mono', monospace; color: var(--text-soft); font-weight: 600;">${org.adminUsername || 'None'}</span></td>
+            <td><span class="status-tag" style="background: var(--supreme-light); color: var(--supreme);">${org.busCount || 0} Registered Nodes</span></td>
+            <td><button class="btn btn-danger" style="padding: 10px 20px; font-size: 0.85rem; width: auto; font-weight: 800; letter-spacing: 0.05em;" onclick="deleteOrg('${org._id}')">Decommission</button></td>
         `;
         tbody.appendChild(tr);
     });
