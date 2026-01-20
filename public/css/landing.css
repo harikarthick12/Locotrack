@@ -118,6 +118,7 @@ body {
     margin-bottom: 32px;
     background: linear-gradient(180deg, var(--text-main) 0%, var(--text-secondary) 120%);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
