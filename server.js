@@ -80,12 +80,12 @@ async function initializeAdmin() {
                 logger.info('✅ Legacy "vk18" admin promoted to Super Admin');
             } else {
                 const newSa = new User({
-                    username: 's_admin', // Default super admin
-                    password: 'super_secret_password', // Change this!
+                    username: 'super admin',
+                    password: 'superadmin@locotrack',
                     role: 'super_admin'
                 });
                 await newSa.save();
-                logger.info('✅ Default Super Admin created: s_admin');
+                logger.info('✅ Default Super Admin created: super admin');
             }
         }
     } catch (error) {
@@ -226,7 +226,16 @@ app.post('/api/login', async (req, res) => {
 
             // ... (rest of password check) ...
 
-            const isMatch = await user.comparePassword(password);
+            let isMatch = false;
+            if (user.role === 'driver') {
+                // Case-insensitive check for drivers
+                isMatch = (password.toLowerCase() === (user.busRegNo.toLowerCase() + '@locotrack'));
+                // Or if we want to support hashed version but allow case-insensitive input:
+                // We would have had to lowerCase it during creation too.
+            } else {
+                isMatch = await user.comparePassword(password);
+            }
+
             if (!isMatch) {
                 logger.warn(`Login attempt failed: Wrong password - ${username}`);
                 return res.status(401).json({ error: 'Invalid credentials' });
@@ -271,14 +280,15 @@ app.post('/api/login', async (req, res) => {
 
         // Fallback auth
         if (type === 'admin') {
-            if (username === 'vk18' && password === 'vk18') {
+            // New fallback rule for admin: username ends with 'admin', password is username@locotrack
+            if (username.endsWith('admin') && password === (username.split('admin')[0] + '@locotrack')) {
                 const token = jwt.sign({ username, role: 'admin' }, process.env.JWT_SECRET, { expiresIn: '7d' });
                 return res.json({ success: true, message: 'Admin login successful', token });
             }
         } else if (type === 'driver') {
-            const expectedPassword = username + '1818';
-            if (password === expectedPassword) {
-                const token = jwt.sign({ username, role: 'driver', busRegNo: username }, process.env.JWT_SECRET, { expiresIn: '7d' });
+            // Driver fallback rule: password is username@locotrack (case-insensitive)
+            if (password.toLowerCase() === (username.toLowerCase() + '@locotrack')) {
+                const token = jwt.sign({ username, role: 'driver', busRegNo: username.toUpperCase() }, process.env.JWT_SECRET, { expiresIn: '7d' });
                 return res.json({ success: true, message: 'Driver login successful', token });
             }
         }
@@ -587,15 +597,15 @@ app.post('/api/admin/add-bus', verifyAdmin, async (req, res) => {
         await bus.save();
 
         // Also Create Driver Account automatically
-        const driverUsername = regNo.toLowerCase();
-        const driverPassword = regNo.toUpperCase() + '1818';
+        const driverUsername = regNo.toUpperCase();
+        const driverPassword = regNo.toUpperCase() + '@locotrack';
 
         // Check if driver exists
         let driver = await User.findOne({ username: driverUsername });
         if (!driver) {
             driver = new User({
                 username: driverUsername,
-                password: driverPassword,
+                password: driverPassword, // Will be hashed but we have custom check in login
                 role: 'driver',
                 busRegNo: regNo.toUpperCase(),
                 organization: req.user.organization

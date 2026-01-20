@@ -84,7 +84,7 @@ function toggleTracking() {
         statusIndicator.style.display = 'block';
         statusIndicator.classList.remove('inactive');
         statusIndicator.classList.add('active', 'pulse');
-        statusText.innerText = 'SENDING LOCATION...';
+        statusText.innerText = 'SHARING LOCATION...';
 
         isTracking = true;
 
@@ -122,7 +122,7 @@ function toggleTracking() {
                     statusIndicator.style.borderColor = '#FFC107'; // Yellow
                     statusIndicator.style.color = '#FFC107';
                 } else {
-                    quality = 'BAD (IP-BASED?)';
+                    quality = 'BAD';
                     statusIndicator.style.borderColor = '#FF5252'; // Red
                     statusIndicator.style.color = '#FF5252';
                 }

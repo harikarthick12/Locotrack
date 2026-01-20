@@ -1,18 +1,7 @@
 const map = L.map('map').setView([11.0, 78.0], 7); // Default to Tamil Nadu center
 
-// Define map layers
-const streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap contributors',
-    maxZoom: 19
-});
-
-const satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-    attribution: 'Tiles © Esri',
-    maxZoom: 19
-});
-
-// Hybrid layer - Satellite with labels
-const hybridLayer = L.layerGroup([
+// Combined Layer - Satellite with labels
+const baseLayer = L.layerGroup([
     L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
         attribution: 'Tiles © Esri',
         maxZoom: 19
@@ -21,26 +10,9 @@ const hybridLayer = L.layerGroup([
         attribution: '© CARTO',
         maxZoom: 19
     })
-]);
+]).addTo(map);
 
-const terrainLayer = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
-    attribution: 'Map data: © OpenStreetMap contributors, SRTM | Map style: © OpenTopoMap',
-    maxZoom: 17
-});
-
-// Add default layer (street)
-streetLayer.addTo(map);
-
-// Layer control
-const baseLayers = {
-    "Street View": streetLayer,
-    "Satellite (Hybrid)": hybridLayer,
-    "Satellite (No Labels)": satelliteLayer,
-    "Terrain View": terrainLayer
-};
-
-L.control.layers(baseLayers).addTo(map);
-
+// Define markers and other variables
 let busMarker = null;
 let userMarker = null;
 let accuracyCircle = null;
@@ -178,11 +150,11 @@ function updateDistance() {
     distanceDiv.innerHTML = `
         <div class="telemetry-card" style="margin-top: 20px;">
             <div class="info-card-row">
-                <div class="field-label">Current Separation</div>
+                <div class="field-label">Distance from you</div>
                 <span class="info-card-value" style="font-weight: 800; font-family: monospace; color: var(--primary);">${distanceText}</span>
             </div>
             <div class="info-card-row" style="margin-top: 15px;">
-                <div class="field-label">Time to Intercept</div>
+                <div class="field-label">Estimated Arrival</div>
                 <span class="info-card-value" style="font-weight: 800;">~${eta} SECONDS</span>
             </div>
         </div>
@@ -298,19 +270,19 @@ function displayRouteInfo(routeData) {
     let routeHTML = `
         <div class="telemetry-card" style="margin-top: 20px;">
             <div class="info-card-row">
-                <div class="field-label">Active Node</div>
+                <div class="field-label">Bus Number</div>
                 <span class="info-card-value" style="font-weight: 800; font-family: monospace;">${routeData.busNumber || '-'}</span>
             </div>
             <div class="info-card-row" style="margin-top: 15px;">
-                <div class="field-label">Regional Hub</div>
+                <div class="field-label">Route Name</div>
                 <span class="info-card-value">${routeData.route}</span>
             </div>
             <div class="info-card-row" style="margin-top: 15px;">
-                <div class="field-label">Node Source</div>
+                <div class="field-label">Starting Point</div>
                 <span class="info-card-value">${routeData.start || '-'}</span>
             </div>
             <div class="info-card-row" style="margin-top: 15px;">
-                <div class="field-label">Terminal Sink</div>
+                <div class="field-label">Destination</div>
                 <span class="info-card-value">${routeData.destination || '-'}</span>
             </div>
         </div>
@@ -319,7 +291,7 @@ function displayRouteInfo(routeData) {
     if (routeData.stops && routeData.stops.length > 0) {
         routeHTML += `
             <div class="telemetry-card" style="margin-top: 20px;">
-                <div class="field-label" style="margin-bottom: 12px;">Satellite Transits</div>
+                <div class="field-label" style="margin-bottom: 12px;">Bus Stops</div>
                 <div class="transit-nodes" style="display: flex; flex-wrap: wrap; gap: 10px;">
                     ${routeData.stops.map(stop => `<span class="status-tag" style="background: var(--bg-main); font-size: 0.75rem; border: 1px solid var(--border-rich); color: var(--text-soft);">${stop}</span>`).join('')}
                 </div>
@@ -384,7 +356,7 @@ function updateMapLocation(data) {
     }
 
     // Update Info
-    document.getElementById('statusText').innerText = 'Live Signal Active';
+    document.getElementById('statusText').innerText = 'Bus is Live';
     document.getElementById('statusText').style.color = '#059669';
 
     const date = new Date(updatedAt);

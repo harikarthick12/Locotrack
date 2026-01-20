@@ -134,7 +134,7 @@ function renderTable(buses) {
         const tr = document.createElement('tr');
 
         const statusClass = bus.status === 'online' ? 'online' : 'offline';
-        const statusText = bus.status === 'online' ? 'Active Uplink' : 'Node Offline';
+        const statusText = bus.status === 'online' ? 'Online' : 'Offline';
 
         tr.innerHTML = `
             <td><strong style="color: var(--primary); font-weight: 800; font-size: 1.1rem;">${bus.busNumber || '-'}</strong></td>
@@ -142,7 +142,7 @@ function renderTable(buses) {
             <td><span style="font-weight: 600;">${bus.route}</span></td>
             <td><span class="status-tag ${statusClass}">${statusText}</span></td>
             <td>
-                <button class="btn btn-danger" style="padding: 10px 20px; font-size: 0.85rem; width: auto; font-weight: 800; letter-spacing: 0.05em;" onclick="removeBus('${bus.regNo}')">Terminate Node</button>
+                <button class="btn btn-danger" style="padding: 10px 20px; font-size: 0.85rem; width: auto; font-weight: 800; letter-spacing: 0.05em;" onclick="removeBus('${bus.regNo}')">Delete Bus</button>
             </td>
         `;
         tbody.appendChild(tr);

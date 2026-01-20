@@ -79,8 +79,8 @@ async function fetchOrganizations() {
             <td><strong style="color: var(--supreme); font-weight: 800; font-size: 1.1rem;">${org.code}</strong></td>
             <td><span style="font-weight: 600;">${org.name}</span></td>
             <td><span style="font-family: 'JetBrains Mono', monospace; color: var(--text-soft); font-weight: 600;">${org.adminUsername || 'None'}</span></td>
-            <td><span class="status-tag" style="background: var(--supreme-light); color: var(--supreme);">${org.busCount || 0} Registered Nodes</span></td>
-            <td><button class="btn btn-danger" style="padding: 10px 20px; font-size: 0.85rem; width: auto; font-weight: 800; letter-spacing: 0.05em;" onclick="deleteOrg('${org._id}')">Decommission</button></td>
+            <td><span class="status-tag" style="background: var(--supreme-light); color: var(--supreme);">${org.busCount || 0} Buses</span></td>
+            <td><button class="btn btn-danger" style="padding: 10px 20px; font-size: 0.85rem; width: auto; font-weight: 800; letter-spacing: 0.05em;" onclick="deleteOrg('${org._id}')">Delete College</button></td>
         `;
         tbody.appendChild(tr);
     });
