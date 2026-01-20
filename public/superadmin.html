@@ -38,18 +38,18 @@
     <div id="loginSection" class="overlay-inner" style="margin: 80px auto; max-width: 500px; pointer-events: auto;">
         <header class="brand-title text-supreme">
             <div class="brand-logo-node brand-logo-supreme">👑</div>
-            Supreme Control
+            Super Admin Portal
         </header>
         <div class="input-group">
             <div class="form-field">
-                <div class="field-label">Architect ID</div>
+                <div class="field-label">Username</div>
                 <input type="text" id="saUsername" placeholder="Enter master user">
             </div>
             <div class="form-field">
-                <div class="field-label">Master Passcode</div>
+                <div class="field-label">Password</div>
                 <input type="password" id="saPassword" placeholder="Enter security key">
             </div>
-            <button class="btn btn-primary btn-supreme" onclick="superLogin()">Engage Core Infrastructure</button>
+            <button class="btn btn-primary btn-supreme" onclick="superLogin()">Login</button>
         </div>
     </div>
 
@@ -57,53 +57,54 @@
     <div id="dashboardSection" style="display: none;">
         <header class="admin-header">
             <div>
-                <div class="field-label text-supreme" style="margin-bottom: 4px;">Global Infrastructure</div>
-                <h1 style="font-size: 2.2rem; letter-spacing: -0.05em;">Supreme Command</h1>
+                <div class="field-label text-supreme" style="margin-bottom: 4px;">Super Admin</div>
+                <h1 style="font-size: 2.2rem; letter-spacing: -0.05em;">Dashboard</h1>
             </div>
-            <button class="btn btn-danger" style="width: auto; padding: 14px 28px;" onclick="logout()">Terminate
-                Session</button>
+            <button class="btn btn-danger" style="width: auto; padding: 14px 28px;" onclick="logout()">Logout</button>
         </header>
 
         <main class="dashboard-grid">
+            <!-- College List (Main Area) -->
             <div class="card">
-                <h2 style="margin-bottom: 35px; font-size: 1.8rem;">Provision New Institution</h2>
-                <div class="input-group">
-                    <div class="form-field">
-                        <div class="field-label">Institutional Destination</div>
-                        <input type="text" id="newOrgName" placeholder="e.g. Dream State University">
-                    </div>
-                    <div class="form-field">
-                        <div class="field-label">Short Identifier Node</div>
-                        <input type="text" id="newOrgCode" placeholder="e.g. DSU">
-                    </div>
-                    <div class="form-field">
-                        <div class="field-label">Admin ID Allocation</div>
-                        <input type="text" id="newOrgAdminUser" placeholder="admin_username">
-                    </div>
-                    <div class="form-field">
-                        <div class="field-label">Access Token Allocation</div>
-                        <input type="password" id="newOrgAdminPass" placeholder="password">
-                    </div>
-                    <button class="btn btn-primary btn-supreme" onclick="addOrganization()">Register
-                        Institution</button>
-                </div>
-            </div>
-
-            <div class="card">
-                <h2 style="margin-bottom: 35px; font-size: 1.8rem;">Master Node Registry</h2>
+                <h2 style="margin-bottom: 35px; font-size: 1.8rem;">College List</h2>
                 <div class="data-registry">
                     <table class="registry-table">
                         <thead>
                             <tr>
-                                <th>Node</th>
-                                <th>Institution</th>
-                                <th>Lead Admin</th>
-                                <th>Fleet Capacity</th>
-                                <th>Registry Ops</th>
+                                <th>Code</th>
+                                <th>College Name</th>
+                                <th>Admin User</th>
+                                <th>Total Buses</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody id="orgTableBody"></tbody>
                     </table>
+                </div>
+            </div>
+
+            <!-- Add New College (Sidebar) -->
+            <div class="card">
+                <h2 style="margin-bottom: 35px; font-size: 1.8rem;">Add New College</h2>
+                <div class="input-group">
+                    <div class="form-field">
+                        <div class="field-label">College Name</div>
+                        <input type="text" id="newOrgName" placeholder="e.g. Dream State University">
+                    </div>
+                    <div class="form-field">
+                        <div class="field-label">College Code</div>
+                        <input type="text" id="newOrgCode" placeholder="e.g. DSU">
+                    </div>
+                    <div class="form-field">
+                        <div class="field-label">Admin Username</div>
+                        <input type="text" id="newOrgAdminUser" placeholder="admin_username">
+                    </div>
+                    <div class="form-field">
+                        <div class="field-label">Password</div>
+                        <input type="password" id="newOrgAdminPass" placeholder="password">
+                    </div>
+                    <button class="btn btn-primary btn-supreme" onclick="addOrganization()">Register
+                        Institution</button>
                 </div>
             </div>
         </main>

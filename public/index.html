@@ -22,7 +22,7 @@
 
             <div class="input-group">
                 <div class="form-field">
-                    <div class="field-label">Institutional Node</div>
+                    <div class="field-label">Select College</div>
                     <select id="collegeSelect">
                         <option value="" disabled selected>Select Organization</option>
                     </select>
@@ -30,11 +30,11 @@
 
                 <div id="searchGroup" style="display: none;">
                     <div class="form-field">
-                        <div class="field-label">Vehicle Identifier</div>
-                        <input type="text" id="busRegInput" placeholder="Bus Number (e.g. A4)">
+                        <div class="field-label">Bus Number</div>
+                        <input type="text" id="busRegInput" placeholder="Enter Bus Number (e.g. A4)">
                     </div>
                     <button class="btn btn-primary" onclick="trackBus()" style="margin-top: 20px;">
-                        Establish Tracking
+                        Track Bus
                     </button>
                 </div>
             </div>
@@ -42,10 +42,10 @@
             <div id="busInfo" class="bus-info" style="display: none;">
                 <div class="telemetry-card">
                     <div class="info-card-row">
-                        <div class="field-label">Uplink Status</div>
+                        <div class="field-label">Status</div>
                         <div id="statusText" class="signal-node">
                             <span class="pulse-node"></span>
-                            Live Tracing
+                            Live Tracking
                         </div>
                     </div>
                     <div class="info-card-row" style="margin-top: 15px;">

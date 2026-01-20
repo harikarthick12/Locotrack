@@ -14,34 +14,34 @@
         <div id="loginSection" class="overlay-inner" style="margin: 80px auto; max-width: 500px; pointer-events: auto;">
             <header class="brand-title">
                 <div class="brand-logo-node">🔑</div>
-                Driver Uplink
+                Driver Portal
             </header>
 
             <div class="input-group">
                 <div class="form-field">
-                    <div class="field-label">Institutional Node</div>
+                    <div class="field-label">Select College</div>
                     <select id="collegeSelect">
                         <option value="" disabled selected>-- Select Organization --</option>
                     </select>
                 </div>
 
                 <div class="form-field">
-                    <div class="field-label">Pilot ID (Vehicle No)</div>
+                    <div class="field-label">Bus Number / User ID</div>
                     <input type="text" id="driverUsername" placeholder="Enter assigned ID">
                 </div>
 
                 <div class="form-field">
-                    <div class="field-label">Access Passcode</div>
+                    <div class="field-label">Password</div>
                     <input type="password" id="driverPassword" placeholder="Enter security key">
                 </div>
 
                 <button class="btn btn-primary" style="margin-top: 10px;" onclick="driverLogin()">
-                    Initialize Session
+                    Login
                 </button>
             </div>
             <p
                 style="text-align: center; margin-top: 30px; font-size: 0.85rem; color: var(--text-soft); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">
-                Encrypted Telemetry Gateway
+                Secure Driver System
             </p>
         </div>
 
@@ -50,12 +50,12 @@
             style="display: none; margin: 80px auto; max-width: 500px; pointer-events: auto;">
             <header class="brand-title">
                 <div class="brand-logo-node">📡</div>
-                Live Broadcast
+                Tracking Status
             </header>
 
             <div class="telemetry-card">
                 <div class="info-card-row">
-                    <div class="field-label">Active Node</div>
+                    <div class="field-label">Bus Details</div>
                     <span id="displayRegNo" class="info-card-value"
                         style="font-weight: 800; font-family: monospace;">-</span>
                 </div>
@@ -63,19 +63,19 @@
 
             <div style="margin-top: 35px;">
                 <button id="toggleBtn" class="btn btn-primary" onclick="toggleTracking()">
-                    Establish Broadcast
+                    Start Tracking
                 </button>
             </div>
 
             <div id="statusIndicator" class="telemetry-card"
                 style="margin-top: 25px; background: rgba(10, 70, 228, 0.03); border: 1.5px dashed var(--border-rich);">
                 <div id="statusText"
-                    style="font-size: 0.9rem; font-weight: 800; color: var(--text-soft); text-align: center;">Ready for
-                    transmission</div>
+                    style="font-size: 0.9rem; font-weight: 800; color: var(--text-soft); text-align: center;">Ready to
+                    Track</div>
             </div>
 
             <button class="btn btn-danger" onclick="driverLogout()" style="margin-top: 60px; width: 100%;">
-                Terminate Uplink
+                Stop Tracking & Logout
             </button>
         </div>
     </div>
