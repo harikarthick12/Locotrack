@@ -1,16 +1,42 @@
 const map = L.map('map').setView([11.0, 78.0], 7); // Default to Tamil Nadu center
 
-// Combined Layer - Satellite with labels
-const baseLayer = L.layerGroup([
-    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-        attribution: 'Tiles © Esri',
-        maxZoom: 19
-    }),
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}.png', {
-        attribution: '© CARTO',
-        maxZoom: 19
-    })
-]).addTo(map);
+// Define Tiles
+const lightTiles = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    attribution: '© OpenStreetMap contributors © CARTO',
+    subdomains: 'abcd',
+    maxZoom: 20
+});
+
+const darkTiles = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    attribution: '© OpenStreetMap contributors © CARTO',
+    subdomains: 'abcd',
+    maxZoom: 20
+});
+
+// Initial Layer based on theme
+const currentTheme = localStorage.getItem('loco-theme') || 'light';
+const baseLayer = currentTheme === 'dark' ? darkTiles : lightTiles;
+baseLayer.addTo(map);
+
+// Keep track of active base layer
+let activeBaseLayer = baseLayer;
+
+// Handle Theme Change for Map
+window.addEventListener('storage', (e) => {
+    if (e.key === 'loco-theme') {
+        const newTheme = e.newValue;
+        map.removeLayer(activeBaseLayer);
+        activeBaseLayer = newTheme === 'dark' ? darkTiles : lightTiles;
+        activeBaseLayer.addTo(map);
+    }
+});
+
+// Since theme.js calls setTheme which updates data-theme, we can also use a MutationObserver or just a global function
+window.updateMapTheme = (theme) => {
+    map.removeLayer(activeBaseLayer);
+    activeBaseLayer = theme === 'dark' ? darkTiles : lightTiles;
+    activeBaseLayer.addTo(map);
+};
 
 // Define markers and other variables
 let busMarker = null;

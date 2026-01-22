@@ -21,7 +21,10 @@ function setTheme(theme) {
     themeToggle.innerHTML = theme === 'dark' ? '☀️' : '🌙';
 
     // Update Leaflet Map if present
-    if (typeof map !== 'undefined' && map.eachLayer) {
+    if (typeof updateMapTheme === 'function') {
+        updateMapTheme(theme);
+    } else if (typeof map !== 'undefined' && map.eachLayer) {
+        // Fallback for other pages if they use standard layers
         map.eachLayer(layer => {
             if (layer._url && (layer._url.includes('openstreetmap') || layer._url.includes('cartocdn'))) {
                 const darkTiles = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';

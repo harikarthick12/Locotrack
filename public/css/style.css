@@ -295,8 +295,8 @@ input:focus {
 }
 
 /* Dark Mode Leaflet Fix */
-[data-theme='dark'] .leaflet-tile-pane {
-    filter: invert(100%) hue-rotate(180deg) brightness(0.95) contrast(0.9);
+[data-theme='dark'] #map {
+    background: #111 !important;
 }
 
 /* Invert labels back if we wanted, but map tiles are tricky. This filter is a decent 'dark mode' hack for standard OSM tiles */
